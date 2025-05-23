@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardUI : MonoBehaviour
+public class HandCardUI : MonoBehaviour
 {
    public void OnPointerEnter(PointerEventData eventData)
    {

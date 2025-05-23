@@ -4,11 +4,11 @@ using UnityEngine;
 public class HandUI : MonoBehaviour
 {
    public List<RectTransform> cards;
-   public float radius = 300f;
-   public float maxAngle = 60f;
-   public float cardSpacingFactor = 1f; // 1 = стандарт, >1 = больше интервалов, <1 = плотнее
-   public int virtualCountOdd = 9;
-   public int virtualCountEven = 10;
+   public float radius = 400f;
+   public float maxAngle = 50f;
+   public float cardSpacingFactor = 1.5f; // 1 = стандарт, >1 = больше интервалов, <1 = плотнее
+   public int virtualCountOdd = 7;
+   public int virtualCountEven = 8;
 
    public bool isNeedUpdate;
 
