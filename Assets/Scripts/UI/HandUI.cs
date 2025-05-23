@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HandUI : MonoBehaviour
 {
-   public List<RectTransform> cards;
+   public List<RectTransform> cards = new();
    public float radius = 400f;
    public float maxAngle = 50f;
    public float cardSpacingFactor = 1.5f; // 1 = стандарт, >1 = больше интервалов, <1 = плотнее
@@ -26,7 +26,7 @@ public class HandUI : MonoBehaviour
       }
    }
 
-   void UpdateHandLayout()
+   public void UpdateHandLayout()
    {
       int realCount = cards.Count;
       if (realCount == 0) return;
