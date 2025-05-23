@@ -691,6 +691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMinionsTransform: {fileID: 1233816995}
+  tavernMinionsTransform: {fileID: 748434178}
   fieldCardPrefab: {fileID: 178564320961073270, guid: f05f412db0af13d478d49db636619fb0, type: 3}
 --- !u!4 &1818959497
 Transform:

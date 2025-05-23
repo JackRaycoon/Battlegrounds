@@ -7,6 +7,7 @@ public class CardSO : ScriptableObject
 {
    public Sprite spriteArt;
    public int attack, hp;
+   public int tavernLevel = 1;
    public AttackType attackType;
 
    public enum AttackType
