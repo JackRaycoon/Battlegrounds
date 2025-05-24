@@ -151,16 +151,20 @@ public class GameController : MonoBehaviour
       }
 
       // Ход текущей стороны
-      List<Card> currentQueue = isPlayerTurn ? new(enemyQueue) : new(playerQueue);
+      List<Card> currentQueue = isPlayerTurn ? enemyQueue : playerQueue;
 
       // Пропустить всех, кто не может атаковать
-      while (currentQueue.Count > 0 && currentQueue[0].ATK == 0)
+      if(isPlayerTurn ? !allEnemyZero : !allPlayerZero)
       {
-         currentQueue.RemoveAt(0);
+         while (currentQueue.Count > 0 && currentQueue[0].ATK == 0)
+         {
+            currentQueue.Add(currentQueue[0]);
+            currentQueue.RemoveAt(0);
+         }
       }
 
       // Если никого не осталось с атакой > 0 — смена стороны
-      if (currentQueue.Count == 0)
+      if (isPlayerTurn ? allEnemyZero : allPlayerZero)
       {
          NextTurn(!isPlayerTurn); // запустить ход оппонента
          return;

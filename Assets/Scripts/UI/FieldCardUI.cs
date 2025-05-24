@@ -144,7 +144,8 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
       PlayerData.Instance.playerMinions.Clear();
       foreach (Transform child in boardFiller.playerTeamTransform)
       {
-         PlayerData.Instance.playerMinions.Add(child.GetComponent<FieldCardFiller>().card);
+         if(child != copy.transform)
+            PlayerData.Instance.playerMinions.Add(child.GetComponent<FieldCardFiller>().card);
       }
 
 
