@@ -18,10 +18,13 @@ public class GameController : MonoBehaviour
    public Transform enemyGroupTransform;
    public Transform playerGroupTransform;
 
+   public MoneyController moneyController;
+
    public BoardController boardController;
 
    private List<Card> playerTeam;
    private List<Card> enemyTeam;
+   //private List<Card> allTeam;
 
    private List<Card> playerQueue;
    private List<Card> enemyQueue;
@@ -29,9 +32,6 @@ public class GameController : MonoBehaviour
    public void EndTurnBtn()
    {
       endTurnBtn.sprite = invis;
-      endTurnBtn.GetComponent<Button>().interactable = false;
-      btnText.text = "Combat";
-
       //Запуск боя
       FightStart();
    }
@@ -66,6 +66,8 @@ public class GameController : MonoBehaviour
 
       //Смена доски
       boardController.FillEnemys(PlayerData.Instance.nextEnemies);
+      endTurnBtn.GetComponent<Button>().interactable = false;
+      btnText.text = "Combat";
 
       //Возвращаем экран
       while (elapsed < durationDark)
@@ -87,6 +89,8 @@ public class GameController : MonoBehaviour
       //К примеру игрок
       playerTeam = new(PlayerData.Instance.playerMinions);
       enemyTeam = new(PlayerData.Instance.nextEnemies);
+      //allTeam = new(playerTeam);
+      //foreach (var card in enemyTeam) allTeam.Add(card);
 
       playerQueue = new(playerTeam);
       enemyQueue = new(enemyTeam);
@@ -113,9 +117,13 @@ public class GameController : MonoBehaviour
       yield return StartCoroutine(AttackAnimation(attacker, isPlayerTurn));
       yield return new WaitForSeconds(durationScale / 2f);
       //Проверка конца боя - список playerTeam или enemyTeam пуст
-      if(playerTeam.Count == 0 || enemyTeam.Count == 0)
+      if(enemyTeam.Count == 0)
       {
-         Debug.Log("End");
+         StartCoroutine(EndFight(0));
+      }
+      else if(playerTeam.Count == 0)
+      {
+         StartCoroutine(EndFight(1));
       }
       else
       {
@@ -146,7 +154,7 @@ public class GameController : MonoBehaviour
       if (allPlayerZero && allEnemyZero)
       {
          Debug.Log("Ничья — никто не может атаковать.");
-         //EndBattleWithDraw();
+         StartCoroutine(EndFight(2));
          return;
       }
 
@@ -261,6 +269,12 @@ public class GameController : MonoBehaviour
          yield return null;
       }
 
+      //Нанесение урона после атаки
+      attacker.CUR_HP -= defender.ATK;
+      defender.CUR_HP -= attacker.ATK;
+      attacker.cardObject.GetComponent<FieldCardFiller>().Fill();
+      defender.cardObject.GetComponent<FieldCardFiller>().Fill();
+
       //Уменьшение + возвращение на место (раза в 2 быстрее подъёма)
       Vector3 currentPos = attackerRect.position;
       elapsed = 0f;
@@ -278,5 +292,94 @@ public class GameController : MonoBehaviour
       attacker.cardObject.transform.localScale = new Vector2(1f, 1f);
       attackerRect.position = originalPos;
       yield return null;
+
+      //Проверка на смерть
+      for(int i = 0; i < playerTeam.Count; i++)
+      {
+         var card = playerTeam[i];
+         if (card.CUR_HP <= 0)
+         {
+            playerTeam.Remove(card);
+            Destroy(card.cardObject);
+         }
+      }
+      for(int i = 0; i < enemyTeam.Count; i++)
+      {
+         var card = enemyTeam[i];
+         if (card.CUR_HP <= 0)
+         {
+            enemyTeam.Remove(card);
+            Destroy(card.cardObject);
+         }
+      }
+   }
+
+   public IEnumerator EndFight(short code)
+   {
+      switch (code)
+      {
+         //Победа
+         case 0:
+            break;
+         //Поражение
+         case 1:
+            break;
+         //Ничья
+         case 2:
+            break;
+      }
+      yield return null;
+      StartCoroutine(ChangeToTavern());
+   }
+   IEnumerator ChangeToTavern()
+   {
+      float startAlpha2 = 1f, endAlpha2 = 0f, elapsed = 0f;
+      float startAlpha = 0f, endAlpha = 1f; ;
+      dark.alpha = startAlpha;
+      dark.interactable = true;
+      dark.blocksRaycasts = true;
+
+
+      while (elapsed < durationDark)
+      {
+         float t = elapsed / durationDark;
+         float alpha2 = Mathf.Lerp(startAlpha, endAlpha, t);
+
+         dark.alpha = alpha2;
+
+         elapsed += Time.deltaTime;
+         yield return null;
+      }
+
+      dark.alpha = endAlpha;
+      elapsed = 0f;
+
+      //Смена доски
+      boardController.FillTavern(PlayerData.Instance.tavernMinions);
+      boardController.ReFillPlayerMinions();
+      endTurnBtn.GetComponent<Button>().interactable = true;
+      endTurnBtn.sprite = endTurn;
+      btnText.text = "End Turn";
+
+      if (PlayerData.Instance.baseMaxMoneyCount < 10)
+         PlayerData.Instance.baseMaxMoneyCount++;
+      PlayerData.Instance.curMoneyCount = PlayerData.Instance.maxMoneyCount;
+      moneyController.UpdateMoney();
+
+      //Возвращаем экран
+      while (elapsed < durationDark)
+      {
+         float t = elapsed / durationDark;
+         float alpha = Mathf.Lerp(startAlpha2, endAlpha2, t);
+
+         dark.alpha = alpha;
+
+         elapsed += Time.deltaTime;
+         yield return null;
+      }
+      // Установка финальных значений
+      dark.alpha = endAlpha2;
+      dark.interactable = false;
+      dark.blocksRaycasts = false;
    }
 }

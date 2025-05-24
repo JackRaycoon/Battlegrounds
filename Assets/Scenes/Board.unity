@@ -2242,6 +2242,7 @@ MonoBehaviour:
   durationScale: 0.3
   enemyGroupTransform: {fileID: 748434178}
   playerGroupTransform: {fileID: 1233816995}
+  moneyController: {fileID: 114273658}
   boardController: {fileID: 1818959498}
 --- !u!4 &1643588545
 Transform:

@@ -14,8 +14,16 @@ public class PlayerData
 
    public short hp = 30;
 
-   public short curMoneyCount = 2;
-   public short maxMoneyCount = 3;
+   public int curMoneyCount = 3;
+   public int maxMoneyCount
+   {
+      get
+      {
+         return baseMaxMoneyCount + bonusMaxMoneyCount;
+      }
+   }
+   public int baseMaxMoneyCount = 3;
+   public int bonusMaxMoneyCount = 0;
 
    public short maxHand = 10;
    public short maxMinions = 7;

@@ -59,6 +59,7 @@ public class BoardController : MonoBehaviour
          return;
       }
       PlayerData.Instance.hand.Add(minion);
+      PlayerData.Instance.tavernMinions.Remove(minion);
       Destroy(cardUI.gameObject);
 
       var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
@@ -127,6 +128,33 @@ public class BoardController : MonoBehaviour
          filler.isTavern = true;
          filler.Fill();
          boardFiller.allTavernCardList.Add(go);
+      }
+   }
+   
+   public void ReFillPlayerMinions()
+   {
+      foreach (GameObject go in boardFiller.allPlayerFieldCardList)
+      {
+         Destroy(go);
+      }
+      boardFiller.allPlayerFieldCardList.Clear();
+
+      foreach (Card minion in PlayerData.Instance.playerMinions)
+      {
+         minion.CUR_HP = minion.MAX_HP;
+         minion.inFightATKBuff = 0;
+         minion.inFightHPBuff = 0;
+         var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
+         minion.cardObject = go;
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = boardFiller;
+
+         filler.card = minion;
+         filler.Fill();
+         boardFiller.allPlayerFieldCardList.Add(go);
       }
    }
 }

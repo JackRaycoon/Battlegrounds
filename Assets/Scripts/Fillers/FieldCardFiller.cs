@@ -28,8 +28,8 @@ public class FieldCardFiller : MonoBehaviour
       {
          squareArt.sprite = data.spriteArt;
       }
-      atkText.text = data.attack.ToString();
-      hpText.text = data.hp.ToString();
+      atkText.text = card.ATK.ToString();
+      hpText.text = card.CUR_HP.ToString();
 
       if (isTavern)
       {
