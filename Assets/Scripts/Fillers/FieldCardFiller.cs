@@ -8,21 +8,33 @@ public class FieldCardFiller : MonoBehaviour
 {
    public TextMeshProUGUI atkText, hpText;
    public Image art;
+   public Image squareArt;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
 
    public Card card;
    public bool isTavern = false;
+   public bool isEnemy = false;
    public void Fill()
    {
-      art.sprite = card.data.spriteArt;
-      atkText.text = card.data.attack.ToString();
-      hpText.text = card.data.hp.ToString();
+      var data = card.data;
+      if (!data.isSquareArt)
+      {
+         art.sprite = data.spriteArt;
+         art.gameObject.SetActive(true);
+         squareArt.gameObject.SetActive(false);
+      }
+      else
+      {
+         squareArt.sprite = data.spriteArt;
+      }
+      atkText.text = data.attack.ToString();
+      hpText.text = data.hp.ToString();
 
       if (isTavern)
       {
          starContainer.gameObject.SetActive(true);
-         Instantiate(starPrefabs[card.data.tavernLevel - 1], starContainer);
+         Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
       }
    }
 }

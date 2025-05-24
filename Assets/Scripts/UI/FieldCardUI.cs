@@ -85,6 +85,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnBeginDrag(PointerEventData eventData)
    {
+      if (filler.isEnemy) return;
       isDragged = true;
       isDraggedStatic = true;
       //originalPosition = rectTransform.anchoredPosition;
@@ -105,6 +106,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnDrag(PointerEventData eventData)
    {
+      if (filler.isEnemy) return;
       RectTransformUtility.ScreenPointToWorldPointInRectangle(
           boardFiller.canvas.transform as RectTransform,
           eventData.position,
@@ -132,10 +134,19 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnEndDrag(PointerEventData eventData)
    {
+      if (filler.isEnemy) return;
       isDragged = false;
       isDraggedStatic = false;
 
       Destroy(copy);
+
+      //Пересобираем playerMinions, вдруг порядок изменился
+      PlayerData.Instance.playerMinions.Clear();
+      foreach (Transform child in boardFiller.playerTeamTransform)
+      {
+         PlayerData.Instance.playerMinions.Add(child.GetComponent<FieldCardFiller>().card);
+      }
+
 
       // Получаем позицию курсора в мире
       Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);

@@ -14,6 +14,7 @@ public class BoardFiller : MonoBehaviour
    public HandUI handUI;
 
    public List<GameObject> allPlayerFieldCardList = new();
+   public List<GameObject> allTavernCardList = new();
 
    void Start()
    {
@@ -33,6 +34,8 @@ public class BoardFiller : MonoBehaviour
       foreach(Card minion in PlayerData.Instance.playerMinions)
       {
          var go = Instantiate(fieldCardPrefab, playerMinionsTransform);
+         minion.cardObject = go;
+
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
          FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
@@ -46,6 +49,7 @@ public class BoardFiller : MonoBehaviour
       foreach(Card minion in PlayerData.Instance.tavernMinions)
       {
          var go = Instantiate(fieldCardPrefab, tavernMinionsTransform);
+         minion.cardObject = go;
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
          FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
@@ -55,6 +59,7 @@ public class BoardFiller : MonoBehaviour
          filler.card = minion;
          filler.isTavern = true;
          filler.Fill();
+         allTavernCardList.Add(go);
       }
    }
 
@@ -64,6 +69,7 @@ public class BoardFiller : MonoBehaviour
       foreach (Card minion in PlayerData.Instance.hand)
       {
          var go = Instantiate(handCardPrefab, handTransform);
+         minion.cardObject = go;
          HandCardUI handCardUI = go.GetComponent<HandCardUI>();
          HandCardFiller filler = go.GetComponent<HandCardFiller>();
 

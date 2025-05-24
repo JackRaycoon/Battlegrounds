@@ -7,6 +7,8 @@ public class BoardController : MonoBehaviour
    private BoardFiller boardFiller;
    public MoneyController moneyController;
 
+   private List<GameObject> enemiesCards = new();
+
    private void Awake()
    {
       boardFiller = GetComponent<BoardFiller>();
@@ -22,6 +24,7 @@ public class BoardController : MonoBehaviour
       Destroy(cardUI.gameObject);
 
       var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
+      minion.cardObject = go;
       FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
       FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
@@ -59,6 +62,7 @@ public class BoardController : MonoBehaviour
       Destroy(cardUI.gameObject);
 
       var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
+      minion.cardObject = go;
       HandCardUI handCardUI = go.GetComponent<HandCardUI>();
       HandCardFiller filler = go.GetComponent<HandCardFiller>();
 
@@ -74,5 +78,55 @@ public class BoardController : MonoBehaviour
 
       PlayerData.Instance.curMoneyCount -= buyCost;
       moneyController.UpdateMoney();
+   }
+
+   public void FillEnemys(List<Card> enemies)
+   {
+      foreach(GameObject go in boardFiller.allTavernCardList)
+      {
+         Destroy(go);
+      }
+      boardFiller.allTavernCardList.Clear();
+
+      foreach (Card minion in enemies)
+      {
+         var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
+         minion.cardObject = go;
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = boardFiller;
+
+         filler.card = minion;
+         filler.isEnemy = true;
+         filler.Fill();
+         enemiesCards.Add(go);
+      }
+   }
+   
+   public void FillTavern(List<Card> tavern)
+   {
+      foreach(GameObject go in enemiesCards)
+      {
+         Destroy(go);
+      }
+      enemiesCards.Clear();
+
+      foreach (Card minion in tavern)
+      {
+         var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
+         minion.cardObject = go;
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = boardFiller;
+
+         filler.card = minion;
+         filler.isTavern = true;
+         filler.Fill();
+         boardFiller.allTavernCardList.Add(go);
+      }
    }
 }

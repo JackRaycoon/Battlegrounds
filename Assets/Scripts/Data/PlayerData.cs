@@ -10,6 +10,10 @@ public class PlayerData
    public List<Card> tavernMinions = new();
    public List<Card> hand = new();
 
+   public List<Card> nextEnemies = new();
+
+   public short hp = 30;
+
    public short curMoneyCount = 2;
    public short maxMoneyCount = 3;
 
@@ -23,15 +27,14 @@ public class PlayerData
       tavernMinions.Add(new("Spider"));
       tavernMinions.Add(new("Spider"));
       tavernMinions.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
+      hand.Add(new("Squirrel"));
+      hand.Add(new("Squirrel"));
+      hand.Add(new("Squirrel"));
+      hand.Add(new("Squirrel"));
+      hand.Add(new("Squirrel"));
+
+      nextEnemies.Add(new("Spider"));
+      nextEnemies.Add(new("Squirrel"));
+      nextEnemies.Add(new("Spider"));
    }
 }
