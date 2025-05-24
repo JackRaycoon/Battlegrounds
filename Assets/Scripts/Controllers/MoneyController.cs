@@ -17,11 +17,11 @@ public class MoneyController : MonoBehaviour
    {
       for(int i = 0; i < moneyGOList.Count; i++)
       {
-         moneyGOList[i].SetActive(PlayerData.maxMoneyCount > i);
+         moneyGOList[i].SetActive(PlayerData.Instance.maxMoneyCount > i);
          if (moneyGOList[i].activeInHierarchy)
-            moneyGOList[i].GetComponent<Image>().color = (PlayerData.curMoneyCount > i) ? 
+            moneyGOList[i].GetComponent<Image>().color = (PlayerData.Instance.curMoneyCount > i) ? 
                new Color(1f,1f,1f) : new Color(0.3f,0.3f,0.3f);
       }
-      moneyText.text = $"{PlayerData.curMoneyCount}/{PlayerData.maxMoneyCount}";
+      moneyText.text = $"{PlayerData.Instance.curMoneyCount}/{PlayerData.Instance.maxMoneyCount}";
    }
 }

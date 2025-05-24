@@ -314,6 +314,8 @@ GameObject:
   - component: {fileID: 178564320961073267}
   - component: {fileID: 178564320961073264}
   - component: {fileID: 6434905225284972558}
+  - component: {fileID: 8186288389124550807}
+  - component: {fileID: 3388387763812936510}
   m_Layer: 5
   m_Name: FieldCard
   m_TagString: Untagged
@@ -407,6 +409,45 @@ MonoBehaviour:
   - {fileID: 6286795268369212374, guid: b7ac1370e48f41c4985579d7613b8ab1, type: 3}
   - {fileID: 7450574140778228209, guid: 9c9195fab5f517d4a90dc2fe7e988ab6, type: 3}
   isTavern: 0
+--- !u!114 &8186288389124550807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178564320961073270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b25009b0fa5ff43918100933e29c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  playerTeamTransform: {fileID: 0}
+  enemyTeamTransform: {fileID: 0}
+  bigCardTransform: {fileID: 0}
+  bigCardPrefab: {fileID: 2638868452927489487, guid: 3bb5719fa94f9f44c9eb3fc0ead84406, type: 3}
+  sellZoneCollider: {fileID: 0}
+  filler: {fileID: 0}
+--- !u!114 &3388387763812936510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178564320961073270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &178564321301322793
 GameObject:
   m_ObjectHideFlags: 0

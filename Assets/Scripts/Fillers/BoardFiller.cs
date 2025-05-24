@@ -4,29 +4,15 @@ using UnityEngine;
 
 public class BoardFiller : MonoBehaviour
 {
-   public List<Card> playerMinions = new();
-   public List<Card> tavernMinions = new();
-   public List<Card> hand = new();
-
-   public Transform playerMinionsTransform, tavernMinionsTransform, handTransform, bigCardTransform;
+   public Transform playerMinionsTransform, tavernMinionsTransform, handTransform, bigCardTransform; 
+   public Collider2D boardCollider, BOBCollider;
    public GameObject fieldCardPrefab, handCardPrefab;
+   public Canvas canvas;
+   public Transform playerTeamTransform, enemyTeamTransform;
+
 
    void Start()
    {
-      playerMinions.Add(new("Spider"));
-      tavernMinions.Add(new("Spider"));
-      tavernMinions.Add(new("Spider"));
-      tavernMinions.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
-      hand.Add(new("Spider"));
       FillBoard();
    }
 
@@ -38,16 +24,26 @@ public class BoardFiller : MonoBehaviour
 
    public void FillMinions()
    {
-      foreach(Card minion in playerMinions)
+      foreach(Card minion in PlayerData.Instance.playerMinions)
       {
-         FieldCardFiller filler = Instantiate(fieldCardPrefab, playerMinionsTransform).GetComponent<FieldCardFiller>();
+         var go = Instantiate(fieldCardPrefab, playerMinionsTransform);
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = this;
 
          filler.card = minion;
          filler.Fill();
       }
-      foreach(Card minion in tavernMinions)
+      foreach(Card minion in PlayerData.Instance.tavernMinions)
       {
-         FieldCardFiller filler = Instantiate(fieldCardPrefab, tavernMinionsTransform).GetComponent<FieldCardFiller>();
+         var go = Instantiate(fieldCardPrefab, tavernMinionsTransform);
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = this;
 
          filler.card = minion;
          filler.isTavern = true;
@@ -59,15 +55,18 @@ public class BoardFiller : MonoBehaviour
    {
       HandUI handUI = handTransform.GetComponent<HandUI>();
       handUI.cards = new();
-      foreach (Card minion in hand)
+      foreach (Card minion in PlayerData.Instance.hand)
       {
          var go = Instantiate(handCardPrefab, handTransform);
          HandCardUI handCardUI = go.GetComponent<HandCardUI>();
          HandCardFiller filler = go.GetComponent<HandCardFiller>();
 
          handCardUI.handUI = handUI;
+         handCardUI.boardFiller = this;
          handCardUI.filler = filler;
-         handCardUI.bigCardTransform = bigCardTransform;
+         //handCardUI.bigCardTransform = bigCardTransform;
+         //handCardUI.dropZoneCollider = boardCollider;
+         handCardUI.boardController = GetComponent<BoardController>();
 
          filler.card = minion;
          filler.Fill();
