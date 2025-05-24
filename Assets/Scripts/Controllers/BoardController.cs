@@ -30,6 +30,7 @@ public class BoardController : MonoBehaviour
 
       filler.card = minion;
       filler.Fill();
+      boardFiller.allPlayerFieldCardList.Add(go);
 
       PlayerData.Instance.playerMinions.Add(minion);
       PlayerData.Instance.hand.Remove(minion);
@@ -38,6 +39,7 @@ public class BoardController : MonoBehaviour
    public void SellMinion(Card minion, FieldCardUI cardUI)
    {
       PlayerData.Instance.playerMinions.Remove(minion);
+      boardFiller.allPlayerFieldCardList.Remove(cardUI.gameObject);
       Destroy(cardUI.gameObject);
 
       PlayerData.Instance.curMoneyCount++;

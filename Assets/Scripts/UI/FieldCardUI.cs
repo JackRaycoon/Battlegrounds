@@ -16,24 +16,29 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
    public BoardFiller boardFiller;
 
    private static GameObject bigCard;
-   private static bool isDragged = false;
-   private RectTransform rectTransform;
+   private bool isDragged = false;
+   private static bool isDraggedStatic = false;
+   //private RectTransform rectTransform;
    private LayoutElement layoutElement;
    private Vector2 originalPosition;
+   private CanvasGroup canvasGroup;
+
+   private GameObject copy;
 
    private void Awake()
    {
-      rectTransform = GetComponent<RectTransform>();
+      //rectTransform = GetComponent<RectTransform>();
       layoutElement = GetComponent<LayoutElement>();
+      canvasGroup = GetComponent<CanvasGroup>();
    }
    private void Update()
    {
-      layoutElement.ignoreLayout = isDragged;
+      canvasGroup.alpha = (isDragged) ? 0f : 1f;
    }
 
    public void OnPointerEnter(PointerEventData eventData)
    {
-      if (isDragged) return;
+      if (isDraggedStatic) return;
       bigCard = Instantiate(bigCardPrefab, boardFiller.bigCardTransform);
 
       short sign = -1;
@@ -74,14 +79,15 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnPointerExit(PointerEventData eventData)
    {
-      if (isDragged || bigCard == null) return;
+      if (isDraggedStatic || bigCard == null) return;
       Destroy(bigCard);
    }
 
    public void OnBeginDrag(PointerEventData eventData)
    {
       isDragged = true;
-      originalPosition = rectTransform.anchoredPosition;
+      isDraggedStatic = true;
+      //originalPosition = rectTransform.anchoredPosition;
       //listPosition = handUI.cards.IndexOf(rectTransform);
 
       // Удалим увеличенную карту, если она есть
@@ -89,6 +95,12 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
       {
          Destroy(bigCard);
       }
+
+      copy = Instantiate(boardFiller.copyFieldCardPrefab, boardFiller.playerMinionsTransform);
+      FieldCardFiller filler2 = copy.GetComponent<FieldCardFiller>();
+
+      filler2.card = filler.card;
+      filler2.Fill();
    }
 
    public void OnDrag(PointerEventData eventData)
@@ -99,17 +111,31 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
           boardFiller.canvas.worldCamera,
           out Vector3 localMousePos
       );
-
-      //localMousePos.x -= 70;
-      Debug.Log(originalPosition);
-      //localMousePos.y -= 95;
-
+      var rectTransform = copy.GetComponent<RectTransform>();
       rectTransform.position = localMousePos;
+
+      if (!filler.isTavern)
+      {
+         List<GameObject> list = new(boardFiller.allPlayerFieldCardList);
+         list.Remove(gameObject);
+         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
+         foreach (var go in list)
+         {
+            if (go.GetComponent<Collider2D>().OverlapPoint(mouseWorldPos))
+            {
+               int siblingIndex = go.transform.GetSiblingIndex();
+               transform.SetSiblingIndex(siblingIndex); // Меняем порядок в иерархии
+            }
+         }
+      }
    }
 
    public void OnEndDrag(PointerEventData eventData)
    {
       isDragged = false;
+      isDraggedStatic = false;
+
+      Destroy(copy);
 
       // Получаем позицию курсора в мире
       Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
@@ -137,6 +163,6 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void ReturnMinionOnBoard()
    {
-      rectTransform.anchoredPosition = originalPosition;
+      //rectTransform.anchoredPosition = originalPosition;
    }
 }

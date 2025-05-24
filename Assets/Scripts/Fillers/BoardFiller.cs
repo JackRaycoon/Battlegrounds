@@ -6,12 +6,14 @@ public class BoardFiller : MonoBehaviour
 {
    public Transform playerMinionsTransform, tavernMinionsTransform, handTransform, bigCardTransform; 
    public Collider2D boardCollider, BOBCollider, playerCollider;
-   public GameObject fieldCardPrefab, handCardPrefab;
+   public GameObject fieldCardPrefab, handCardPrefab, copyFieldCardPrefab;
    public Canvas canvas;
    public Transform playerTeamTransform, enemyTeamTransform;
    public BoardController boardController;
 
    public HandUI handUI;
+
+   public List<GameObject> allPlayerFieldCardList = new();
 
    void Start()
    {
@@ -39,6 +41,7 @@ public class BoardFiller : MonoBehaviour
 
          filler.card = minion;
          filler.Fill();
+         allPlayerFieldCardList.Add(go);
       }
       foreach(Card minion in PlayerData.Instance.tavernMinions)
       {
