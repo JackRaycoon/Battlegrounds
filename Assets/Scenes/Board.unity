@@ -1642,6 +1642,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 917613868}
   m_CullTransparentMesh: 1
+--- !u!1 &1006890165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1006890167}
+  - component: {fileID: 1006890166}
+  m_Layer: 0
+  m_Name: TavernController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1006890166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006890165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523a956e873624c4da472c4d89111630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minionsPool: []
+--- !u!4 &1006890167
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006890165}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1875791, y: -0.71955097, z: -1.8588512}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1065110411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2202,7 +2247,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1643588543
 GameObject:
@@ -2243,6 +2288,7 @@ MonoBehaviour:
   enemyGroupTransform: {fileID: 748434178}
   playerGroupTransform: {fileID: 1233816995}
   moneyController: {fileID: 114273658}
+  tavernController: {fileID: 1006890166}
   boardController: {fileID: 1818959498}
 --- !u!4 &1643588545
 Transform:
@@ -2303,6 +2349,7 @@ MonoBehaviour:
   playerTeamTransform: {fileID: 1233816995}
   enemyTeamTransform: {fileID: 748434178}
   boardController: {fileID: 1818959498}
+  tavernController: {fileID: 1006890166}
   handUI: {fileID: 0}
   allPlayerFieldCardList: []
   allTavernCardList: []

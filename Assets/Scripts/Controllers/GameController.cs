@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
    public Transform playerGroupTransform;
 
    public MoneyController moneyController;
-
+   public TavernController tavernController;
    public BoardController boardController;
 
    private List<Card> playerTeam;
@@ -355,7 +355,8 @@ public class GameController : MonoBehaviour
       elapsed = 0f;
 
       //Смена доски
-      boardController.FillTavern(PlayerData.Instance.tavernMinions);
+      tavernController.RefreshTavern();
+      boardController.FillTavern();
       boardController.ReFillPlayerMinions();
       endTurnBtn.GetComponent<Button>().interactable = true;
       endTurnBtn.sprite = endTurn;

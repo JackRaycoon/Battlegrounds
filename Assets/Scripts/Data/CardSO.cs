@@ -9,6 +9,7 @@ public class CardSO : ScriptableObject
    public bool isSquareArt = true;
    public int attack, hp;
    public int tavernLevel = 1;
+   public bool backInPool = true;
 
    [TextArea]
    public string description;

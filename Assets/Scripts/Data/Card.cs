@@ -34,4 +34,9 @@ public class Card
       data = Resources.Load<CardSO>("Cards/Minions/" + name);
       CUR_HP = data.hp;
    }
+   public Card(CardSO cardData)
+   {
+      data = cardData;
+      CUR_HP = data.hp;
+   }
 }

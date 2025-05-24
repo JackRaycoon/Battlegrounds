@@ -43,6 +43,9 @@ public class BoardController : MonoBehaviour
    {
       PlayerData.Instance.playerMinions.Remove(minion);
       boardFiller.allPlayerFieldCardList.Remove(cardUI.gameObject);
+      if (minion.data.backInPool)
+         boardFiller.tavernController.minionsPool.Add(minion.data);
+
       Destroy(cardUI.gameObject);
 
       PlayerData.Instance.curMoneyCount++;
@@ -59,7 +62,8 @@ public class BoardController : MonoBehaviour
          return;
       }
       PlayerData.Instance.hand.Add(minion);
-      PlayerData.Instance.tavernMinions.Remove(minion);
+      boardFiller.tavernController.tavernCards.Remove(minion);
+      boardFiller.tavernController.minionsPool.Remove(minion.data);
       Destroy(cardUI.gameObject);
 
       var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
@@ -106,7 +110,7 @@ public class BoardController : MonoBehaviour
       }
    }
    
-   public void FillTavern(List<Card> tavern)
+   public void FillTavern()
    {
       foreach(GameObject go in enemiesCards)
       {
@@ -114,7 +118,7 @@ public class BoardController : MonoBehaviour
       }
       enemiesCards.Clear();
 
-      foreach (Card minion in tavern)
+      foreach (Card minion in boardFiller.tavernController.tavernCards)
       {
          var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
          minion.cardObject = go;

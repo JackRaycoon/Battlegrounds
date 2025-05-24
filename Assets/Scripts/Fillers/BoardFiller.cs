@@ -11,6 +11,8 @@ public class BoardFiller : MonoBehaviour
    public Transform playerTeamTransform, enemyTeamTransform;
    public BoardController boardController;
 
+   public TavernController tavernController;
+
    public HandUI handUI;
 
    public List<GameObject> allPlayerFieldCardList = new();
@@ -46,7 +48,7 @@ public class BoardFiller : MonoBehaviour
          filler.Fill();
          allPlayerFieldCardList.Add(go);
       }
-      foreach(Card minion in PlayerData.Instance.tavernMinions)
+      foreach(Card minion in tavernController.tavernCards)
       {
          var go = Instantiate(fieldCardPrefab, tavernMinionsTransform);
          minion.cardObject = go;

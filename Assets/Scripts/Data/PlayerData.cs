@@ -7,10 +7,12 @@ public class PlayerData
    public static PlayerData Instance = new();
 
    public List<Card> playerMinions = new();
-   public List<Card> tavernMinions = new();
+   //public List<Card> tavernMinions = new();
    public List<Card> hand = new();
 
    public List<Card> nextEnemies = new();
+
+   public short tavernTier = 1;
 
    public short hp = 30;
 
@@ -32,9 +34,6 @@ public class PlayerData
    public PlayerData()
    {
       playerMinions.Add(new("Spider"));
-      tavernMinions.Add(new("Spider"));
-      tavernMinions.Add(new("Spider"));
-      tavernMinions.Add(new("Spider"));
       hand.Add(new("Squirrel"));
       hand.Add(new("Squirrel"));
       hand.Add(new("Squirrel"));
