@@ -5,14 +5,18 @@ using UnityEngine;
 public class BoardFiller : MonoBehaviour
 {
    public Transform playerMinionsTransform, tavernMinionsTransform, handTransform, bigCardTransform; 
-   public Collider2D boardCollider, BOBCollider;
+   public Collider2D boardCollider, BOBCollider, playerCollider;
    public GameObject fieldCardPrefab, handCardPrefab;
    public Canvas canvas;
    public Transform playerTeamTransform, enemyTeamTransform;
+   public BoardController boardController;
 
+   public HandUI handUI;
 
    void Start()
    {
+      handUI = handTransform.GetComponent<HandUI>();
+      boardController = GetComponent<BoardController>();
       FillBoard();
    }
 
@@ -53,7 +57,6 @@ public class BoardFiller : MonoBehaviour
 
    public void FillHand()
    {
-      HandUI handUI = handTransform.GetComponent<HandUI>();
       handUI.cards = new();
       foreach (Card minion in PlayerData.Instance.hand)
       {
@@ -64,9 +67,6 @@ public class BoardFiller : MonoBehaviour
          handCardUI.handUI = handUI;
          handCardUI.boardFiller = this;
          handCardUI.filler = filler;
-         //handCardUI.bigCardTransform = bigCardTransform;
-         //handCardUI.dropZoneCollider = boardCollider;
-         handCardUI.boardController = GetComponent<BoardController>();
 
          filler.card = minion;
          filler.Fill();

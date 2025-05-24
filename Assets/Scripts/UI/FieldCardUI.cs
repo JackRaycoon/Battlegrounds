@@ -29,7 +29,6 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
    private void Update()
    {
       layoutElement.ignoreLayout = isDragged;
-      //canvasGroup.alpha = (isEnter && !isDragged) ? 0f : 1f;
    }
 
    public void OnPointerEnter(PointerEventData eventData)
@@ -118,7 +117,17 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
       // Проверка попадания мышки в триггер
       if (boardFiller.BOBCollider.OverlapPoint(mouseWorldPos))
       {
-          
+         if (!filler.isTavern)
+         {
+            boardFiller.boardController.SellMinion(filler.card, this);
+         }
+      }
+      if (boardFiller.playerCollider.OverlapPoint(mouseWorldPos))
+      {
+         if (filler.isTavern)
+         {
+            boardFiller.boardController.BuyMinion(filler.card, this);
+         }
       }
       else
       {
@@ -126,7 +135,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
       }
    }
 
-   private void ReturnMinionOnBoard()
+   public void ReturnMinionOnBoard()
    {
       rectTransform.anchoredPosition = originalPosition;
    }

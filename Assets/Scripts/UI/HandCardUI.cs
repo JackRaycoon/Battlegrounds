@@ -10,7 +10,6 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    //public Transform bigCardTransform;
 
    //public Collider2D dropZoneCollider;
-   public BoardController boardController;
    public BoardFiller boardFiller;
 
    public GameObject bigCardPrefab;
@@ -102,7 +101,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       // Проверка попадания мышки в триггер
       if (boardFiller.boardCollider.OverlapPoint(mouseWorldPos))
       {
-         boardController.SummonMinion(filler.card, this);
+         boardFiller.boardController.SummonMinion(filler.card, this);
       }
       else
       {

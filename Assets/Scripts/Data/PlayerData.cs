@@ -10,8 +10,12 @@ public class PlayerData
    public List<Card> tavernMinions = new();
    public List<Card> hand = new();
 
-   public int curMoneyCount = 2;
-   public int maxMoneyCount = 3;
+   public short curMoneyCount = 2;
+   public short maxMoneyCount = 3;
+
+   public short maxHand = 10;
+   public short maxMinions = 7;
+   public short buyCost = 3;
 
    public PlayerData()
    {
