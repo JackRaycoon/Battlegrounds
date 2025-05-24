@@ -30,6 +30,8 @@ public class PlayerData
    public short maxHand = 10;
    public short maxMinions = 7;
    public short buyCost = 3;
+   public short refreshCost = 1;
+   public short freezeCost = 0;
 
    public PlayerData()
    {
