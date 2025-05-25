@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -22,6 +23,9 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    private Vector2 originalPosition;
    private Quaternion originalRotation;
    private int listPosition;
+
+   private GameObject invisCard = null;
+   private int siblingIndex = -1;
 
 
    private void Awake()
@@ -89,11 +93,6 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       localMousePos.y -= 100;
 
       rectTransform.anchoredPosition = localMousePos;
-   }
-
-   public void OnEndDrag(PointerEventData eventData)
-   {
-      isDragged = false;
 
       // Получаем позицию курсора в мире
       Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
@@ -101,7 +100,50 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       // Проверка попадания мышки в триггер
       if (boardFiller.boardCollider.OverlapPoint(mouseWorldPos))
       {
-         boardFiller.boardController.SummonMinion(filler.card, this);
+         if(PlayerData.Instance.playerMinions.Count < PlayerData.Instance.maxMinions &&
+            invisCard == null)
+         {
+            //Создаём невидимую абстрактную карту, которую будем перемещать
+            invisCard = Instantiate(boardFiller.copyFieldCardPrefab, boardFiller.playerMinionsTransform);
+            FieldCardFiller filler2 = invisCard.GetComponent<FieldCardFiller>();
+            invisCard.GetComponent<LayoutElement>().ignoreLayout = false;
+            invisCard.GetComponent<CanvasGroup>().alpha = 0f;
+
+            filler2.card = filler.card;
+            filler2.Fill();
+         }
+      }
+      if(invisCard != null)
+      {
+         List<GameObject> list = new(boardFiller.allPlayerFieldCardList);
+         list.Remove(gameObject);
+         foreach (var go in list)
+         {
+            if (go.GetComponent<Collider2D>().OverlapPoint(mouseWorldPos))
+            {
+               siblingIndex = go.transform.GetSiblingIndex();
+               invisCard.transform.SetSiblingIndex(siblingIndex); // Меняем порядок в иерархии
+            }
+         }
+      }
+   }
+
+   public void OnEndDrag(PointerEventData eventData)
+   {
+      isDragged = false;
+
+      if (invisCard != null)
+         Destroy(invisCard);
+      invisCard = null;
+
+      // Получаем позицию курсора в мире
+      Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
+
+      // Проверка попадания мышки в триггер
+      if (boardFiller.boardCollider.OverlapPoint(mouseWorldPos))
+      {
+         boardFiller.boardController.SummonMinion(filler.card, this, siblingIndex);
+         siblingIndex = -1;
       }
       else
       {

@@ -10,7 +10,7 @@ public class BoardController : MonoBehaviour
 
    private List<GameObject> enemiesCards = new();
 
-   public void SummonMinion(Card minion, HandCardUI cardUI)
+   public void SummonMinion(Card minion, HandCardUI cardUI, int siblingIndex)
    {
       if (PlayerData.Instance.playerMinions.Count >= PlayerData.Instance.maxMinions)
       {
@@ -21,6 +21,8 @@ public class BoardController : MonoBehaviour
       Destroy(cardUI.gameObject);
 
       var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
+      if(siblingIndex != -1)
+         go.transform.SetSiblingIndex(siblingIndex);
       minion.cardObject = go;
       FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
       FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();

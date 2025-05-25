@@ -38,11 +38,15 @@ public class TripletsController : MonoBehaviour
                permanentHPBuff += card.permanentHPBuff;
                // Удаляем визуальный объект
                var rect = card.cardObject.GetComponent<RectTransform>();
-               if (handUI.cards.Contains(rect))
-                  handUI.cards.Remove(rect);
 
                if (card.cardObject != null)
+               {
+                  if (boardFiller.allPlayerFieldCardList.Contains(card.cardObject))
+                     boardFiller.allPlayerFieldCardList.Remove(card.cardObject);
+                  if (handUI.cards.Contains(rect))
+                     handUI.cards.Remove(rect);
                   Destroy(card.cardObject);
+               }
 
                // Удаляем из руки и поля
                PlayerData.Instance.hand.Remove(card);

@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4571189404624485591, guid: f05f412db0af13d478d49db636619fb0, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4571189404624485591, guid: f05f412db0af13d478d49db636619fb0, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 178564320961073265, guid: f05f412db0af13d478d49db636619fb0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -102,5 +110,4 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8186288389124550807, guid: f05f412db0af13d478d49db636619fb0, type: 3}
     - {fileID: 1118490382007634789, guid: f05f412db0af13d478d49db636619fb0, type: 3}
-    - {fileID: -4571189404624485591, guid: f05f412db0af13d478d49db636619fb0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f05f412db0af13d478d49db636619fb0, type: 3}
