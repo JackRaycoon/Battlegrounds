@@ -38,5 +38,6 @@ public class PlayerData
       hand.Add(new("Squirrel"));
       hand.Add(new("Squirrel"));
       hand.Add(new("Squirrel"));
+      hand.Add(SpellDatabase.Instance.GetSpellByName("AllBuff"));
    }
 }

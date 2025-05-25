@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Card", menuName = "Card", order = 1)]
+[CreateAssetMenu(fileName = "Minion", menuName = "Minion", order = 0)]
 public class CardSO : ScriptableObject
 {
    public Sprite spriteArt;

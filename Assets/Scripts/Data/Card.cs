@@ -32,6 +32,8 @@ public class Card
    public bool isGolden;
 
    public GameObject cardObject;
+
+   protected Card() { }
    public Card(string name, bool isGolden = false)
    {
       data = Resources.Load<CardSO>($"Cards/{(isGolden ? "GoldenMinions" : "Minions")}/{name}");
