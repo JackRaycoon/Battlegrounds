@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
    public MoneyController moneyController;
    public TavernController tavernController;
    public BoardController boardController;
+   public TripletsController tripletsController;
 
    private List<Card> playerTeam;
    private List<Card> enemyTeam;
@@ -89,8 +90,6 @@ public class GameController : MonoBehaviour
       //К примеру игрок
       playerTeam = new(PlayerData.Instance.playerMinions);
       enemyTeam = new(PlayerData.Instance.nextEnemies);
-      //allTeam = new(playerTeam);
-      //foreach (var card in enemyTeam) allTeam.Add(card);
 
       playerQueue = new(playerTeam);
       enemyQueue = new(enemyTeam);
@@ -364,6 +363,8 @@ public class GameController : MonoBehaviour
       endTurnBtn.GetComponent<Button>().interactable = true;
       endTurnBtn.sprite = endTurn;
       btnText.text = "End Turn";
+
+      tripletsController.CheckTriplets();
 
       if (PlayerData.Instance.baseMaxMoneyCount < 10)
          PlayerData.Instance.baseMaxMoneyCount++;

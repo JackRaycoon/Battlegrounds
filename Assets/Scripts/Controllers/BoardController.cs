@@ -6,6 +6,7 @@ public class BoardController : MonoBehaviour
 {
    public BoardFiller boardFiller;
    public MoneyController moneyController;
+   public TripletsController tripletsController;
 
    private List<GameObject> enemiesCards = new();
 
@@ -33,6 +34,8 @@ public class BoardController : MonoBehaviour
 
       PlayerData.Instance.playerMinions.Add(minion);
       PlayerData.Instance.hand.Remove(minion);
+
+      tripletsController.CheckTriplets();
    }
 
    public void SellMinion(Card minion, FieldCardUI cardUI)
@@ -46,6 +49,8 @@ public class BoardController : MonoBehaviour
 
       PlayerData.Instance.curMoneyCount++;
       moneyController.UpdateMoney();
+
+      tripletsController.CheckTriplets();
    }
    public void BuyMinion(Card minion, FieldCardUI cardUI)
    {
@@ -79,6 +84,8 @@ public class BoardController : MonoBehaviour
 
       PlayerData.Instance.curMoneyCount -= buyCost;
       moneyController.UpdateMoney();
+
+      tripletsController.CheckTriplets();
    }
 
    public void FillEnemys(List<Card> enemies)

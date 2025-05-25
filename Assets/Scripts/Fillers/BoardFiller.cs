@@ -18,6 +18,7 @@ public class BoardFiller : MonoBehaviour
    public List<GameObject> allPlayerFieldCardList = new();
    public List<GameObject> allTavernCardList = new();
 
+
    void Start()
    {
       handUI = handTransform.GetComponent<HandUI>();
@@ -83,7 +84,7 @@ public class BoardFiller : MonoBehaviour
          filler.card = minion;
          filler.Fill();
 
-         handUI.cards.Add(filler.gameObject.GetComponent<RectTransform>());
+         handUI.cards.Add(go.GetComponent<RectTransform>());
       }
       handUI.UpdateHandLayout();
    }

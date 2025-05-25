@@ -2574,6 +2574,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025539819}
   m_CullTransparentMesh: 1
+--- !u!1 &1042577590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1042577592}
+  - component: {fileID: 1042577591}
+  m_Layer: 0
+  m_Name: TripletsController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1042577591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042577590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab838afe498a75b45af1cbe6406f4c2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handUI: {fileID: 2003503749}
+  boardFiller: {fileID: 1818959496}
+--- !u!4 &1042577592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042577590}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.7278516, y: -0.3646638, z: -1.0226709}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1065110411
 GameObject:
   m_ObjectHideFlags: 0
@@ -3134,7 +3180,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1612228084
 GameObject:
@@ -3311,6 +3357,7 @@ MonoBehaviour:
   moneyController: {fileID: 114273658}
   tavernController: {fileID: 1006890166}
   boardController: {fileID: 1818959498}
+  tripletsController: {fileID: 1042577591}
 --- !u!4 &1643588545
 Transform:
   m_ObjectHideFlags: 0
@@ -3420,7 +3467,7 @@ MonoBehaviour:
   enemyTeamTransform: {fileID: 748434178}
   boardController: {fileID: 1818959498}
   tavernController: {fileID: 1006890166}
-  handUI: {fileID: 0}
+  handUI: {fileID: 2003503749}
   allPlayerFieldCardList: []
   allTavernCardList: []
 --- !u!4 &1818959497
@@ -3452,6 +3499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardFiller: {fileID: 1818959496}
   moneyController: {fileID: 114273658}
+  tripletsController: {fileID: 1042577591}
 --- !u!1 &1861622079
 GameObject:
   m_ObjectHideFlags: 0

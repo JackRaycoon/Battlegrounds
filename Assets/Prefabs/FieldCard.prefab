@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 178564319977383575}
   - component: {fileID: 178564319977383572}
   m_Layer: 5
-  m_Name: ram (6)
+  m_Name: Interface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -481,6 +481,9 @@ MonoBehaviour:
   hpText: {fileID: 178564320574894826}
   art: {fileID: 178564321572777979}
   squareArt: {fileID: 84898981}
+  interfaceImage: {fileID: 178564319977383572}
+  commonInterface: {fileID: 21300000, guid: 2f75ae03772c74441bc10eda31d4657d, type: 3}
+  goldenInterface: {fileID: 21300000, guid: 9189dd6bff643a5419447a35a9f0ada9, type: 3}
   freezeEffect: {fileID: 1669474256380940051}
   starContainer: {fileID: 6025512862781098897}
   starPrefabs:

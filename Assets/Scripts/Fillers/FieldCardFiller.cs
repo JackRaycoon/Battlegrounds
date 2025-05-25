@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class FieldCardFiller : MonoBehaviour
 {
    public TextMeshProUGUI atkText, hpText;
-   public Image art;
-   public Image squareArt;
+   public Image art, squareArt, interfaceImage;
+   public Sprite commonInterface, goldenInterface;
    public GameObject freezeEffect;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
@@ -30,6 +30,9 @@ public class FieldCardFiller : MonoBehaviour
       {
          squareArt.sprite = data.spriteArt;
       }
+
+      interfaceImage.sprite = card.isGolden ? goldenInterface : commonInterface;
+
       atkText.text = card.ATK.ToString();
       hpText.text = card.CUR_HP.ToString();
 

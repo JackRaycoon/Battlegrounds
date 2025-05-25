@@ -1039,6 +1039,9 @@ MonoBehaviour:
   descriptionText: {fileID: 3061287512266150119}
   art: {fileID: 6766666110903326219}
   squareArt: {fileID: 1187393802}
+  interfaceImage: {fileID: 2325109831563351913}
+  commonInterface: {fileID: 21300000, guid: e4541afd900b8bd4fb4d8dece3274f7b, type: 3}
+  goldenInterface: {fileID: 21300000, guid: d3395d0d8df592145876afa7edb65797, type: 3}
   starContainer: {fileID: 7044560179865397353}
   starPrefabs:
   - {fileID: 2299435609076047565, guid: 966d97d15416bdc46b0ac10397706b73, type: 3}

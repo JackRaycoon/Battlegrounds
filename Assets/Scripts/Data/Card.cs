@@ -11,27 +11,31 @@ public class Card
    {
       get
       {
-         return data.attack + inFightATKBuff;
+         return data.attack + permanentATKBuff + inFightATKBuff;
       }
    }
 
    public long inFightATKBuff = 0;
    public long inFightHPBuff = 0;
+   public long permanentATKBuff = 0;
+   public long permanentHPBuff = 0;
 
    public long MAX_HP
    {
       get
       {
-         return data.hp + inFightHPBuff;
+         return data.hp + permanentHPBuff + inFightHPBuff;
       }
    }
 
    public long CUR_HP;
+   public bool isGolden;
 
    public GameObject cardObject;
-   public Card(string name)
+   public Card(string name, bool isGolden = false)
    {
-      data = Resources.Load<CardSO>("Cards/Minions/" + name);
+      data = Resources.Load<CardSO>($"Cards/{(isGolden ? "GoldenMinions" : "Minions")}/{name}");
+      this.isGolden = isGolden;
       CUR_HP = data.hp;
    }
    public Card(CardSO cardData)
