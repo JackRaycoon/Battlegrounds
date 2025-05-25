@@ -355,8 +355,11 @@ public class GameController : MonoBehaviour
       elapsed = 0f;
 
       //Смена доски
-      tavernController.RefreshTavern();
-      boardController.FillTavern();
+      if(PlayerData.Instance.tavernUpCost > 0)
+         PlayerData.Instance.tavernUpCost--;
+      tavernController.RefreshTavern(true);
+      tavernController.UpdateUI();
+      //boardController.FillTavern();
       boardController.ReFillPlayerMinions();
       endTurnBtn.GetComponent<Button>().interactable = true;
       endTurnBtn.sprite = endTurn;

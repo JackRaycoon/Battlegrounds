@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class BoardController : MonoBehaviour
 {
-   private BoardFiller boardFiller;
+   public BoardFiller boardFiller;
    public MoneyController moneyController;
 
    private List<GameObject> enemiesCards = new();
 
-   private void Awake()
-   {
-      boardFiller = GetComponent<BoardFiller>();
-   }
    public void SummonMinion(Card minion, HandCardUI cardUI)
    {
       if (PlayerData.Instance.playerMinions.Count >= PlayerData.Instance.maxMinions)
@@ -117,6 +113,11 @@ public class BoardController : MonoBehaviour
          Destroy(go);
       }
       enemiesCards.Clear();
+      foreach (GameObject go in boardFiller.allTavernCardList)
+      {
+         Destroy(go);
+      }
+      boardFiller.allTavernCardList.Clear();
 
       foreach (Card minion in boardFiller.tavernController.tavernCards)
       {

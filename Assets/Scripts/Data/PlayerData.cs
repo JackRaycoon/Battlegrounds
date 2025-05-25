@@ -32,6 +32,7 @@ public class PlayerData
    public short buyCost = 3;
    public short refreshCost = 1;
    public short freezeCost = 0;
+   public short tavernUpCost = 5;
 
    public PlayerData()
    {

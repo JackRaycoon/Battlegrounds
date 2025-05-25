@@ -27,7 +27,8 @@ public class BoardFiller : MonoBehaviour
 
    public void FillBoard()
    {
-      FillMinions();
+      boardController.ReFillPlayerMinions();
+      //FillMinions();
       FillHand();
    }
 
@@ -48,7 +49,7 @@ public class BoardFiller : MonoBehaviour
          filler.Fill();
          allPlayerFieldCardList.Add(go);
       }
-      foreach(Card minion in tavernController.tavernCards)
+      /*foreach(Card minion in tavernController.tavernCards)
       {
          var go = Instantiate(fieldCardPrefab, tavernMinionsTransform);
          minion.cardObject = go;
@@ -62,7 +63,7 @@ public class BoardFiller : MonoBehaviour
          filler.isTavern = true;
          filler.Fill();
          allTavernCardList.Add(go);
-      }
+      }*/
    }
 
    public void FillHand()

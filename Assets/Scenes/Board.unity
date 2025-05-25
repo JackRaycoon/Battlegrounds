@@ -686,7 +686,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 191607407}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1006890166}
+        m_TargetAssemblyTypeName: TavernController, Assembly-CSharp
+        m_MethodName: RefreshBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &191607407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,7 +820,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 263621940}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1006890166}
+        m_TargetAssemblyTypeName: TavernController, Assembly-CSharp
+        m_MethodName: TavernUpBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &263621940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1930,8 +1954,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2079279812}
-  - {fileID: 1025539820}
   - {fileID: 917613869}
+  - {fileID: 1025539820}
   - {fileID: 1216105537}
   - {fileID: 2003503746}
   - {fileID: 1992491239}
@@ -2186,7 +2210,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 818907257}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2366,6 +2390,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920923707}
   m_CullTransparentMesh: 1
+--- !u!1 &987778856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 987778857}
+  - component: {fileID: 987778859}
+  - component: {fileID: 987778858}
+  m_Layer: 5
+  m_Name: GerbBOB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &987778857
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987778856}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1025539820}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -74.86, y: 316.65}
+  m_SizeDelta: {x: 69.89, y: 69.89}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &987778858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987778856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5c32b83e062243a45ac930ca145c5d3a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &987778859
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987778856}
+  m_CullTransparentMesh: 1
 --- !u!1 &1006890165
 GameObject:
   m_ObjectHideFlags: 0
@@ -2396,6 +2496,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minionsPool: []
+  tavernUpText: {fileID: 507897649}
+  freezeText: {fileID: 920923709}
+  refreshText: {fileID: 98207936}
+  tavernUpObj: {fileID: 263621937}
+  boardController: {fileID: 1818959498}
+  moneyController: {fileID: 114273658}
+  starContainer: {fileID: 987778857}
+  starPrefabs:
+  - {fileID: 2299435609076047565, guid: 966d97d15416bdc46b0ac10397706b73, type: 3}
+  - {fileID: 5353799482063560592, guid: 30eb61e3a75cb204f9317a1b8a0969ba, type: 3}
+  - {fileID: 8972193026544626440, guid: 544acfdfb0f28c041a1beb07e2c0b0f7, type: 3}
+  - {fileID: 2598453224881372416, guid: 416e8a76b009fbe499b6febc804ebeb3, type: 3}
+  - {fileID: 6286795268369212374, guid: b7ac1370e48f41c4985579d7613b8ab1, type: 3}
+  - {fileID: 7450574140778228209, guid: 9c9195fab5f517d4a90dc2fe7e988ab6, type: 3}
 --- !u!4 &1006890167
 Transform:
   m_ObjectHideFlags: 0
@@ -2443,8 +2557,9 @@ RectTransform:
   - {fileID: 114273654}
   - {fileID: 290061880}
   - {fileID: 1697702306}
+  - {fileID: 987778857}
   m_Father: {fileID: 818907257}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3104,7 +3219,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1612228087}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1006890166}
+        m_TargetAssemblyTypeName: TavernController, Assembly-CSharp
+        m_MethodName: FreezeBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1612228087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3323,6 +3450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3b8d192688cd946bb7839f046bdc72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardFiller: {fileID: 1818959496}
   moneyController: {fileID: 114273658}
 --- !u!1 &1861622079
 GameObject:

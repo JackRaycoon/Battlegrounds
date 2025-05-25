@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TavernController : MonoBehaviour
 {
@@ -10,13 +12,25 @@ public class TavernController : MonoBehaviour
    public List<CardSO> minionsPool = new();
    private int copyEveryMinion = 9;
 
+   public TextMeshProUGUI tavernUpText, freezeText, refreshText;
+   public GameObject tavernUpObj;
+
+   public BoardController boardController;
+   public MoneyController moneyController;
+
+   public Transform starContainer;
+   public List<GameObject> starPrefabs;
+
+   private bool tavernFreeze;
    private void Awake()
    {
       FillTavernPool();
-      RefreshTavern();
+      RefreshTavern(false);
+      UpdateUI();
    }
    public void FillTavernPool()
    {
+      PlayerData.Instance.tavernUpCost = 5;
       for(int i = 1; i <= 6; i++)
       {
          if(PlayerData.Instance.tavernTier >= i)
@@ -33,9 +47,81 @@ public class TavernController : MonoBehaviour
       }
    }
 
+   public void TavernUpBtn()
+   {
+      if(PlayerData.Instance.curMoneyCount >= PlayerData.Instance.tavernUpCost)
+      {
+         PlayerData.Instance.curMoneyCount -= PlayerData.Instance.tavernUpCost;
+         moneyController.UpdateMoney();
+         TavernUp();
+         UpdateUI();
+      }
+   }
+
+   public void RefreshBtn()
+   {
+      if (PlayerData.Instance.curMoneyCount >= PlayerData.Instance.refreshCost)
+      {
+         PlayerData.Instance.curMoneyCount -= PlayerData.Instance.refreshCost;
+         moneyController.UpdateMoney();
+         RefreshTavern(false);
+         UpdateUI();
+      }
+   }
+
+   public void FreezeBtn()
+   {
+      if (PlayerData.Instance.curMoneyCount >= PlayerData.Instance.freezeCost)
+      {
+         PlayerData.Instance.curMoneyCount -= PlayerData.Instance.freezeCost;
+         moneyController.UpdateMoney();
+         FreezeTavern();
+         UpdateUI();
+      }
+   }
+
+   public void FreezeTavern()
+   {
+      foreach(Card card in tavernCards)
+      {
+         if (tavernFreeze)
+         {
+            //Разморозка
+            if (frozenCards.Contains(card))
+               frozenCards.Remove(card);
+            card.cardObject.GetComponent<FieldCardFiller>().isFreeze = false;
+         }
+         else
+         {
+            //Заморозка
+            if (!frozenCards.Contains(card))
+               frozenCards.Add(card);
+            card.cardObject.GetComponent<FieldCardFiller>().isFreeze = true;
+         }
+         card.cardObject.GetComponent<FieldCardFiller>().Fill();
+      }
+      tavernFreeze = !tavernFreeze;
+   }
+
    public void TavernUp()
    {
       PlayerData.Instance.tavernTier++;
+      switch (PlayerData.Instance.tavernTier)
+      {
+         case 2:
+            PlayerData.Instance.tavernUpCost = 7;
+            break;
+         case 3:
+            PlayerData.Instance.tavernUpCost = 8;
+            break;
+         case 4:
+            PlayerData.Instance.tavernUpCost = 10;
+            break;
+         case 5:
+            PlayerData.Instance.tavernUpCost = 10;
+            break;
+      }
+      
 
       CardsPoolSO pool = Resources.Load<CardsPoolSO>($"Pools/{PlayerData.Instance.tavernTier}-tier");
       foreach (CardSO cardSO in pool.pool)
@@ -46,11 +132,12 @@ public class TavernController : MonoBehaviour
          }
       }
    }
-   public void RefreshTavern()
+   public void RefreshTavern(bool saveFreeze)
    {
+      tavernFreeze = false;
       tavernCards.Clear();
 
-      if (frozenCards.Count != 0)
+      if (frozenCards.Count != 0 && saveFreeze)
       {
          foreach(Card card in frozenCards)
             tavernCards.Add(card);
@@ -63,6 +150,28 @@ public class TavernController : MonoBehaviour
          var random = minionsPool[Random.Range(0, minionsPool.Count)];
          Card randomCard = new(random);
          tavernCards.Add(randomCard);
+      }
+
+      boardController.FillTavern();
+   }
+
+   private int createdTierGerb = 0;
+   public void UpdateUI()
+   {
+      tavernUpObj.SetActive(PlayerData.Instance.tavernTier != 6);
+
+      tavernUpText.text = PlayerData.Instance.tavernUpCost.ToString();
+      refreshText.text = PlayerData.Instance.refreshCost.ToString();
+      freezeText.text = PlayerData.Instance.freezeCost.ToString();
+
+
+      if(createdTierGerb != PlayerData.Instance.tavernTier)
+      {
+         if (starContainer.childCount != 0)
+            Destroy(starContainer.GetChild(0).gameObject);
+
+         Instantiate(starPrefabs[PlayerData.Instance.tavernTier - 1], starContainer);
+         createdTierGerb = PlayerData.Instance.tavernTier;
       }
    }
 }

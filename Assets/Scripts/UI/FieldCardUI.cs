@@ -101,6 +101,8 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
       FieldCardFiller filler2 = copy.GetComponent<FieldCardFiller>();
 
       filler2.card = filler.card;
+      filler2.isTavern = filler.isTavern;
+      filler2.isFreeze = filler.isFreeze;
       filler2.Fill();
    }
 
