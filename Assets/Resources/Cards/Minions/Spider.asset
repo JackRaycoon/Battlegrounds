@@ -20,5 +20,5 @@ MonoBehaviour:
   backInPool: 1
   description: 
   attackType: 0
-  minionType1: 0
-  minionType2: 0
+  minionType1: 3
+  minionType2: 2

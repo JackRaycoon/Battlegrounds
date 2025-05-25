@@ -17,7 +17,8 @@ MonoBehaviour:
   attack: 0
   hp: 1
   tavernLevel: 1
+  backInPool: 1
   description: 
   attackType: 0
-  minionType1: 0
+  minionType1: 3
   minionType2: 0

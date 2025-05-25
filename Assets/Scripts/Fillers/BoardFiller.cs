@@ -10,7 +10,7 @@ public class BoardFiller : MonoBehaviour
    public Canvas canvas;
    public Transform playerTeamTransform, enemyTeamTransform;
    public BoardController boardController;
-
+   public TripletsController tripletsController;
    public TavernController tavernController;
 
    public HandUI handUI;
@@ -31,6 +31,7 @@ public class BoardFiller : MonoBehaviour
       boardController.ReFillPlayerMinions();
       //FillMinions();
       FillHand();
+      tripletsController.CheckTriplets();
    }
 
    public void FillMinions()

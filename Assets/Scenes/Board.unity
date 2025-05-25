@@ -3466,6 +3466,7 @@ MonoBehaviour:
   playerTeamTransform: {fileID: 1233816995}
   enemyTeamTransform: {fileID: 748434178}
   boardController: {fileID: 1818959498}
+  tripletsController: {fileID: 1042577591}
   tavernController: {fileID: 1006890166}
   handUI: {fileID: 2003503749}
   allPlayerFieldCardList: []

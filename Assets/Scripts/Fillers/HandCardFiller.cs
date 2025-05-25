@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HandCardFiller : MonoBehaviour
 {
    public TextMeshProUGUI atkText, hpText, nameText, doubleTypeText, typeText, descriptionText;
-   public Image art, squareArt, interfaceImage;
+   public Image art, squareArt, interfaceImage, titleImage;
    public Sprite commonInterface, goldenInterface;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
@@ -30,6 +30,7 @@ public class HandCardFiller : MonoBehaviour
       }
 
       interfaceImage.sprite = card.isGolden ? goldenInterface : commonInterface;
+      titleImage.color = card.isGolden ? new(0.4150943f, 0.4150943f, 0.4150943f) : new(1f, 1f, 1f);
 
       atkText.text = data.attack.ToString();
       hpText.text = data.hp.ToString();
