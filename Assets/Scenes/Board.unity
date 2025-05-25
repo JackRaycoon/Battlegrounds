@@ -1006,6 +1006,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 290061879}
   m_CullTransparentMesh: 1
+--- !u!1 &306192812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 306192814}
+  - component: {fileID: 306192813}
+  m_Layer: 0
+  m_Name: EnemyDataController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &306192813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306192812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0281d9d21c915204b8f8b9d019f57fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage: 0
+--- !u!4 &306192814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306192812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.7278516, y: -0.3646638, z: -1.0226709}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &359774934
 GameObject:
   m_ObjectHideFlags: 0
@@ -3180,7 +3225,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1612228084
 GameObject:
@@ -3358,6 +3403,7 @@ MonoBehaviour:
   tavernController: {fileID: 1006890166}
   boardController: {fileID: 1818959498}
   tripletsController: {fileID: 1042577591}
+  enemyDataController: {fileID: 306192813}
 --- !u!4 &1643588545
 Transform:
   m_ObjectHideFlags: 0
@@ -3468,6 +3514,7 @@ MonoBehaviour:
   boardController: {fileID: 1818959498}
   tripletsController: {fileID: 1042577591}
   tavernController: {fileID: 1006890166}
+  enemyDataController: {fileID: 306192813}
   handUI: {fileID: 2003503749}
   allPlayerFieldCardList: []
   allTavernCardList: []

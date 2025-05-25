@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1528dc1a09d1754386f62ce66e2867e, type: 3}
-  m_Name: 1-tier
+  m_Script: {fileID: 11500000, guid: 3221c24dafc60da4b9def9b9970d68be, type: 3}
+  m_Name: Spiders
   m_EditorClassIdentifier: 
-  pool:
+  minStage: 0
+  maxStage: 5
+  cardData:
   - {fileID: 11400000, guid: c274f63ab37df9f44ba0a81e21378a83, type: 2}
-  - {fileID: 11400000, guid: 420a9a47538c93f4ebd5efeffce739d4, type: 2}
+  - {fileID: 11400000, guid: c274f63ab37df9f44ba0a81e21378a83, type: 2}
+  permanentATKBuff: 00000000000000000000000000000000
+  permanentHPBuff: 00000000000000000000000000000000

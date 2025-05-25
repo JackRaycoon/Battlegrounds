@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
    public TavernController tavernController;
    public BoardController boardController;
    public TripletsController tripletsController;
+   public EnemyDataController enemyDataController;
 
    private List<Card> playerTeam;
    private List<Card> enemyTeam;
@@ -66,7 +67,7 @@ public class GameController : MonoBehaviour
       elapsed = 0f;
 
       //Смена доски
-      boardController.FillEnemys(PlayerData.Instance.nextEnemies);
+      boardController.FillEnemys(enemyDataController.nextEnemies);
       endTurnBtn.GetComponent<Button>().interactable = false;
       btnText.text = "Combat";
 
@@ -89,7 +90,7 @@ public class GameController : MonoBehaviour
       //Решаем кто первый бьёт
       //К примеру игрок
       playerTeam = new(PlayerData.Instance.playerMinions);
-      enemyTeam = new(PlayerData.Instance.nextEnemies);
+      enemyTeam = new(enemyDataController.nextEnemies);
 
       playerQueue = new(playerTeam);
       enemyQueue = new(enemyTeam);
@@ -354,6 +355,7 @@ public class GameController : MonoBehaviour
       elapsed = 0f;
 
       //Смена доски
+      enemyDataController.GenerateNextEnemies();
       if(PlayerData.Instance.tavernUpCost > 0)
          PlayerData.Instance.tavernUpCost--;
       tavernController.RefreshTavern(true);
