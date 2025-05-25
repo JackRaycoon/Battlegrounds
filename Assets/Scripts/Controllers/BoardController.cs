@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -17,12 +18,19 @@ public class BoardController : MonoBehaviour
          cardUI.ReturnCardInHand();
          return;
       }
-      PlayerData.Instance.hand.Remove(minion);
-      Destroy(cardUI.gameObject);
+      //PlayerData.Instance.hand.Remove(minion);
+      Destroy(minion.cardObject);
 
       var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
       if(siblingIndex != -1)
+      {
          go.transform.SetSiblingIndex(siblingIndex);
+         PlayerData.Instance.playerMinions.Insert(siblingIndex, minion);
+      }
+      else
+      {
+         PlayerData.Instance.playerMinions.Add(minion);
+      }
       minion.cardObject = go;
       FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
       FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
@@ -34,9 +42,37 @@ public class BoardController : MonoBehaviour
       filler.Fill();
       boardFiller.allPlayerFieldCardList.Add(go);
 
-      PlayerData.Instance.playerMinions.Add(minion);
       PlayerData.Instance.hand.Remove(minion);
 
+      tripletsController.CheckTriplets();
+   }
+
+   public void CastSpell(Spell spell, HandCardUI cardUI)
+   {
+      List<Card> boardCards = new()
+      {
+         //Добавляем кастера
+         null
+      };
+      boardCards.AddRange(PlayerData.Instance.playerMinions);
+      boardCards.AddRange(boardFiller.tavernController.tavernCards);
+
+      if (!spell.CheckValid(boardCards))
+      {
+         cardUI.ReturnCardInHand();
+         return;
+      }
+
+      PlayerData.Instance.hand.Remove(spell);
+      Destroy(spell.cardObject);
+
+      spell.Cast(boardCards);
+
+      foreach (Card card in boardCards)
+      {
+         card.cardObject.GetComponent<FieldCardFiller>().Fill();
+      }
+      boardFiller.handUI.UpdateHandLayout();
       tripletsController.CheckTriplets();
    }
 

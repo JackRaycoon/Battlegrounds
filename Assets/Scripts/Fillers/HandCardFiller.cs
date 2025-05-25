@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HandCardFiller : MonoBehaviour
 {
-   public TextMeshProUGUI atkText, hpText, nameText, doubleTypeText, typeText, descriptionText;
+   public TextMeshProUGUI atkText, hpText, nameText, doubleTypeText, typeText, descriptionText, costText;
    public Image art, squareArt, interfaceImage, titleImage;
    public Sprite commonInterface, goldenInterface;
    public Transform starContainer;
@@ -17,39 +17,65 @@ public class HandCardFiller : MonoBehaviour
    public Card card;
    public void Fill()
    {
-      var data = card.data;
-      if (!data.isSquareArt)
+      if (card is Spell)
       {
-         art.sprite = data.spriteArt;
-         art.gameObject.SetActive(true);
-         squareArt.gameObject.SetActive(false);
+         var data = (card as Spell).data;
+
+         nameText.text = data.name;
+         descriptionText.text = data.description;
+
+         squareArt.sprite = data.spriteArt;
+
+         costText.text = data.cost.ToString();
+
+         if (data.spellType != SpellSO.SpellType.None)
+         {
+            typePan.SetActive(true);
+            typeText.text = $"{data.spellType}";
+         }
+
+         starContainer.gameObject.SetActive(true);
+         Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
       }
       else
       {
-         squareArt.sprite = data.spriteArt;
+         var data = card.data;
+
+         nameText.text = data.name;
+         descriptionText.text = data.description;
+
+         if (!data.isSquareArt)
+         {
+            art.sprite = data.spriteArt;
+            art.gameObject.SetActive(true);
+            squareArt.gameObject.SetActive(false);
+         }
+         else
+         {
+            squareArt.sprite = data.spriteArt;
+         }
+
+         interfaceImage.sprite = card.isGolden ? goldenInterface : commonInterface;
+         titleImage.color = card.isGolden ? new(0.4150943f, 0.4150943f, 0.4150943f) : new(1f, 1f, 1f);
+
+         atkText.text = data.attack.ToString();
+         hpText.text = data.hp.ToString();
+         
+         
+         if (data.minionType1 != CardSO.MinionType.None &&
+            data.minionType2 != CardSO.MinionType.None)
+         {
+            doubleTypePan.SetActive(true);
+            doubleTypeText.text = $"{data.minionType1}\n{data.minionType2}";
+         }
+         else if (data.minionType1 != CardSO.MinionType.None)
+         {
+            typePan.SetActive(true);
+            typeText.text = $"{data.minionType1}";
+         }
+
+         starContainer.gameObject.SetActive(true);
+         Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
       }
-
-      interfaceImage.sprite = card.isGolden ? goldenInterface : commonInterface;
-      titleImage.color = card.isGolden ? new(0.4150943f, 0.4150943f, 0.4150943f) : new(1f, 1f, 1f);
-
-      atkText.text = data.attack.ToString();
-      hpText.text = data.hp.ToString();
-      nameText.text = data.name;
-      descriptionText.text = data.description;
-
-      if(data.minionType1 != CardSO.MinionType.None &&
-         data.minionType2 != CardSO.MinionType.None)
-      {
-         doubleTypePan.SetActive(true);
-         doubleTypeText.text = $"{data.minionType1}\n{data.minionType2}";
-      }
-      else if(data.minionType1 != CardSO.MinionType.None)
-      {
-         typePan.SetActive(true);
-         typeText.text = $"{data.minionType1}";
-      }
-
-      starContainer.gameObject.SetActive(true);
-      Instantiate(starPrefabs[card.data.tavernLevel - 1], starContainer);
    }
 }

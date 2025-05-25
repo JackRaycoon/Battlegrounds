@@ -16,7 +16,7 @@ public class TripletsController : MonoBehaviour
 
       // Группируем карты по имени
       var groups = allPlayerCards
-         .Where(card => !card.isGolden)
+         .Where(card => !card.isGolden && card is not Spell)
          .GroupBy(card => card.data.name)
          .Where(group => group.Count() >= 3);
 

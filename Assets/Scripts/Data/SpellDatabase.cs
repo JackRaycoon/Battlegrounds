@@ -55,12 +55,14 @@ public class SpellDatabase
 
    // астер всегда на самой первой позиции листа целей.
    private void AddSpellCast(string name, Action<List<Card>> cast,
-      Func<List<Card>, List<int>> calc = null)
+      Func<List<Card>, List<int>> calc = null,
+      Func<List<Card>, bool> valid = null)
    {
       Spell spell = new(name)
       {
          cast = cast,
-         calc = calc
+         calc = calc,
+         valid = valid
       };
       spellDatabase.Add(name, spell);
    }
@@ -122,6 +124,7 @@ public class SpellDatabase
       {
          target.permanentATKBuff += atkBuff;
          target.permanentHPBuff += hpBuff;
+         target.CUR_HP += hpBuff;
       }
    }
    private List<int> AllBuffCalc(List<Card> targets)

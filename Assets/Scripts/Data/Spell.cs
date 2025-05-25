@@ -6,12 +6,15 @@ using UnityEngine;
 public class Spell : Card
 {
    public new SpellSO data;
-   internal Action<List<Card>> cast;
-   internal Func<List<Card>, List<int>> calc;
-   internal Action<List<Card>> death;
-   internal Action<Card, List<Card>> passive;
-   internal Action<Card, List<Card>> reverse;
-   internal Action<List<Card>> battlecry;
+
+   internal Action<List<Card>> cast = null;
+   internal Func<List<Card>, List<int>> calc = null;
+   internal Func<List<Card>, bool> valid = null;
+
+   internal Action<List<Card>> battlecry = null;
+   internal Action<List<Card>> death = null;
+   internal Action<Card, List<Card>> passive = null;
+   internal Action<Card, List<Card>> reverse = null;
 
    public Spell(string name, bool isEffect = false)
    {
@@ -20,5 +23,16 @@ public class Spell : Card
    public Spell(SpellSO data)
    {
       this.data = data;
+   }
+
+   public void Cast(List<Card> board)
+   {
+      cast.Invoke(board);
+   }
+
+   public bool CheckValid(List<Card> board)
+   {
+      if (valid == null) return true;
+      return valid.Invoke(board);
    }
 }

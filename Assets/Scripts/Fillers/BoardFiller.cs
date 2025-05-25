@@ -6,7 +6,7 @@ public class BoardFiller : MonoBehaviour
 {
    public Transform playerMinionsTransform, tavernMinionsTransform, handTransform, bigCardTransform; 
    public Collider2D boardCollider, BOBCollider, playerCollider;
-   public GameObject fieldCardPrefab, handCardPrefab, copyFieldCardPrefab;
+   public GameObject fieldCardPrefab, handCardPrefab, copyFieldCardPrefab, spellCardPrefab;
    public Canvas canvas;
    public Transform playerTeamTransform, enemyTeamTransform;
    public BoardController boardController;
@@ -75,7 +75,7 @@ public class BoardFiller : MonoBehaviour
       handUI.cards = new();
       foreach (Card minion in PlayerData.Instance.hand)
       {
-         var go = Instantiate(handCardPrefab, handTransform);
+         var go = Instantiate(minion is Spell ? spellCardPrefab : handCardPrefab, handTransform);
          minion.cardObject = go;
          HandCardUI handCardUI = go.GetComponent<HandCardUI>();
          HandCardFiller filler = go.GetComponent<HandCardFiller>();

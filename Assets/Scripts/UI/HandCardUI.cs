@@ -14,6 +14,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    public BoardFiller boardFiller;
 
    public GameObject bigCardPrefab;
+   public GameObject bigSpellCardPrefab;
    private static GameObject bigCard;
 
    private static bool isDragged = false;
@@ -42,7 +43,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    {
       isEnter = true;
       if (isDragged) return;
-      bigCard = Instantiate(bigCardPrefab, boardFiller.bigCardTransform);
+      bigCard = Instantiate(bigCardPrefab == null ? bigSpellCardPrefab : bigCardPrefab, boardFiller.bigCardTransform);
       bigCard.transform.position = new Vector2(transform.position.x, bigCard.transform.position.y + 0.25f);
       var fillerBC = bigCard.GetComponent<HandCardFiller>();
       fillerBC.card = filler.card;
@@ -98,7 +99,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
 
       // Проверка попадания мышки в триггер
-      if (boardFiller.boardCollider.OverlapPoint(mouseWorldPos))
+      if (boardFiller.boardCollider.OverlapPoint(mouseWorldPos) && filler.card is not Spell)
       {
          if(PlayerData.Instance.playerMinions.Count < PlayerData.Instance.maxMinions &&
             invisCard == null)
@@ -131,6 +132,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    public void OnEndDrag(PointerEventData eventData)
    {
       isDragged = false;
+      isEnter = false;
 
       if (invisCard != null)
          Destroy(invisCard);
@@ -142,7 +144,14 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       // Проверка попадания мышки в триггер
       if (boardFiller.boardCollider.OverlapPoint(mouseWorldPos))
       {
-         boardFiller.boardController.SummonMinion(filler.card, this, siblingIndex);
+         if (filler.card is Spell)
+         {
+            boardFiller.boardController.CastSpell(filler.card as Spell, this);
+         }
+         else
+         {
+            boardFiller.boardController.SummonMinion(filler.card, this, siblingIndex);
+         }
          siblingIndex = -1;
       }
       else
