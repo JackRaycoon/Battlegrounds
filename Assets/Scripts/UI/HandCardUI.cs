@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -28,10 +29,11 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    private GameObject invisCard = null;
    private int siblingIndex = -1;
 
-   private bool isInvis = false;
+   public bool isInvis = false;
 
-   private static bool isTargetingSpellNow = false;
-   private GameObject spellTarget = null;
+   public static bool isTargetingSpellNow = false;
+   private Card spellTarget = null;
+   public static Card battlecryTarget = null;
 
 
    private void Awake()
@@ -42,12 +44,42 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    private void Update()
    {
       canvasGroup.alpha = (isEnter && !isDragged || isInvis) ? 0f : 1f;
+
+      //Battlecry
+      if (isTargetingSpellNow && isCastingBattlecry)
+      {
+         if (Input.GetKeyDown(KeyCode.Mouse1))
+         {
+            //возвращает в руку
+
+            //Удаляем карту с поля и из списков
+            PlayerData.Instance.playerMinions.Remove(battleCryOwner);
+            boardFiller.allPlayerFieldCardList.Remove(battleCryOwner.fieldCardObject);
+            Destroy(battleCryOwner.fieldCardObject);
+
+            //Создаём карту в руку
+            isInvis = false;
+            ReturnCardInHand();
+
+            DisableTargetSelection();
+            battleCryOwner = null;
+            battleCry = null;
+            battlecryTarget = null;
+         }
+         if (Input.GetKeyUp(KeyCode.Mouse0) && battlecryTarget != null)
+         {
+            //заканчиваем призыв + делаем боевой клич
+            DisableTargetSelection();
+            boardFiller.boardController.CastSpell(battleCry, this, battlecryTarget);
+            boardFiller.boardController.EndSummon(battleCryOwner);
+         }
+      }
    }
 
    public void OnPointerEnter(PointerEventData eventData)
    {
       isEnter = true;
-      if (isDragged) return;
+      if (isDragged || (isTargetingSpellNow && !isCastingBattlecryStatic)) return;
 
       if (bigCard != null)
          Destroy(bigCard);
@@ -72,9 +104,12 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       //canvasGroup.alpha = 1f;
    }
 
+   private bool isStartDrag = false;
    public void OnBeginDrag(PointerEventData eventData)
    {
-      isDragged = true;
+      if (isTargetingSpellNow) return;
+      isDragged = true; 
+      isStartDrag = true;
       originalPosition = rectTransform.anchoredPosition;
       originalRotation = rectTransform.rotation;
       listPosition = handUI.cards.IndexOf(rectTransform);
@@ -95,6 +130,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
    public void OnDrag(PointerEventData eventData)
    {
+      if (!isStartDrag) return;
       RectTransformUtility.ScreenPointToLocalPointInRectangle(
           handUI.transform as RectTransform,
           eventData.position,
@@ -138,8 +174,9 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          {
             if (go.GetComponent<Collider2D>().OverlapPoint(mouseWorldPos))
             {
-               if(go.GetComponent<FieldCardFiller>().isTarget)
-                  spellTarget = go;
+               var cardFiller = go.GetComponent<FieldCardFiller>();
+               if (cardFiller.isTarget)
+                  spellTarget = cardFiller.card;
             }
          }
       }
@@ -148,71 +185,11 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       {
          if (isTargetingSpellNow) return;
          var spell = filler.card as Spell;
-         var targetType = (filler.card as Spell).data.targetType;
-         if (targetType != SpellSO.TargetType.None)
-         {
-            //Включаем выбор цели, убираем карту
-            isInvis = true;
-            isTargetingSpellNow = true;
-
-            List<Card> targets = new();
-            switch (targetType)
-            {
-               case SpellSO.TargetType.PlayerTeam:
-                  targets.AddRange(PlayerData.Instance.playerMinions);
-                  break;
-               case SpellSO.TargetType.Tavern:
-                  targets.AddRange(boardFiller.tavernController.tavernCards); 
-                  break;
-               case SpellSO.TargetType.Both:
-                  targets.AddRange(PlayerData.Instance.playerMinions);
-                  targets.AddRange(boardFiller.tavernController.tavernCards);
-                  break;
-               case SpellSO.TargetType.Hand:
-                  //targets.AddRange(PlayerData.Instance.playerMinions); 
-                  break;
-            }
-            foreach(Card card in targets)
-            {
-               var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
-               if (spell.CheckValid(fieldFiller.card))
-               {
-                  fieldFiller.isTarget = true;
-                  fieldFiller.Fill();
-               }
-            }
-         }
+         EnableTargetSelection(spell);
       }
       else if (isTargetingSpellNow)
       {
-         var targetType = (filler.card as Spell).data.targetType;
-         //Включаем выбор цели, убираем карту
-         isInvis = false;
-         isTargetingSpellNow = false;
-
-         List<Card> targets = new();
-         switch (targetType)
-         {
-            case SpellSO.TargetType.PlayerTeam:
-               targets.AddRange(PlayerData.Instance.playerMinions);
-               break;
-            case SpellSO.TargetType.Tavern:
-               targets.AddRange(boardFiller.tavernController.tavernCards);
-               break;
-            case SpellSO.TargetType.Both:
-               targets.AddRange(PlayerData.Instance.playerMinions);
-               targets.AddRange(boardFiller.tavernController.tavernCards);
-               break;
-            case SpellSO.TargetType.Hand:
-               //targets.AddRange(PlayerData.Instance.playerMinions); 
-               break;
-         }
-         foreach (Card card in targets)
-         {
-            var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
-            fieldFiller.isTarget = false;
-            fieldFiller.Fill();
-         }
+         DisableTargetSelection();
       }
       if (invisCard != null)
       {
@@ -231,9 +208,13 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
    public void OnEndDrag(PointerEventData eventData)
    {
+      if (!isStartDrag) return;
+      //Debug.Log("False");
+      isCastingBattlecry = false;
+      isCastingBattlecryStatic = false;
       isDragged = false;
+      isStartDrag = false;
       isEnter = false;
-
       if (invisCard != null)
          Destroy(invisCard);
       invisCard = null;
@@ -256,7 +237,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       {
          if (filler.card is Spell)
          {
-            List<Card> targets = new();
+            /*List<Card> targets = new();
             targets.AddRange(PlayerData.Instance.playerMinions);
             targets.AddRange(boardFiller.tavernController.tavernCards);
 
@@ -265,7 +246,8 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
                fieldFiller.isTarget = false;
                fieldFiller.Fill();
-            }
+            }*/
+            DisableTargetSelection();
             boardFiller.boardController.CastSpell(filler.card as Spell, this, spellTarget);
             spellTarget = null;
             return;
@@ -274,24 +256,106 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       ReturnCardInHand();
    }
 
+   private bool isCastingBattlecry = false;
+   public static bool isCastingBattlecryStatic = false;
+
    public void ReturnCardInHand()
    {
+      DisableTargetSelection();
+
+      // Возврат карты обратно на руку
+      if (!handUI.cards.Contains(rectTransform))
+      {
+         handUI.cards.Insert(listPosition, rectTransform);
+         handUI.UpdateHandLayout();
+      }
+      rectTransform.anchoredPosition = originalPosition;
+      rectTransform.rotation = originalRotation;
+   }
+
+   private Card battleCryOwner = null;
+   private Spell battleCry = null;
+   public void DisableTargetSelection()
+   {
+      isCastingBattlecry = false;
+      isCastingBattlecryStatic = false;
+      //Включаем выбор цели, убираем карту
+      isInvis = false;
+      isTargetingSpellNow = false;
       List<Card> targets = new();
       targets.AddRange(PlayerData.Instance.playerMinions);
       targets.AddRange(boardFiller.tavernController.tavernCards);
 
       foreach (Card card in targets)
       {
-         var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
+         var fieldFiller = card.fieldCardObject.GetComponent<FieldCardFiller>();
          fieldFiller.isTarget = false;
          fieldFiller.Fill();
       }
-
-      // Возврат карты обратно на руку
-      handUI.cards.Insert(listPosition, rectTransform);
-      handUI.UpdateHandLayout();
-      rectTransform.anchoredPosition = originalPosition;
-      rectTransform.rotation = originalRotation;
    }
+   public void EnableTargetSelection(Spell spell, Card minion = null)
+   {
+      var targetType = spell.data.targetType;
+      if (targetType != SpellSO.TargetType.None)
+      {
+         //Включаем выбор цели, убираем карту
+         if (spell.data.spellType != SpellSO.SpellType.Effect)
+         {
+            isInvis = true;
+         }
+         else
+         {
+            battleCryOwner = minion;
+            battleCry = spell;
+         }
+         isTargetingSpellNow = true;
 
+         List<Card> targets = new();
+         switch (targetType)
+         {
+            case SpellSO.TargetType.PlayerTeam:
+               targets.AddRange(PlayerData.Instance.playerMinions);
+               break;
+            case SpellSO.TargetType.Tavern:
+               targets.AddRange(boardFiller.tavernController.tavernCards);
+               break;
+            case SpellSO.TargetType.Both:
+               targets.AddRange(PlayerData.Instance.playerMinions);
+               targets.AddRange(boardFiller.tavernController.tavernCards);
+               break;
+            case SpellSO.TargetType.Hand:
+               //targets.AddRange(PlayerData.Instance.playerMinions); 
+               break;
+         }
+         int targetCount = 0;
+         foreach (Card card in targets)
+         {
+            var fieldFiller = card.fieldCardObject.GetComponent<FieldCardFiller>();
+            if (spell.CheckValid(fieldFiller.card) && fieldFiller.card != battleCryOwner)
+            {
+               fieldFiller.isTarget = true;
+               fieldFiller.Fill();
+               targetCount++;
+            }
+         }
+         if(targetCount == 0)
+         {
+            boardFiller.boardController.EndSummon(battleCryOwner);
+            DisableTargetSelection();
+            boardFiller.boardController.CastSpell(battleCry, this, spellTarget);
+            battleCryOwner = null;
+            battleCry = null;
+            spellTarget = null;
+         }
+         else
+         {
+            if (minion != null)
+            {
+               spellTarget = null;
+               isCastingBattlecry = true;
+               isCastingBattlecryStatic = true;
+            }
+         }
+      }
+   }
 }

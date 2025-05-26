@@ -39,6 +39,12 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
    public void OnPointerEnter(PointerEventData eventData)
    {
       if (isDraggedStatic) return;
+
+      if (HandCardUI.isCastingBattlecryStatic && filler.isTarget)
+      {
+         HandCardUI.battlecryTarget = filler.card;
+      }
+
       if (bigCard != null)
          Destroy(bigCard);
       bigCard = Instantiate(bigCardPrefab, boardFiller.bigCardTransform);
@@ -89,7 +95,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnBeginDrag(PointerEventData eventData)
    {
-      if (filler.isEnemy) return;
+      if (filler.isEnemy || HandCardUI.isTargetingSpellNow) return;
       isDragged = true;
       isDraggedStatic = true;
       //originalPosition = rectTransform.anchoredPosition;
@@ -113,7 +119,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnDrag(PointerEventData eventData)
    {
-      if (filler.isEnemy) return;
+      if (filler.isEnemy || HandCardUI.isTargetingSpellNow) return;
       RectTransformUtility.ScreenPointToWorldPointInRectangle(
           boardFiller.canvas.transform as RectTransform,
           eventData.position,
@@ -141,7 +147,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnEndDrag(PointerEventData eventData)
    {
-      if (filler.isEnemy) return;
+      if (filler.isEnemy || HandCardUI.isTargetingSpellNow) return;
       isDragged = false;
       isDraggedStatic = false;
 

@@ -245,17 +245,17 @@ public class GameController : MonoBehaviour
          float t = elapsed / durationScale;
 
          float scale = Mathf.Lerp(1, 1.3f, t);
-         attacker.cardObject.transform.localScale = new Vector2(scale, scale);
+         attacker.fieldCardObject.transform.localScale = new Vector2(scale, scale);
 
          elapsed += Time.deltaTime;
          yield return null;
       }
-      attacker.cardObject.transform.localScale = new Vector2(1.3f, 1.3f);
+      attacker.fieldCardObject.transform.localScale = new Vector2(1.3f, 1.3f);
 
       yield return new WaitForSeconds(durationScale);
       //Атака существа (раза в 2 быстрее подъёма)
-      var attackerRect = attacker.cardObject.GetComponent<RectTransform>();
-      var defenderRect = defender.cardObject.GetComponent<RectTransform>();
+      var attackerRect = attacker.fieldCardObject.GetComponent<RectTransform>();
+      var defenderRect = defender.fieldCardObject.GetComponent<RectTransform>();
       Vector3 originalPos = attackerRect.position;
       Vector3 endPos = defenderRect.position;
       elapsed = 0f;
@@ -272,8 +272,8 @@ public class GameController : MonoBehaviour
       //Нанесение урона после атаки
       attacker.CUR_HP -= defender.ATK;
       defender.CUR_HP -= attacker.ATK;
-      attacker.cardObject.GetComponent<FieldCardFiller>().Fill();
-      defender.cardObject.GetComponent<FieldCardFiller>().Fill();
+      attacker.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      defender.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
 
       //Уменьшение + возвращение на место (раза в 2 быстрее подъёма)
       Vector3 currentPos = attackerRect.position;
@@ -283,13 +283,13 @@ public class GameController : MonoBehaviour
          float t = elapsed / (durationScale / 2f);
 
          float scale = Mathf.Lerp(1.3f, 1f, t);
-         attacker.cardObject.transform.localScale = new Vector2(scale, scale);
+         attacker.fieldCardObject.transform.localScale = new Vector2(scale, scale);
          attackerRect.position = Vector3.Lerp(currentPos, originalPos, t);
 
          elapsed += Time.deltaTime;
          yield return null;
       }
-      attacker.cardObject.transform.localScale = new Vector2(1f, 1f);
+      attacker.fieldCardObject.transform.localScale = new Vector2(1f, 1f);
       attackerRect.position = originalPos;
       yield return null;
 
@@ -300,7 +300,7 @@ public class GameController : MonoBehaviour
          if (card.CUR_HP <= 0)
          {
             playerTeam.Remove(card);
-            Destroy(card.cardObject);
+            Destroy(card.fieldCardObject);
          }
       }
       for(int i = 0; i < enemyTeam.Count; i++)
@@ -309,7 +309,7 @@ public class GameController : MonoBehaviour
          if (card.CUR_HP <= 0)
          {
             enemyTeam.Remove(card);
-            Destroy(card.cardObject);
+            Destroy(card.fieldCardObject);
          }
       }
    }

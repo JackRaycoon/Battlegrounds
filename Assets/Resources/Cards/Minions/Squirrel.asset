@@ -18,7 +18,11 @@ MonoBehaviour:
   hp: 1
   tavernLevel: 1
   backInPool: 1
-  description: 
+  description: '<font="KeyWords">Battlecry:</font> Give your
+
+    beast <b>+1/+1</b>.'
   attackType: 0
   minionType1: 3
   minionType2: 0
+  battleCry: {fileID: 11400000, guid: 734bbbabdd415b24daffd3080c637f54, type: 2}
+  deathrattle: {fileID: 0}

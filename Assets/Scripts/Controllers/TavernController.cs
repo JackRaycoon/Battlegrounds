@@ -89,16 +89,16 @@ public class TavernController : MonoBehaviour
             //Разморозка
             if (frozenCards.Contains(card))
                frozenCards.Remove(card);
-            card.cardObject.GetComponent<FieldCardFiller>().isFreeze = false;
+            card.fieldCardObject.GetComponent<FieldCardFiller>().isFreeze = false;
          }
          else
          {
             //Заморозка
             if (!frozenCards.Contains(card))
                frozenCards.Add(card);
-            card.cardObject.GetComponent<FieldCardFiller>().isFreeze = true;
+            card.fieldCardObject.GetComponent<FieldCardFiller>().isFreeze = true;
          }
-         card.cardObject.GetComponent<FieldCardFiller>().Fill();
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       }
       tavernFreeze = !tavernFreeze;
    }

@@ -31,18 +31,32 @@ public class Card
    public long CUR_HP;
    public bool isGolden;
 
-   public GameObject cardObject;
+   public GameObject fieldCardObject;
+   public GameObject handCardObject;
 
+   public Spell battleCry = null, deathrattle = null;
+
+   public int indexHandCardForBattlecryBack = 0;
    protected Card() { }
    public Card(string name, bool isGolden = false)
    {
       data = Resources.Load<CardSO>($"Cards/{(isGolden ? "GoldenMinions" : "Minions")}/{name}");
       this.isGolden = isGolden;
       CUR_HP = data.hp;
+      FillEffects();
    }
    public Card(CardSO cardData)
    {
       data = cardData;
       CUR_HP = data.hp;
+      FillEffects();
+   }
+
+   public void FillEffects()
+   {
+      if (data.battleCry != null)
+         battleCry = SpellDatabase.Instance.GetSpellByName(data.battleCry.name);
+      if (data.deathrattle != null)
+         deathrattle = SpellDatabase.Instance.GetSpellByName(data.battleCry.name);
    }
 }

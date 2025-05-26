@@ -17,5 +17,5 @@ MonoBehaviour:
   cost: 1
   tavernLevel: 1
   description: Your minion gain <b>+1/+1</b>
-  spellType: 0
+  spellType: 2
   targetType: 1

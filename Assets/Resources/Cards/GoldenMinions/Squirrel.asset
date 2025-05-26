@@ -18,7 +18,12 @@ MonoBehaviour:
   hp: 2
   tavernLevel: 1
   backInPool: 1
-  description: 
+  description: '<font="KeyWords">Battlecry:</font> Give your
+
+    beast <b>+1/+1</b>
+    twice.'
   attackType: 0
   minionType1: 3
   minionType2: 0
+  battleCry: {fileID: 0}
+  deathrattle: {fileID: 0}

@@ -14,6 +14,12 @@ public class TripletsController : MonoBehaviour
       allPlayerCards.AddRange(PlayerData.Instance.hand);
       allPlayerCards.AddRange(PlayerData.Instance.playerMinions);
 
+      foreach(Card card in allPlayerCards)
+      {
+         if(!card.isGolden && card is not Spell)
+            Debug.Log(card.data.name);
+      }
+
       // Группируем карты по имени
       var groups = allPlayerCards
          .Where(card => !card.isGolden && card is not Spell)
@@ -37,15 +43,19 @@ public class TripletsController : MonoBehaviour
                permanentATKBuff += card.permanentATKBuff;
                permanentHPBuff += card.permanentHPBuff;
                // Удаляем визуальный объект
-               var rect = card.cardObject.GetComponent<RectTransform>();
 
-               if (card.cardObject != null)
+               if (card.handCardObject != null)
                {
-                  if (boardFiller.allPlayerFieldCardList.Contains(card.cardObject))
-                     boardFiller.allPlayerFieldCardList.Remove(card.cardObject);
-                  if (handUI.cards.Contains(rect))
-                     handUI.cards.Remove(rect);
-                  Destroy(card.cardObject);
+                  var rectHand = card.handCardObject.GetComponent<RectTransform>();
+                  if (handUI.cards.Contains(rectHand))
+                     handUI.cards.Remove(rectHand);
+                  Destroy(card.handCardObject);
+               }
+               if (card.fieldCardObject != null)
+               {
+                  if (boardFiller.allPlayerFieldCardList.Contains(card.fieldCardObject))
+                     boardFiller.allPlayerFieldCardList.Remove(card.fieldCardObject);
+                  Destroy(card.fieldCardObject);
                }
 
                // Удаляем из руки и поля
@@ -59,7 +69,7 @@ public class TripletsController : MonoBehaviour
             tripletCard.CUR_HP = tripletCard.MAX_HP;
             PlayerData.Instance.hand.Add(tripletCard);
             var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
-            tripletCard.cardObject = go;
+            tripletCard.handCardObject = go;
             HandCardUI handCardUI = go.GetComponent<HandCardUI>();
             HandCardFiller filler = go.GetComponent<HandCardFiller>();
 

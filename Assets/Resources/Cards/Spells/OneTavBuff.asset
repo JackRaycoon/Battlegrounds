@@ -16,6 +16,6 @@ MonoBehaviour:
   isSquareArt: 1
   cost: 1
   tavernLevel: 1
-  description: Minion in tavern gain <b>+1/+1</b>
+  description: Minion in tavern gain <b>+1/+1</b>.
   spellType: 0
   targetType: 2

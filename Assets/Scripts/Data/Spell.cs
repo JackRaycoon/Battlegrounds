@@ -11,8 +11,6 @@ public class Spell : Card
    internal Func<List<Card>, List<int>> calc = null;
    internal Func<List<Card>, bool> valid = null;
 
-   internal Action<List<Card>> battlecry = null;
-   internal Action<List<Card>> death = null;
    internal Action<Card, List<Card>> passive = null;
    internal Action<Card, List<Card>> reverse = null;
 

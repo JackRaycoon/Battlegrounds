@@ -45,7 +45,9 @@ public class SpellDatabase
       AddSpellCast("OneBuff", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
       AddSpellCast("OnePlayBuff", AllBuffNoTavernCast, AllBuffCalc);
       AddSpellCast("OneTavBuff", AllBuffNoTavernCast, AllBuffCalc);
-      AddSpellCast("OnePlayEffect", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
+
+      AddEffect("OnePlayEffect", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
+      AddEffect("OnePlayEffectGolden", AllBuffNoTavernCastTwice, AllBuffCalc, AllBuffValid);
 
       //Spells - Special
 
@@ -70,20 +72,15 @@ public class SpellDatabase
       };
       spellDatabase.Add(name, spell);
    }
-   private void AddBattlecry(string name, Action<List<Card>> battlecry)
+   private void AddEffect(string name, Action<List<Card>> cast,
+      Func<List<Card>, List<int>> calc = null,
+      Func<List<Card>, bool> valid = null)
    {
       Spell spell = new(name, true)
       {
-         battlecry = battlecry
-      };
-      spellDatabase.Add(name, spell);
-   }
-   
-   private void AddDeathrattle(string name, Action<List<Card>> death)
-   {
-      Spell spell = new(name, true)
-      {
-         death = death
+         cast = cast,
+         calc = calc,
+         valid = valid
       };
       spellDatabase.Add(name, spell);
    }
@@ -126,7 +123,7 @@ public class SpellDatabase
       targets.Remove(caster);
       foreach (Card target in targets)
       {
-         if (!target.cardObject.GetComponent<FieldCardFiller>().isTavern)
+         if (!target.fieldCardObject.GetComponent<FieldCardFiller>().isTavern)
          {
             target.permanentATKBuff += atkBuff;
             target.permanentHPBuff += hpBuff;
@@ -147,6 +144,24 @@ public class SpellDatabase
          target.permanentATKBuff += atkBuff;
          target.permanentHPBuff += hpBuff;
          target.CUR_HP += hpBuff;
+      }
+   }
+   private void AllBuffNoTavernCastTwice(List<Card> targets)
+   {
+      var calc = AllBuffCalc(targets);
+      int atkBuff = calc[0];
+      int hpBuff = calc[1];
+
+      var caster = targets[0]; //hero
+      targets.Remove(caster);
+      foreach (Card target in targets)
+      {
+         for(int i = 0; i < 2; i++)
+         {
+            target.permanentATKBuff += atkBuff;
+            target.permanentHPBuff += hpBuff;
+            target.CUR_HP += hpBuff;
+         }
       }
    }
    private List<int> AllBuffCalc(List<Card> targets)

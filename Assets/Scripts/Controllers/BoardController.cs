@@ -19,7 +19,10 @@ public class BoardController : MonoBehaviour
          return;
       }
       //PlayerData.Instance.hand.Remove(minion);
-      Destroy(minion.cardObject);
+      //minion.indexHandCardForBattlecryBack = boardFiller.handUI.cards.IndexOf(minion.cardObject.GetComponent<RectTransform>());
+      cardUI.isInvis = true;
+      //boardFiller.handUI.cards.Remove(minion.cardObject.GetComponent<RectTransform>());
+      //boardFiller.handUI.UpdateHandLayout();
 
       var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
       if(siblingIndex != -1)
@@ -31,7 +34,7 @@ public class BoardController : MonoBehaviour
       {
          PlayerData.Instance.playerMinions.Add(minion);
       }
-      minion.cardObject = go;
+      minion.fieldCardObject = go;
       FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
       FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
@@ -42,12 +45,44 @@ public class BoardController : MonoBehaviour
       filler.Fill();
       boardFiller.allPlayerFieldCardList.Add(go);
 
-      PlayerData.Instance.hand.Remove(minion);
+      if(minion.battleCry != null)
+      {
+         if(minion.battleCry.data.targetType != SpellSO.TargetType.None)
+         {
+            cardUI.EnableTargetSelection(minion.battleCry, minion);
+            return;
+         }
+      }
 
-      tripletsController.CheckTriplets();
+      EndSummon(minion);
    }
 
-   public void CastSpell(Spell spell, HandCardUI cardUI, GameObject spellTarget)
+   public void EndSummon(Card minion)
+   {
+      foreach (Card card in PlayerData.Instance.hand)
+      {
+         if (!card.isGolden && card is not Spell)
+            Debug.Log(card.GetHashCode());
+      }
+      PlayerData.Instance.hand.Remove(minion);
+      Debug.Log("Remove " + minion.GetHashCode());
+      foreach (Card card in PlayerData.Instance.hand)
+      {
+         if (!card.isGolden && card is not Spell)
+            Debug.Log(card.GetHashCode());
+      }
+
+      var rect = minion.handCardObject.GetComponent<RectTransform>();
+      if (boardFiller.handUI.cards.Contains(rect))
+      {
+         boardFiller.handUI.cards.Remove(rect);
+         boardFiller.handUI.UpdateHandLayout();
+      }
+      tripletsController.CheckTriplets();
+      Destroy(minion.handCardObject);
+   }
+
+   public void CastSpell(Spell spell, HandCardUI cardUI, Card spellTarget)
    {
       List<Card> boardCards = new()
       {
@@ -67,7 +102,7 @@ public class BoardController : MonoBehaviour
       }
       else
       {
-         boardCards.Add(spellTarget.GetComponent<FieldCardFiller>().card);
+         boardCards.Add(spellTarget);
       }
 
       if (!spell.CheckValid(boardCards))
@@ -77,13 +112,13 @@ public class BoardController : MonoBehaviour
       }
 
       PlayerData.Instance.hand.Remove(spell);
-      Destroy(spell.cardObject);
+      Destroy(spell.handCardObject);
 
       spell.Cast(boardCards);
 
       foreach (Card card in boardCards)
       {
-         card.cardObject.GetComponent<FieldCardFiller>().Fill();
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       }
       boardFiller.handUI.UpdateHandLayout();
       tripletsController.CheckTriplets();
@@ -131,7 +166,7 @@ public class BoardController : MonoBehaviour
       Destroy(cardUI.gameObject);
 
       var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
-      minion.cardObject = go;
+      minion.handCardObject = go;
       HandCardUI handCardUI = go.GetComponent<HandCardUI>();
       HandCardFiller filler = go.GetComponent<HandCardFiller>();
 
@@ -162,7 +197,7 @@ public class BoardController : MonoBehaviour
       foreach (Card minion in enemies)
       {
          var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
-         minion.cardObject = go;
+         minion.fieldCardObject = go;
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
          FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
@@ -192,7 +227,7 @@ public class BoardController : MonoBehaviour
       foreach (Card minion in boardFiller.tavernController.tavernCards)
       {
          var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
-         minion.cardObject = go;
+         minion.fieldCardObject = go;
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
          FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
@@ -220,7 +255,7 @@ public class BoardController : MonoBehaviour
          minion.inFightATKBuff = 0;
          minion.inFightHPBuff = 0;
          var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
-         minion.cardObject = go;
+         minion.fieldCardObject = go;
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
          FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
