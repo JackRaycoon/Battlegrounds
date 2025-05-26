@@ -39,5 +39,8 @@ public class PlayerData
       hand.Add(new("Squirrel"));
       hand.Add(new("Squirrel"));
       hand.Add(SpellDatabase.Instance.GetSpellByName("AllBuff"));
+      hand.Add(SpellDatabase.Instance.GetSpellByName("OneBuff"));
+      hand.Add(SpellDatabase.Instance.GetSpellByName("OnePlayBuff"));
+      hand.Add(SpellDatabase.Instance.GetSpellByName("OneTavBuff"));
    }
 }

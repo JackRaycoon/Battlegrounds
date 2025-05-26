@@ -42,6 +42,9 @@ public class SpellDatabase
    {
       //Tests
       AddSpellCast("AllBuff", AllBuffCast, AllBuffCalc);
+      AddSpellCast("OneBuff", AllBuffNoTavernCast, AllBuffCalc);
+      AddSpellCast("OnePlayBuff", AllBuffNoTavernCast, AllBuffCalc);
+      AddSpellCast("OneTavBuff", AllBuffNoTavernCast, AllBuffCalc);
 
       //Spells - Special
 
@@ -113,6 +116,24 @@ public class SpellDatabase
 
    //AllBuff
    private void AllBuffCast(List<Card> targets)
+   {
+      var calc = AllBuffCalc(targets);
+      int atkBuff = calc[0];
+      int hpBuff = calc[1];
+
+      var caster = targets[0]; //hero
+      targets.Remove(caster);
+      foreach (Card target in targets)
+      {
+         if (!target.cardObject.GetComponent<FieldCardFiller>().isTavern)
+         {
+            target.permanentATKBuff += atkBuff;
+            target.permanentHPBuff += hpBuff;
+            target.CUR_HP += hpBuff;
+         }
+      }
+   }
+   private void AllBuffNoTavernCast(List<Card> targets)
    {
       var calc = AllBuffCalc(targets);
       int atkBuff = calc[0];

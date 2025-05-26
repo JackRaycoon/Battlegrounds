@@ -47,15 +47,28 @@ public class BoardController : MonoBehaviour
       tripletsController.CheckTriplets();
    }
 
-   public void CastSpell(Spell spell, HandCardUI cardUI)
+   public void CastSpell(Spell spell, HandCardUI cardUI, GameObject spellTarget)
    {
       List<Card> boardCards = new()
       {
          //Добавляем кастера
          null
       };
-      boardCards.AddRange(PlayerData.Instance.playerMinions);
-      boardCards.AddRange(boardFiller.tavernController.tavernCards);
+
+      if (spell.data.targetType == SpellSO.TargetType.None)
+      {
+         boardCards.AddRange(PlayerData.Instance.playerMinions);
+         boardCards.AddRange(boardFiller.tavernController.tavernCards);
+      }
+      else if (spellTarget == null)
+      {
+         cardUI.ReturnCardInHand();
+         return;
+      }
+      else
+      {
+         boardCards.Add(spellTarget.GetComponent<FieldCardFiller>().card);
+      }
 
       if (!spell.CheckValid(boardCards))
       {

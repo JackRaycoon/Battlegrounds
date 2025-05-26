@@ -28,6 +28,11 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    private GameObject invisCard = null;
    private int siblingIndex = -1;
 
+   private bool isInvis = false;
+
+   private static bool isTargetingSpellNow = false;
+   private GameObject spellTarget = null;
+
 
    private void Awake()
    {
@@ -36,7 +41,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    }
    private void Update()
    {
-      canvasGroup.alpha = (isEnter && !isDragged) ? 0f : 1f;
+      canvasGroup.alpha = (isEnter && !isDragged || isInvis) ? 0f : 1f;
    }
 
    public void OnPointerEnter(PointerEventData eventData)
@@ -120,7 +125,92 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             filler2.Fill();
          }
       }
-      if(invisCard != null)
+
+
+      if (isTargetingSpellNow)
+      {
+         spellTarget = null;
+
+         List<GameObject> list = new(boardFiller.allPlayerFieldCardList);
+
+         list.AddRange(boardFiller.allTavernCardList);
+         foreach (var go in list)
+         {
+            if (go.GetComponent<Collider2D>().OverlapPoint(mouseWorldPos))
+            {
+               if(go.GetComponent<FieldCardFiller>().isTarget)
+                  spellTarget = go;
+            }
+         }
+      }
+
+      if (boardFiller.spellCastCollider.OverlapPoint(mouseWorldPos) && filler.card is Spell)
+      {
+         if (isTargetingSpellNow) return;
+         var targetType = (filler.card as Spell).data.targetType;
+         if (targetType != SpellSO.TargetType.None)
+         {
+            //Включаем выбор цели, убираем карту
+            isInvis = true;
+            isTargetingSpellNow = true;
+
+            List<Card> targets = new();
+            switch (targetType)
+            {
+               case SpellSO.TargetType.PlayerTeam:
+                  targets.AddRange(PlayerData.Instance.playerMinions);
+                  break;
+               case SpellSO.TargetType.Tavern:
+                  targets.AddRange(boardFiller.tavernController.tavernCards); 
+                  break;
+               case SpellSO.TargetType.Both:
+                  targets.AddRange(PlayerData.Instance.playerMinions);
+                  targets.AddRange(boardFiller.tavernController.tavernCards);
+                  break;
+               case SpellSO.TargetType.Hand:
+                  //targets.AddRange(PlayerData.Instance.playerMinions); 
+                  break;
+            }
+            foreach(Card card in targets)
+            {
+               var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
+               fieldFiller.isTarget = true;
+               fieldFiller.Fill();
+            }
+         }
+      }
+      else if (isTargetingSpellNow)
+      {
+         var targetType = (filler.card as Spell).data.targetType;
+         //Включаем выбор цели, убираем карту
+         isInvis = false;
+         isTargetingSpellNow = false;
+
+         List<Card> targets = new();
+         switch (targetType)
+         {
+            case SpellSO.TargetType.PlayerTeam:
+               targets.AddRange(PlayerData.Instance.playerMinions);
+               break;
+            case SpellSO.TargetType.Tavern:
+               targets.AddRange(boardFiller.tavernController.tavernCards);
+               break;
+            case SpellSO.TargetType.Both:
+               targets.AddRange(PlayerData.Instance.playerMinions);
+               targets.AddRange(boardFiller.tavernController.tavernCards);
+               break;
+            case SpellSO.TargetType.Hand:
+               //targets.AddRange(PlayerData.Instance.playerMinions); 
+               break;
+         }
+         foreach (Card card in targets)
+         {
+            var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
+            fieldFiller.isTarget = false;
+            fieldFiller.Fill();
+         }
+      }
+      if (invisCard != null)
       {
          List<GameObject> list = new(boardFiller.allPlayerFieldCardList);
          list.Remove(gameObject);
@@ -143,31 +233,56 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       if (invisCard != null)
          Destroy(invisCard);
       invisCard = null;
-
+      isInvis = false;
+      isTargetingSpellNow = false;
+      
       // Получаем позицию курсора в мире
       Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
 
-      // Проверка попадания мышки в триггер
       if (boardFiller.boardCollider.OverlapPoint(mouseWorldPos))
+      {
+         if (filler.card is not Spell)
+         {
+            boardFiller.boardController.SummonMinion(filler.card, this, siblingIndex);
+            siblingIndex = -1;
+            return;
+         }
+      }
+      if (boardFiller.spellCastCollider.OverlapPoint(mouseWorldPos))
       {
          if (filler.card is Spell)
          {
-            boardFiller.boardController.CastSpell(filler.card as Spell, this);
+            List<Card> targets = new();
+            targets.AddRange(PlayerData.Instance.playerMinions);
+            targets.AddRange(boardFiller.tavernController.tavernCards);
+
+            foreach (Card card in targets)
+            {
+               var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
+               fieldFiller.isTarget = false;
+               fieldFiller.Fill();
+            }
+            boardFiller.boardController.CastSpell(filler.card as Spell, this, spellTarget);
+            spellTarget = null;
+            return;
          }
-         else
-         {
-            boardFiller.boardController.SummonMinion(filler.card, this, siblingIndex);
-         }
-         siblingIndex = -1;
       }
-      else
-      {
-         ReturnCardInHand();
-      }
+      ReturnCardInHand();
    }
 
    public void ReturnCardInHand()
    {
+      List<Card> targets = new();
+      targets.AddRange(PlayerData.Instance.playerMinions);
+      targets.AddRange(boardFiller.tavernController.tavernCards);
+
+      foreach (Card card in targets)
+      {
+         var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
+         fieldFiller.isTarget = false;
+         fieldFiller.Fill();
+      }
+
       // Возврат карты обратно на руку
       handUI.cards.Insert(listPosition, rectTransform);
       handUI.UpdateHandLayout();

@@ -9,7 +9,7 @@ public class FieldCardFiller : MonoBehaviour
    public TextMeshProUGUI atkText, hpText;
    public Image art, squareArt, interfaceImage;
    public Sprite commonInterface, goldenInterface;
-   public GameObject freezeEffect;
+   public GameObject freezeEffect, targetEffect;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
 
@@ -17,6 +17,7 @@ public class FieldCardFiller : MonoBehaviour
    public bool isTavern = false;
    public bool isEnemy = false;
    public bool isFreeze = false;
+   public bool isTarget = false;
    public void Fill()
    {
       var data = card.data;
@@ -37,6 +38,7 @@ public class FieldCardFiller : MonoBehaviour
       hpText.text = card.CUR_HP.ToString();
 
       freezeEffect.SetActive(isFreeze);
+      targetEffect.SetActive(isTarget);
 
       if (isTavern)
       {

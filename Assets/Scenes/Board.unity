@@ -3505,6 +3505,7 @@ MonoBehaviour:
   boardCollider: {fileID: 135097103}
   BOBCollider: {fileID: 1297476575}
   playerCollider: {fileID: 1905180770}
+  spellCastCollider: {fileID: 2038072061}
   fieldCardPrefab: {fileID: 178564320961073270, guid: f05f412db0af13d478d49db636619fb0, type: 3}
   handCardPrefab: {fileID: 4552101028748958319, guid: 3cb8be2f14f75dc44bd2ae1f178c7ce3, type: 3}
   copyFieldCardPrefab: {fileID: 5031424408902799683, guid: d9b503668f6f67749a3d916f5c13131a, type: 3}
@@ -3730,6 +3731,7 @@ RectTransform:
   - {fileID: 135097101}
   - {fileID: 1297476574}
   - {fileID: 1905180769}
+  - {fileID: 2038072060}
   m_Father: {fileID: 818907257}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3888,6 +3890,78 @@ MonoBehaviour:
   virtualCountOdd: 7
   virtualCountEven: 8
   isNeedUpdate: 0
+--- !u!1 &2038072059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2038072060}
+  - component: {fileID: 2038072062}
+  - component: {fileID: 2038072061}
+  m_Layer: 5
+  m_Name: SpellCastTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2038072060
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038072059}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1907303253}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &2038072061
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038072059}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 3.0513306, y: 84.449036}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1990.691, y: 954.7483}
+  m_EdgeRadius: 0
+--- !u!222 &2038072062
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038072059}
+  m_CullTransparentMesh: 1
 --- !u!1 &2079279811
 GameObject:
   m_ObjectHideFlags: 0

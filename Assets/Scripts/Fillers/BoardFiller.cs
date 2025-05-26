@@ -5,7 +5,7 @@ using UnityEngine;
 public class BoardFiller : MonoBehaviour
 {
    public Transform playerMinionsTransform, tavernMinionsTransform, handTransform, bigCardTransform; 
-   public Collider2D boardCollider, BOBCollider, playerCollider;
+   public Collider2D boardCollider, BOBCollider, playerCollider, spellCastCollider;
    public GameObject fieldCardPrefab, handCardPrefab, copyFieldCardPrefab, spellCardPrefab;
    public Canvas canvas;
    public Transform playerTeamTransform, enemyTeamTransform;
