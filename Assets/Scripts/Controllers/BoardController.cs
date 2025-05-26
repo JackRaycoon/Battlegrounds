@@ -81,7 +81,19 @@ public class BoardController : MonoBehaviour
       PlayerData.Instance.playerMinions.Remove(minion);
       boardFiller.allPlayerFieldCardList.Remove(cardUI.gameObject);
       if (minion.data.backInPool)
-         boardFiller.tavernController.minionsPool.Add(minion.data);
+      {
+         if (minion.isGolden)
+         {
+            var data = new Card(minion.data.name).data;
+            boardFiller.tavernController.minionsPool.Add(data);
+            boardFiller.tavernController.minionsPool.Add(data);
+            boardFiller.tavernController.minionsPool.Add(data);
+         }
+         else
+         {
+            boardFiller.tavernController.minionsPool.Add(minion.data);
+         }
+      }
 
       Destroy(cardUI.gameObject);
 

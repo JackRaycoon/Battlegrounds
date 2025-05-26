@@ -39,6 +39,8 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
    public void OnPointerEnter(PointerEventData eventData)
    {
       if (isDraggedStatic) return;
+      if (bigCard != null)
+         Destroy(bigCard);
       bigCard = Instantiate(bigCardPrefab, boardFiller.bigCardTransform);
 
       short sign = -1;
@@ -82,6 +84,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
    {
       if (isDraggedStatic || bigCard == null) return;
       Destroy(bigCard);
+      bigCard = null;
    }
 
    public void OnBeginDrag(PointerEventData eventData)
@@ -96,6 +99,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
       if (bigCard != null)
       {
          Destroy(bigCard);
+         bigCard = null;
       }
 
       copy = Instantiate(boardFiller.copyFieldCardPrefab, boardFiller.playerMinionsTransform);
@@ -150,7 +154,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
          if(child != copy.transform)
             PlayerData.Instance.playerMinions.Add(child.GetComponent<FieldCardFiller>().card);
       }
-
+      copy = null;
 
       // Получаем позицию курсора в мире
       Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);

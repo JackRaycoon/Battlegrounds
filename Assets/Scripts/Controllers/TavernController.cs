@@ -145,11 +145,15 @@ public class TavernController : MonoBehaviour
       frozenCards.Clear();
 
       int tavernMinionCount = 3 + PlayerData.Instance.tavernTier / 2;
+      List<CardSO> tempPool = new(minionsPool);
       for (int i = tavernCards.Count; i < tavernMinionCount; i++)
       {
-         var random = minionsPool[Random.Range(0, minionsPool.Count)];
+         if (tempPool.Count == 0)
+            break;
+         var random = tempPool[Random.Range(0, tempPool.Count)];
          Card randomCard = new(random);
          tavernCards.Add(randomCard);
+         tempPool.Remove(random);
       }
 
       boardController.FillTavern();
