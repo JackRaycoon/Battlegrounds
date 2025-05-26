@@ -20,5 +20,7 @@ MonoBehaviour:
   backInPool: 1
   description: 
   attackType: 0
-  minionType1: 3
-  minionType2: 2
+  minionType1: 2
+  minionType2: 0
+  battleCry: {fileID: 0}
+  deathrattle: {fileID: 0}

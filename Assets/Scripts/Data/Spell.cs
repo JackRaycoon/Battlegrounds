@@ -35,4 +35,9 @@ public class Spell : Card
       if (valid == null) return true;
       return valid.Invoke(board);
    }
+   public bool CheckValid(Card card)
+   {
+      if (valid == null) return true;
+      return valid.Invoke(new List<Card> { card });
+   }
 }

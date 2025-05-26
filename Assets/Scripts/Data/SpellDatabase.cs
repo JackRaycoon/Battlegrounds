@@ -42,9 +42,10 @@ public class SpellDatabase
    {
       //Tests
       AddSpellCast("AllBuff", AllBuffCast, AllBuffCalc);
-      AddSpellCast("OneBuff", AllBuffNoTavernCast, AllBuffCalc);
+      AddSpellCast("OneBuff", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
       AddSpellCast("OnePlayBuff", AllBuffNoTavernCast, AllBuffCalc);
       AddSpellCast("OneTavBuff", AllBuffNoTavernCast, AllBuffCalc);
+      AddSpellCast("OnePlayEffect", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
 
       //Spells - Special
 
@@ -152,5 +153,11 @@ public class SpellDatabase
    {
       var caster = targets[0];
       return new List<int> { 1, 1 };
+   }
+
+   private bool AllBuffValid(List<Card> targets)
+   {
+      if (targets.Count > 1) return true;
+      return targets[0].data.minionType1 == CardSO.MinionType.Beast || targets[0].data.minionType2 == CardSO.MinionType.Beast;
    }
 }

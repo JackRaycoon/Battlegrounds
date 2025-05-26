@@ -147,6 +147,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       if (boardFiller.spellCastCollider.OverlapPoint(mouseWorldPos) && filler.card is Spell)
       {
          if (isTargetingSpellNow) return;
+         var spell = filler.card as Spell;
          var targetType = (filler.card as Spell).data.targetType;
          if (targetType != SpellSO.TargetType.None)
          {
@@ -174,8 +175,11 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             foreach(Card card in targets)
             {
                var fieldFiller = card.cardObject.GetComponent<FieldCardFiller>();
-               fieldFiller.isTarget = true;
-               fieldFiller.Fill();
+               if (spell.CheckValid(fieldFiller.card))
+               {
+                  fieldFiller.isTarget = true;
+                  fieldFiller.Fill();
+               }
             }
          }
       }

@@ -20,7 +20,6 @@ public class SpellSO : ScriptableObject
    {
       None,
       Tavern,
-
    }
    public enum TargetType
    {
