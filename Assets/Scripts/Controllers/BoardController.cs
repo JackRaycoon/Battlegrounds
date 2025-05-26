@@ -59,18 +59,7 @@ public class BoardController : MonoBehaviour
 
    public void EndSummon(Card minion)
    {
-      foreach (Card card in PlayerData.Instance.hand)
-      {
-         if (!card.isGolden && card is not Spell)
-            Debug.Log(card.GetHashCode());
-      }
       PlayerData.Instance.hand.Remove(minion);
-      Debug.Log("Remove " + minion.GetHashCode());
-      foreach (Card card in PlayerData.Instance.hand)
-      {
-         if (!card.isGolden && card is not Spell)
-            Debug.Log(card.GetHashCode());
-      }
 
       var rect = minion.handCardObject.GetComponent<RectTransform>();
       if (boardFiller.handUI.cards.Contains(rect))
@@ -95,7 +84,11 @@ public class BoardController : MonoBehaviour
          boardCards.AddRange(PlayerData.Instance.playerMinions);
          boardCards.AddRange(boardFiller.tavernController.tavernCards);
       }
-      else if (spellTarget == null)
+      else if (spellTarget == null && spell.data.spellType == SpellSO.SpellType.Effect)
+      {
+         
+      }
+      else if(spellTarget == null)
       {
          cardUI.ReturnCardInHand();
          return;
@@ -121,7 +114,8 @@ public class BoardController : MonoBehaviour
          card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       }
       boardFiller.handUI.UpdateHandLayout();
-      tripletsController.CheckTriplets();
+      if(spell.data.spellType != SpellSO.SpellType.Effect)
+         tripletsController.CheckTriplets();
    }
 
    public void SellMinion(Card minion, FieldCardUI cardUI)
@@ -163,7 +157,8 @@ public class BoardController : MonoBehaviour
       PlayerData.Instance.hand.Add(minion);
       boardFiller.tavernController.tavernCards.Remove(minion);
       boardFiller.tavernController.minionsPool.Remove(minion.data);
-      Destroy(cardUI.gameObject);
+      boardFiller.allTavernCardList.Remove(minion.fieldCardObject);
+      Destroy(minion.fieldCardObject);
 
       var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
       minion.handCardObject = go;

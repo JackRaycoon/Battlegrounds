@@ -14,11 +14,11 @@ public class TripletsController : MonoBehaviour
       allPlayerCards.AddRange(PlayerData.Instance.hand);
       allPlayerCards.AddRange(PlayerData.Instance.playerMinions);
 
-      foreach(Card card in allPlayerCards)
-      {
-         if(!card.isGolden && card is not Spell)
-            Debug.Log(card.data.name);
-      }
+      //foreach(Card card in allPlayerCards)
+      //{
+      //   if(!card.isGolden && card is not Spell)
+      //      Debug.Log(card.data.name);
+      //}
 
       // Группируем карты по имени
       var groups = allPlayerCards

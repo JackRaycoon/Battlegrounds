@@ -172,7 +172,7 @@ public class SpellDatabase
 
    private bool AllBuffValid(List<Card> targets)
    {
-      if (targets.Count > 1) return true;
-      return targets[0].data.minionType1 == CardSO.MinionType.Beast || targets[0].data.minionType2 == CardSO.MinionType.Beast;
+      if (targets.Count != 2) return true;
+      return targets[1].data.minionType1 == CardSO.MinionType.Beast || targets[1].data.minionType2 == CardSO.MinionType.Beast;
    }
 }

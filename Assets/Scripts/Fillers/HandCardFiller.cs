@@ -45,6 +45,7 @@ public class HandCardFiller : MonoBehaviour
 
          nameText.text = data.name;
          descriptionText.text = data.description;
+         descriptionText.color = card.isGolden ?  new(1f, 1f, 1f) : new(0f, 0f, 0f);
 
          if (!data.isSquareArt)
          {

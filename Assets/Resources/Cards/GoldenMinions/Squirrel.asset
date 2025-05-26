@@ -25,5 +25,5 @@ MonoBehaviour:
   attackType: 0
   minionType1: 3
   minionType2: 0
-  battleCry: {fileID: 0}
+  battleCry: {fileID: 11400000, guid: 397cceebcd6015a419e5743c33009341, type: 2}
   deathrattle: {fileID: 0}

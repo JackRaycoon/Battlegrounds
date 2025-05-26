@@ -71,6 +71,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             //заканчиваем призыв + делаем боевой клич
             DisableTargetSelection();
             boardFiller.boardController.CastSpell(battleCry, this, battlecryTarget);
+            battlecryTarget = null;
             boardFiller.boardController.EndSummon(battleCryOwner);
          }
       }
@@ -331,7 +332,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          foreach (Card card in targets)
          {
             var fieldFiller = card.fieldCardObject.GetComponent<FieldCardFiller>();
-            if (spell.CheckValid(fieldFiller.card) && fieldFiller.card != battleCryOwner)
+            if (spell.CheckValid(new List<Card>{ null, fieldFiller.card }) && fieldFiller.card != battleCryOwner)
             {
                fieldFiller.isTarget = true;
                fieldFiller.Fill();
@@ -340,12 +341,10 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          }
          if(targetCount == 0)
          {
-            boardFiller.boardController.EndSummon(battleCryOwner);
             DisableTargetSelection();
-            boardFiller.boardController.CastSpell(battleCry, this, spellTarget);
-            battleCryOwner = null;
-            battleCry = null;
-            spellTarget = null;
+            boardFiller.boardController.CastSpell(battleCry, this, null);
+            battlecryTarget = null;
+            boardFiller.boardController.EndSummon(battleCryOwner);
          }
          else
          {
