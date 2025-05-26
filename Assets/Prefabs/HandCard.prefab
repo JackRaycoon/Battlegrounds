@@ -1019,6 +1019,7 @@ MonoBehaviour:
   filler: {fileID: 0}
   boardFiller: {fileID: 0}
   bigCardPrefab: {fileID: 2638868452927489487, guid: 3bb5719fa94f9f44c9eb3fc0ead84406, type: 3}
+  bigSpellCardPrefab: {fileID: 0}
 --- !u!114 &5288663426790007342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1037,6 +1038,7 @@ MonoBehaviour:
   doubleTypeText: {fileID: 2061608292104001841}
   typeText: {fileID: 3041612265035326269}
   descriptionText: {fileID: 3061287512266150119}
+  costText: {fileID: 0}
   art: {fileID: 6766666110903326219}
   squareArt: {fileID: 1187393802}
   interfaceImage: {fileID: 2325109831563351913}
@@ -1053,6 +1055,7 @@ MonoBehaviour:
   - {fileID: 7450574140778228209, guid: 9c9195fab5f517d4a90dc2fe7e988ab6, type: 3}
   doubleTypePan: {fileID: 3266304884779336579}
   typePan: {fileID: 3610892821321705543}
+  withBuffs: 1
 --- !u!225 &-5787706756211396028
 CanvasGroup:
   m_ObjectHideFlags: 0

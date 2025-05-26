@@ -73,6 +73,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
       var fillerBC = bigCard.GetComponent<HandCardFiller>();
       fillerBC.card = filler.card;
+      fillerBC.withBuffs = false;
       fillerBC.Fill();
       bigCard.transform.localScale = Vector3.one * 2.5f;
    }

@@ -43,6 +43,10 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    {
       isEnter = true;
       if (isDragged) return;
+
+      if (bigCard != null)
+         Destroy(bigCard);
+
       bigCard = Instantiate(bigCardPrefab == null ? bigSpellCardPrefab : bigCardPrefab, boardFiller.bigCardTransform);
       bigCard.transform.position = new Vector2(transform.position.x, bigCard.transform.position.y + 0.25f);
       var fillerBC = bigCard.GetComponent<HandCardFiller>();
@@ -58,6 +62,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       isEnter = false;
       if (isDragged || bigCard == null) return;
       Destroy(bigCard);
+      bigCard = null;
 
       //canvasGroup.alpha = 1f;
    }
@@ -78,6 +83,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       if (bigCard != null)
       {
          Destroy(bigCard);
+         bigCard = null;
       }
       //canvasGroup.alpha = 1f;
    }

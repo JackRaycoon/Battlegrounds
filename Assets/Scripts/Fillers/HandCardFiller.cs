@@ -14,6 +14,8 @@ public class HandCardFiller : MonoBehaviour
 
    public GameObject doubleTypePan, typePan;
 
+   public bool withBuffs = true;
+
    public Card card;
    public void Fill()
    {
@@ -58,8 +60,8 @@ public class HandCardFiller : MonoBehaviour
          interfaceImage.sprite = card.isGolden ? goldenInterface : commonInterface;
          titleImage.color = card.isGolden ? new(0.4150943f, 0.4150943f, 0.4150943f) : new(1f, 1f, 1f);
 
-         atkText.text = data.attack.ToString();
-         hpText.text = data.hp.ToString();
+         atkText.text = withBuffs ? card.ATK.ToString() : data.attack.ToString();
+         hpText.text = withBuffs ? card.CUR_HP.ToString() : data.hp.ToString();
          
          
          if (data.minionType1 != CardSO.MinionType.None &&
