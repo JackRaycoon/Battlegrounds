@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
    public BoardController boardController;
    public TripletsController tripletsController;
    public EnemyDataController enemyDataController;
+   public CharactersController charactersController;
 
    private List<Card> playerTeam;
    private List<Card> enemyTeam;
@@ -30,6 +31,8 @@ public class GameController : MonoBehaviour
 
    private List<Card> playerQueue;
    private List<Card> enemyQueue;
+
+   public bool isFightNow = false;
 
    public void EndTurnBtn()
    {
@@ -68,6 +71,8 @@ public class GameController : MonoBehaviour
 
       //Смена доски
       boardController.FillEnemys(enemyDataController.nextEnemies);
+      isFightNow = true;
+      charactersController.Fill();
       endTurnBtn.GetComponent<Button>().interactable = false;
       btnText.text = "Combat";
 
@@ -355,6 +360,8 @@ public class GameController : MonoBehaviour
       elapsed = 0f;
 
       //Смена доски
+      isFightNow = false;
+      charactersController.Fill();
       enemyDataController.GenerateNextEnemies();
       if(PlayerData.Instance.tavernUpCost > 0)
          PlayerData.Instance.tavernUpCost--;

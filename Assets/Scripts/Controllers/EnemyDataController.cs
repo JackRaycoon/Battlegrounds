@@ -7,6 +7,7 @@ public class EnemyDataController : MonoBehaviour
 {
    public int stage = 0;
    public List<Card> nextEnemies = new();
+   public TeamPresetSO dataOfNextEnemies;
 
    public void GenerateNextEnemies()
    {
@@ -28,15 +29,15 @@ public class EnemyDataController : MonoBehaviour
       }
 
       // Случайный выбор одного пресета
-      TeamPresetSO selectedPreset = validPresets[Random.Range(0, validPresets.Count)];
+      dataOfNextEnemies = validPresets[Random.Range(0, validPresets.Count)];
 
       // Добавляем врагов из пресета в nextEnemies
-      for (int i = 0; i < selectedPreset.cardData.Count; i++)
+      for (int i = 0; i < dataOfNextEnemies.cardData.Count; i++)
       {
-         CardSO cardSO = selectedPreset.cardData[i];
+         CardSO cardSO = dataOfNextEnemies.cardData[i];
          Card card = new(cardSO);
-         card.permanentATKBuff = selectedPreset.permanentATKBuff[i];
-         card.permanentHPBuff = selectedPreset.permanentHPBuff[i];
+         card.permanentATKBuff = dataOfNextEnemies.permanentATKBuff[i];
+         card.permanentHPBuff = dataOfNextEnemies.permanentHPBuff[i];
          card.CUR_HP = card.MAX_HP;
          nextEnemies.Add(card);
       }

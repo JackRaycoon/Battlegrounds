@@ -13,6 +13,7 @@ public class BoardFiller : MonoBehaviour
    public TripletsController tripletsController;
    public TavernController tavernController;
    public EnemyDataController enemyDataController;
+   public CharactersController charactersController;
 
    public HandUI handUI;
 
@@ -25,6 +26,7 @@ public class BoardFiller : MonoBehaviour
       handUI = handTransform.GetComponent<HandUI>();
       boardController = GetComponent<BoardController>();
       FillBoard();
+      charactersController.Fill();
       enemyDataController.GenerateNextEnemies();
    }
 

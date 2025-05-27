@@ -10,7 +10,10 @@ public class PlayerData
    public List<Card> hand = new();
    public short tavernTier = 1;
 
-   public short hp = 30;
+   public Character character;
+
+   public short max_hp = 30;
+   public short cur_hp = 30;
 
    public int curMoneyCount = 3;
    public int maxMoneyCount
@@ -32,7 +35,10 @@ public class PlayerData
 
    public PlayerData()
    {
+      character = new("Squirrel");
+
       playerMinions.Add(new("Spider"));
+
       hand.Add(new("Squirrel"));
       hand.Add(new("Squirrel"));
       hand.Add(new("Squirrel"));
