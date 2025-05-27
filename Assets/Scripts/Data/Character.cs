@@ -11,11 +11,11 @@ public class Character
    public Character(string name)
    {
       data = Resources.Load<CharacterSO>($"Cards/Characters/{name}");
-      ability = new(data.ability);
+      ability = SpellDatabase.Instance.GetSpellByName(data.ability.name);
    }
    public Character(CharacterSO data)
    {
       this.data = data;
-      ability = new(data.ability);
+      ability = SpellDatabase.Instance.GetSpellByName(data.ability.name);
    }
 }

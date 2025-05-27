@@ -49,14 +49,18 @@ public class SpellDatabase
       AddEffect("OnePlayEffect", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
       AddEffect("OnePlayEffectGolden", AllBuffNoTavernCastTwice, AllBuffCalc, AllBuffValid);
 
+      AddAbility("Squirrel Gift", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
+
+
       //Spells - Special
 
 
       //Spells - Tavern
 
 
-      //MinionSkills
+      //Minion Skills
       
+      //Hero Abilities
    }
 
    // астер всегда на самой первой позиции листа целей.
@@ -76,7 +80,20 @@ public class SpellDatabase
       Func<List<Card>, List<int>> calc = null,
       Func<List<Card>, bool> valid = null)
    {
-      Spell spell = new(name, true)
+      Spell spell = new(name, SpellSO.SpellType.Effect)
+      {
+         cast = cast,
+         calc = calc,
+         valid = valid
+      };
+      spellDatabase.Add(name, spell);
+   }
+   
+   private void AddAbility(string name, Action<List<Card>> cast,
+      Func<List<Card>, List<int>> calc = null,
+      Func<List<Card>, bool> valid = null)
+   {
+      Spell spell = new(name, SpellSO.SpellType.HeroAbility)
       {
          cast = cast,
          calc = calc,
@@ -87,7 +104,7 @@ public class SpellDatabase
 
    private void AddPassive(string name, Action<Card, List<Card>> passive, Action<Card, List<Card>> reverse, Func<List<Card>, List<int>> calc = null)
    {
-      Spell spell = new(name, true)
+      Spell spell = new(name, SpellSO.SpellType.Effect)
       {
          passive = passive,
          reverse = reverse,

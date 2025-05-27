@@ -3899,6 +3899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1084292151}
   - component: {fileID: 1084292153}
+  - component: {fileID: 1084292154}
   m_Layer: 5
   m_Name: AbilityBig
   m_TagString: Untagged
@@ -3939,6 +3940,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084292150}
   m_CullTransparentMesh: 1
+--- !u!225 &1084292154
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084292150}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1118673952
 GameObject:
   m_ObjectHideFlags: 0
@@ -5012,6 +5025,8 @@ MonoBehaviour:
   PlayerImage: {fileID: 1370224922}
   AbilityImage: {fileID: 1889190658}
   AbilityImageBig: {fileID: 460538991}
+  coin: {fileID: 1134820231}
+  mask: {fileID: 364640108}
   hpText: {fileID: 527114698}
   costAbilityText: {fileID: 694583625}
   costAbilityTextBig: {fileID: 806960360}
@@ -5804,6 +5819,8 @@ GameObject:
   - component: {fileID: 2024525589}
   - component: {fileID: 2024525591}
   - component: {fileID: 2024525590}
+  - component: {fileID: 2024525592}
+  - component: {fileID: 2024525593}
   m_Layer: 5
   m_Name: Ability
   m_TagString: Untagged
@@ -5872,6 +5889,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024525588}
   m_CullTransparentMesh: 1
+--- !u!114 &2024525592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024525588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505b7eeef21fcd740975ae966a447f22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bigAbility: {fileID: 1084292150}
+  boardFiller: {fileID: 1818959496}
+  parent: {fileID: 1025539820}
+  canvas: {fileID: 818907256}
+  trigger: {fileID: 2024525593}
+  charactersController: {fileID: 1675076258}
+  moneyController: {fileID: 114273658}
+--- !u!58 &2024525593
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024525588}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.20131373, y: -2.5622134}
+  serializedVersion: 2
+  m_Radius: 71.448875
 --- !u!1 &2038072059
 GameObject:
   m_ObjectHideFlags: 0

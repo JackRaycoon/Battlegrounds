@@ -71,7 +71,7 @@ public class BoardController : MonoBehaviour
       Destroy(minion.handCardObject);
    }
 
-   public void CastSpell(Spell spell, HandCardUI cardUI, Card spellTarget)
+   public void CastSpell(Spell spell, Card spellTarget, HandCardUI cardUI = null)
    {
       List<Card> boardCards = new()
       {
@@ -90,7 +90,8 @@ public class BoardController : MonoBehaviour
       }
       else if(spellTarget == null)
       {
-         cardUI.ReturnCardInHand();
+         if(cardUI != null)
+            cardUI.ReturnCardInHand();
          return;
       }
       else
@@ -100,7 +101,8 @@ public class BoardController : MonoBehaviour
 
       if (!spell.CheckValid(boardCards))
       {
-         cardUI.ReturnCardInHand();
+         if(cardUI != null)
+            cardUI.ReturnCardInHand();
          return;
       }
 

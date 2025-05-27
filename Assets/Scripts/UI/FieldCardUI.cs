@@ -88,6 +88,7 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
    public void OnPointerExit(PointerEventData eventData)
    {
+      HandCardUI.battlecryTarget = null;
       if (isDraggedStatic || bigCard == null) return;
       Destroy(bigCard);
       bigCard = null;

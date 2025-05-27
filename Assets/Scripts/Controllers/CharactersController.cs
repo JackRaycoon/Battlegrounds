@@ -8,6 +8,7 @@ public class CharactersController : MonoBehaviour
 {
    public Sprite BOBSprite;
    public Image EnemyImage, PlayerImage, AbilityImage, AbilityImageBig;
+   public GameObject coin, mask;
    public TextMeshProUGUI hpText, costAbilityText, costAbilityTextBig, nameBig, descriptionBig;
 
    public GameController gameController;
@@ -19,16 +20,21 @@ public class CharactersController : MonoBehaviour
 
    public void Fill()
    {
+      var spell = PlayerData.Instance.character.ability;
+
       EnemyImage.sprite = gameController.isFightNow ? enemyDataController.dataOfNextEnemies.spriteHero : BOBSprite ;
       PlayerImage.sprite = PlayerData.Instance.character.data.sprite;
-      AbilityImage.sprite = PlayerData.Instance.character.ability.data.spriteArt;
-      AbilityImageBig.sprite = PlayerData.Instance.character.ability.data.spriteArt;
+      AbilityImage.sprite = spell.data.spriteArt;
+      AbilityImageBig.sprite = spell.data.spriteArt;
 
-      costAbilityText.text = PlayerData.Instance.character.ability.data.cost.ToString();
+      coin.SetActive(spell.countUsed < 1);
+      mask.SetActive(spell.countUsed < 1);
+
+      costAbilityText.text = spell.data.cost.ToString();
       hpText.text = PlayerData.Instance.cur_hp.ToString();
 
-      costAbilityTextBig.text = PlayerData.Instance.character.ability.data.cost.ToString();
-      nameBig.text = PlayerData.Instance.character.ability.data.name;
-      descriptionBig.text = PlayerData.Instance.character.ability.data.description;
+      costAbilityTextBig.text = spell.data.cost.ToString();
+      nameBig.text = spell.data.name;
+      descriptionBig.text = spell.data.description;
    }
 }

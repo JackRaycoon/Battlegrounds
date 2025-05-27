@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Spell : Card
@@ -14,9 +15,22 @@ public class Spell : Card
    internal Action<Card, List<Card>> passive = null;
    internal Action<Card, List<Card>> reverse = null;
 
-   public Spell(string name, bool isEffect = false)
+   public int countUsed = 0; //Для абилок героев
+
+   public Spell(string name, SpellSO.SpellType spellType = SpellSO.SpellType.None)
    {
-      data = Resources.Load<SpellSO>($"Cards/{(isEffect ? "Effects" : "Spells")}/{name}");
+      switch (spellType)
+      {
+         case SpellSO.SpellType.None:
+            data = Resources.Load<SpellSO>($"Cards/Spells/{name}");
+            break;
+         case SpellSO.SpellType.Effect:
+            data = Resources.Load<SpellSO>($"Cards/Effects/{name}");
+            break;
+         case SpellSO.SpellType.HeroAbility:
+            data = Resources.Load<SpellSO>($"Cards/Abilities/{name}");
+            break;
+      }
    }
    public Spell(SpellSO data)
    {

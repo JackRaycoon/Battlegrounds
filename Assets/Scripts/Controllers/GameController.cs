@@ -361,6 +361,7 @@ public class GameController : MonoBehaviour
 
       //Смена доски
       isFightNow = false;
+      PlayerData.Instance.character.ability.countUsed = 0;
       charactersController.Fill();
       enemyDataController.GenerateNextEnemies();
       if(PlayerData.Instance.tavernUpCost > 0)
