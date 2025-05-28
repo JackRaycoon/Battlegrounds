@@ -13,10 +13,21 @@ public class CharactersController : MonoBehaviour
 
    public GameController gameController;
    public EnemyDataController enemyDataController;
+
+   public static bool needUpdate;
     void Start()
     {
       Fill();
     }
+
+   private void Update()
+   {
+      if (needUpdate)
+      {
+         needUpdate = false;
+         Fill();
+      }
+   }
 
    public void Fill()
    {
@@ -31,7 +42,7 @@ public class CharactersController : MonoBehaviour
       mask.SetActive(spell.countUsed < 1);
 
       costAbilityText.text = spell.data.cost.ToString();
-      hpText.text = PlayerData.Instance.cur_hp.ToString();
+      hpText.text = PlayerData.Instance.character.cur_hp.ToString();
 
       costAbilityTextBig.text = spell.data.cost.ToString();
       nameBig.text = spell.data.name;

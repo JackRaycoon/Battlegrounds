@@ -8,6 +8,9 @@ public class Character
    public CharacterSO data;
    public Spell ability;
 
+   public long max_hp = 30;
+   public long cur_hp = 30;
+
    public Character(string name)
    {
       data = Resources.Load<CharacterSO>($"Cards/Characters/{name}");
@@ -17,5 +20,11 @@ public class Character
    {
       this.data = data;
       ability = SpellDatabase.Instance.GetSpellByName(data.ability.name);
+   }
+
+   public void SelfDamage(long count)
+   {
+      cur_hp -= count;
+      CharactersController.needUpdate = true;
    }
 }

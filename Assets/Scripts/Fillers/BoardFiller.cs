@@ -53,6 +53,7 @@ public class BoardFiller : MonoBehaviour
 
          filler.card = minion;
          filler.Fill();
+         minion.isSummoned = true;
          allPlayerFieldCardList.Add(go);
       }
       /*foreach(Card minion in tavernController.tavernCards)

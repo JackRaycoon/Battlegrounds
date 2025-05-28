@@ -52,6 +52,10 @@ public class BoardController : MonoBehaviour
             cardUI.EnableTargetSelection(minion.battleCry, minion);
             return;
          }
+         else
+         {
+            CastSpell(minion.battleCry, null, cardUI);
+         }
       }
 
       EndSummon(minion);
@@ -68,6 +72,7 @@ public class BoardController : MonoBehaviour
          boardFiller.handUI.UpdateHandLayout();
       }
       tripletsController.CheckTriplets();
+      minion.isSummoned = true;
       Destroy(minion.handCardObject);
    }
 
@@ -109,11 +114,12 @@ public class BoardController : MonoBehaviour
       PlayerData.Instance.hand.Remove(spell);
       Destroy(spell.handCardObject);
 
-      spell.Cast(boardCards);
+      spell.Cast(new List<Card>(boardCards));
 
       foreach (Card card in boardCards)
       {
-         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+         if(card != null && card.isSummoned)
+            card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       }
       boardFiller.handUI.UpdateHandLayout();
       if(spell.data.spellType != SpellSO.SpellType.Effect)

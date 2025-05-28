@@ -37,6 +37,8 @@ public class Card
    public Spell battleCry = null, deathrattle = null;
 
    public int indexHandCardForBattlecryBack = 0;
+   internal bool isSummoned;
+
    protected Card() { }
    public Card(string name, bool isGolden = false)
    {

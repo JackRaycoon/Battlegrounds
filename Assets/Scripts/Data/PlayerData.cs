@@ -12,9 +12,6 @@ public class PlayerData
 
    public Character character;
 
-   public short max_hp = 30;
-   public short cur_hp = 30;
-
    public int curMoneyCount = 3;
    public int maxMoneyCount
    {

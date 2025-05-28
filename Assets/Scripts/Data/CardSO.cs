@@ -20,6 +20,8 @@ public class CardSO : ScriptableObject
 
    public SpellSO battleCry, deathrattle;
 
+   public List<Tags> tags;
+
    public enum AttackType
    {
       Melee,
@@ -41,5 +43,13 @@ public class CardSO : ScriptableObject
       Naga,
       Pirate,
       Murloc
+   }
+
+   public enum Tags
+   {
+      NoTagged,
+      Spam,
+      SelfDamage,
+
    }
 }

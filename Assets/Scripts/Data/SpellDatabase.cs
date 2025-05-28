@@ -59,6 +59,9 @@ public class SpellDatabase
 
 
       //Minion Skills
+      //Battlecry
+      AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
+      AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
       
       //Hero Abilities
    }
@@ -191,5 +194,31 @@ public class SpellDatabase
    {
       if (targets.Count != 2) return true;
       return targets[1].data.minionType1 == CardSO.MinionType.Beast || targets[1].data.minionType2 == CardSO.MinionType.Beast;
+   }
+
+
+
+
+
+
+   private void BackstageSecurityBC_Cast(List<Card> targets)
+   {
+      var calc = BackstageSecurityBC_Calc(targets);
+      int dmg = calc[0];
+
+      PlayerData.Instance.character.SelfDamage(dmg);
+   }
+   private void BackstageSecurityBC_CastGolden(List<Card> targets)
+   {
+      var calc = BackstageSecurityBC_Calc(targets);
+      int dmg = calc[0];
+
+      PlayerData.Instance.character.SelfDamage(dmg);
+      PlayerData.Instance.character.SelfDamage(dmg);
+   }
+   private List<int> BackstageSecurityBC_Calc(List<Card> targets)
+   {
+      var caster = targets[0];
+      return new List<int> { 1 };
    }
 }
