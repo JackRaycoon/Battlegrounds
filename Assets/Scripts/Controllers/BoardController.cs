@@ -87,7 +87,7 @@ public class BoardController : MonoBehaviour
       if (spell.data.targetType == SpellSO.TargetType.None)
       {
          boardCards.AddRange(PlayerData.Instance.playerMinions);
-         boardCards.AddRange(boardFiller.tavernController.tavernCards);
+         boardCards.AddRange(TavernController.tavernCards);
       }
       else if (spellTarget == null && spell.data.spellType == SpellSO.SpellType.Effect)
       {
@@ -163,9 +163,9 @@ public class BoardController : MonoBehaviour
          return;
       }
       PlayerData.Instance.hand.Add(minion);
-      boardFiller.tavernController.tavernCards.Remove(minion);
+      TavernController.tavernCards.Remove(minion);
       boardFiller.tavernController.minionsPool.Remove(minion.data);
-      boardFiller.allTavernCardList.Remove(minion.fieldCardObject);
+      BoardFiller.allTavernCardList.Remove(minion.fieldCardObject);
       Destroy(minion.fieldCardObject);
 
       var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
@@ -191,11 +191,11 @@ public class BoardController : MonoBehaviour
 
    public void FillEnemys(List<Card> enemies)
    {
-      foreach(GameObject go in boardFiller.allTavernCardList)
+      foreach(GameObject go in BoardFiller.allTavernCardList)
       {
          Destroy(go);
       }
-      boardFiller.allTavernCardList.Clear();
+      BoardFiller.allTavernCardList.Clear();
 
       foreach (Card minion in enemies)
       {
@@ -221,13 +221,13 @@ public class BoardController : MonoBehaviour
          Destroy(go);
       }
       enemiesCards.Clear();
-      foreach (GameObject go in boardFiller.allTavernCardList)
+      foreach (GameObject go in BoardFiller.allTavernCardList)
       {
          Destroy(go);
       }
-      boardFiller.allTavernCardList.Clear();
+      BoardFiller.allTavernCardList.Clear();
 
-      foreach (Card minion in boardFiller.tavernController.tavernCards)
+      foreach (Card minion in TavernController.tavernCards)
       {
          var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
          minion.fieldCardObject = go;
@@ -240,7 +240,7 @@ public class BoardController : MonoBehaviour
          filler.card = minion;
          filler.isTavern = true;
          filler.Fill();
-         boardFiller.allTavernCardList.Add(go);
+         BoardFiller.allTavernCardList.Add(go);
       }
    }
    

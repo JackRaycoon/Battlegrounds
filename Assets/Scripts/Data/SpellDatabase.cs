@@ -62,8 +62,9 @@ public class SpellDatabase
       //Battlecry
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
       AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
-      
+
       //Hero Abilities
+      AddAbility("Bloodfury", Bloodfury_Cast, null, Bloodfury_Valid);
    }
 
    // астер всегда на самой первой позиции листа целей.
@@ -200,7 +201,7 @@ public class SpellDatabase
 
 
 
-
+   //BackstageSecurity
    private void BackstageSecurityBC_Cast(List<Card> targets)
    {
       var calc = BackstageSecurityBC_Calc(targets);
@@ -220,5 +221,22 @@ public class SpellDatabase
    {
       var caster = targets[0];
       return new List<int> { 1 };
+   }
+
+
+
+
+   //Bloodfury
+   private void Bloodfury_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      var demon = targets[1];
+
+      TavernController.ConsumeFromTavern(demon);
+   }
+   private bool Bloodfury_Valid(List<Card> targets)
+   {
+      if (targets.Count != 2) return true;
+      return targets[1].data.minionType1 == CardSO.MinionType.Demon || targets[1].data.minionType2 == CardSO.MinionType.Demon;
    }
 }

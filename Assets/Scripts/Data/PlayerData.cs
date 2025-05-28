@@ -32,7 +32,7 @@ public class PlayerData
 
    public PlayerData()
    {
-      character = new("Squirrel");
+      character = new("Lord Jaraxxus");
 
       playerMinions.Add(new("Spider"));
 

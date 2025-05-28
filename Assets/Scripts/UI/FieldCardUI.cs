@@ -54,8 +54,8 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
       int count = PlayerData.Instance.playerMinions.Count;
       if(filler.isTavern)
       {
-         index = boardFiller.tavernController.tavernCards.IndexOf(filler.card);
-         count = boardFiller.tavernController.tavernCards.Count;
+         index = TavernController.tavernCards.IndexOf(filler.card);
+         count = TavernController.tavernCards.Count;
       }
       switch (count) 
       {

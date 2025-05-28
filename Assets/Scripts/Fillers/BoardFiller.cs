@@ -18,7 +18,7 @@ public class BoardFiller : MonoBehaviour
    public HandUI handUI;
 
    public List<GameObject> allPlayerFieldCardList = new();
-   public List<GameObject> allTavernCardList = new();
+   public static List<GameObject> allTavernCardList = new();
 
 
    void Start()

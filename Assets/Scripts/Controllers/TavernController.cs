@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TavernController : MonoBehaviour
 {
-   public List<Card> tavernCards = new();
+   public static List<Card> tavernCards = new();
    public List<Card> frozenCards = new();
 
    public List<CardSO> minionsPool = new();
@@ -177,5 +177,18 @@ public class TavernController : MonoBehaviour
          Instantiate(starPrefabs[PlayerData.Instance.tavernTier - 1], starContainer);
          createdTierGerb = PlayerData.Instance.tavernTier;
       }
+   }
+
+   public static void ConsumeFromTavern(Card demon)
+   {
+      var random = tavernCards[Random.Range(0, tavernCards.Count)];
+      demon.permanentATKBuff += random.ATK;
+      demon.permanentHPBuff += random.CUR_HP;
+      demon.CUR_HP += random.CUR_HP;
+      demon.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+
+      tavernCards.Remove(random);
+      BoardFiller.allTavernCardList.Remove(random.fieldCardObject);
+      Destroy(random.fieldCardObject);
    }
 }

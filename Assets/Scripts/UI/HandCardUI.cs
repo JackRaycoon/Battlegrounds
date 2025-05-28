@@ -170,7 +170,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
          List<GameObject> list = new(boardFiller.allPlayerFieldCardList);
 
-         list.AddRange(boardFiller.allTavernCardList);
+         list.AddRange(BoardFiller.allTavernCardList);
          foreach (var go in list)
          {
             if (go.GetComponent<Collider2D>().OverlapPoint(mouseWorldPos))
@@ -285,7 +285,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
       isTargetingSpellNow = false;
       List<Card> targets = new();
       targets.AddRange(PlayerData.Instance.playerMinions);
-      targets.AddRange(boardFiller.tavernController.tavernCards);
+      targets.AddRange(TavernController.tavernCards);
 
       foreach (Card card in targets)
       {
@@ -318,11 +318,11 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                targets.AddRange(PlayerData.Instance.playerMinions);
                break;
             case SpellSO.TargetType.Tavern:
-               targets.AddRange(boardFiller.tavernController.tavernCards);
+               targets.AddRange(TavernController.tavernCards);
                break;
             case SpellSO.TargetType.Both:
                targets.AddRange(PlayerData.Instance.playerMinions);
-               targets.AddRange(boardFiller.tavernController.tavernCards);
+               targets.AddRange(TavernController.tavernCards);
                break;
             case SpellSO.TargetType.Hand:
                //targets.AddRange(PlayerData.Instance.playerMinions); 
