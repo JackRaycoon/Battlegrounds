@@ -63,8 +63,28 @@ public class HandCardFiller : MonoBehaviour
 
          atkText.text = withBuffs ? card.ATK.ToString() : data.attack.ToString();
          hpText.text = withBuffs ? card.CUR_HP.ToString() : data.hp.ToString();
-         
-         
+         if (withBuffs)
+         {
+            if(card.ATK != data.attack)
+            {
+               atkText.color = card.ATK > data.attack ? Color.green : Color.red;
+            }
+            else
+               atkText.color = Color.white;
+            if (card.CUR_HP != data.hp)
+            {
+               hpText.color = card.CUR_HP > data.hp ? Color.green : Color.red;
+            }
+            else
+               hpText.color = Color.white;
+         }
+         else
+         {
+            atkText.color = Color.white;
+            hpText.color = Color.white;
+         }
+
+
          if (data.minionType1 != CardSO.MinionType.None &&
             data.minionType2 != CardSO.MinionType.None)
          {

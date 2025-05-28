@@ -36,6 +36,18 @@ public class FieldCardFiller : MonoBehaviour
 
       atkText.text = card.ATK.ToString();
       hpText.text = card.CUR_HP.ToString();
+      if (card.ATK != data.attack)
+      {
+         atkText.color = card.ATK > data.attack ? Color.green : Color.red;
+      }
+      else
+         atkText.color = Color.white;
+      if (card.CUR_HP != data.hp)
+      {
+         hpText.color = card.CUR_HP > data.hp ? Color.green : Color.red;
+      }
+      else
+         hpText.color = Color.white;
 
       freezeEffect.SetActive(isFreeze);
       targetEffect.SetActive(isTarget);

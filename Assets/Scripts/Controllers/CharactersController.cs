@@ -43,6 +43,13 @@ public class CharactersController : MonoBehaviour
 
       costAbilityText.text = spell.data.cost.ToString();
       hpText.text = PlayerData.Instance.character.cur_hp.ToString();
+      if (PlayerData.Instance.character.cur_hp != PlayerData.Instance.character.max_hp)
+      {
+         hpText.color = PlayerData.Instance.character.cur_hp > PlayerData.Instance.character.max_hp
+            ? Color.green : Color.red;
+      }
+      else
+         hpText.color = Color.white;
 
       costAbilityTextBig.text = spell.data.cost.ToString();
       nameBig.text = spell.data.name;
