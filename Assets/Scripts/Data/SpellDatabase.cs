@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpellDatabase
 {
@@ -62,6 +63,10 @@ public class SpellDatabase
       //Battlecry
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
       AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
+
+      //Deathrattle
+      AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
+      AddEffect("Fiendish Servant Golden DT", FiendishServantDT_CastGolden);
 
       //Hero Abilities
       AddAbility("Bloodfury", Bloodfury_Cast, null, Bloodfury_Valid);
@@ -224,7 +229,53 @@ public class SpellDatabase
    }
 
 
+   //Fiendish Servant
+   private void FiendishServantDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      var casterFiller = caster.fieldCardObject.GetComponent<FieldCardFiller>();
+      List<Card> availableTargets = new(targets);
+      availableTargets.Remove(caster);
+      foreach (Card card in targets)
+         if (card.fieldCardObject.GetComponent<FieldCardFiller>().isEnemy != casterFiller.isEnemy)
+            availableTargets.Remove(card);
 
+      if (availableTargets.Count == 0) return;
+
+      var target = availableTargets[Random.Range(0, availableTargets.Count)];
+      if (GameController.isFightNow)
+      {
+         target.inFightATKBuff += caster.ATK;
+      }
+      else
+      {
+         target.permanentATKBuff += caster.ATK;
+      }
+   }
+   private void FiendishServantDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      var casterFiller = caster.fieldCardObject.GetComponent<FieldCardFiller>();
+      List<Card> availableTargets = new(targets);
+      availableTargets.Remove(caster);
+      foreach (Card card in targets)
+         if (card.fieldCardObject.GetComponent<FieldCardFiller>().isEnemy != casterFiller.isEnemy)
+            availableTargets.Remove(card);
+
+      if (availableTargets.Count == 0) return;
+      for (int i = 0; i < 2; i++)
+      {
+         var target = availableTargets[Random.Range(0, availableTargets.Count)];
+         if (GameController.isFightNow)
+         {
+            target.inFightATKBuff += caster.ATK;
+         }
+         else
+         {
+            target.permanentATKBuff += caster.ATK;
+         }
+      }
+   }
 
    //Bloodfury
    private void Bloodfury_Cast(List<Card> targets)

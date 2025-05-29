@@ -32,7 +32,7 @@ public class GameController : MonoBehaviour
    private List<Card> playerQueue;
    private List<Card> enemyQueue;
 
-   public bool isFightNow = false;
+   public static bool isFightNow = false;
 
    public void EndTurnBtn()
    {
@@ -100,8 +100,14 @@ public class GameController : MonoBehaviour
       playerQueue = new(playerTeam);
       enemyQueue = new(enemyTeam);
 
+      bool startFight = playerTeam.Count < enemyTeam.Count;
+      if (playerTeam.Count == enemyTeam.Count)
+      {
+         startFight = Random.Range(0, 2) == 0;
+      }
+
       QueueUpdate();
-      NextTurn(false); //Потом будем определять чей ход, не забываем что здесь "Чей ход был"
+      NextTurn(startFight); //Потом будем определять чей ход, не забываем что здесь "Чей ход был"
       //StartCoroutine(Battle(playerTeam[0]));
    }
 
@@ -298,25 +304,35 @@ public class GameController : MonoBehaviour
       attackerRect.position = originalPos;
       yield return null;
 
+      List<Card> firstCheck = playerTeam.Contains(attacker) ? playerTeam : enemyTeam;
+      List<Card> secondCheck = playerTeam.Contains(attacker) ? enemyTeam : playerTeam;
+
       //Проверка на смерть
-      for(int i = 0; i < playerTeam.Count; i++)
+      for(int i = 0; i < firstCheck.Count; i++)
       {
-         var card = playerTeam[i];
+         var card = firstCheck[i];
          if (card.CUR_HP <= 0)
          {
-            playerTeam.Remove(card);
+            card.Death(playerTeam, enemyTeam);
+            firstCheck.Remove(card);
             Destroy(card.fieldCardObject);
          }
       }
-      for(int i = 0; i < enemyTeam.Count; i++)
+      for(int i = 0; i < secondCheck.Count; i++)
       {
-         var card = enemyTeam[i];
+         var card = secondCheck[i];
          if (card.CUR_HP <= 0)
          {
-            enemyTeam.Remove(card);
+            card.Death(playerTeam, enemyTeam);
+            secondCheck.Remove(card);
             Destroy(card.fieldCardObject);
          }
       }
+
+      foreach (Card card in firstCheck)
+         card.FillField();
+      foreach (Card card in secondCheck)
+         card.FillField();
    }
 
    public IEnumerator EndFight(short code)

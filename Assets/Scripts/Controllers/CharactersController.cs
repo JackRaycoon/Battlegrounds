@@ -11,7 +11,6 @@ public class CharactersController : MonoBehaviour
    public GameObject coin, mask;
    public TextMeshProUGUI hpText, costAbilityText, costAbilityTextBig, nameBig, descriptionBig;
 
-   public GameController gameController;
    public EnemyDataController enemyDataController;
 
    public static bool needUpdate;
@@ -33,7 +32,7 @@ public class CharactersController : MonoBehaviour
    {
       var spell = PlayerData.Instance.character.ability;
 
-      EnemyImage.sprite = gameController.isFightNow ? enemyDataController.dataOfNextEnemies.spriteHero : BOBSprite ;
+      EnemyImage.sprite = GameController.isFightNow ? enemyDataController.dataOfNextEnemies.spriteHero : BOBSprite ;
       PlayerImage.sprite = PlayerData.Instance.character.data.sprite;
       AbilityImage.sprite = spell.data.spriteArt;
       AbilityImageBig.sprite = spell.data.spriteArt;

@@ -35,7 +35,7 @@ public class TavernController : MonoBehaviour
       {
          if(PlayerData.Instance.tavernTier >= i)
          {
-            CardsPoolSO pool = Resources.Load<CardsPoolSO>($"Pools/{i}-tier");
+            CardsPoolSO pool = Resources.Load<CardsPoolSO>($"Pools/{i}-tier"); //Временно, потом пуллы будут формироваться по правилам для 5 рас
             foreach(CardSO cardSO in pool.pool)
             {
                for(int j = 0; j < copyEveryMinion; j++)

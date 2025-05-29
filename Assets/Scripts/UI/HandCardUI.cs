@@ -70,7 +70,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          {
             //заканчиваем призыв + делаем боевой клич
             DisableTargetSelection();
-            boardFiller.boardController.CastSpell(battleCry, battlecryTarget, this);
+            boardFiller.boardController.CastSpell(battleCry, battlecryTarget, this, battleCryOwner);
             battlecryTarget = null;
             boardFiller.boardController.EndSummon(battleCryOwner);
          }

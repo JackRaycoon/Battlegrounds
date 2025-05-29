@@ -34,13 +34,6 @@ public class PlayerData
    {
       character = new("Lord Jaraxxus");
 
-      playerMinions.Add(new("Spider"));
-
-      hand.Add(new("Squirrel"));
-      hand.Add(new("Squirrel"));
-      hand.Add(new("Squirrel"));
-      hand.Add(new("Squirrel"));
-      hand.Add(new("Squirrel"));
       hand.Add(SpellDatabase.Instance.GetSpellByName("AllBuff"));
       hand.Add(SpellDatabase.Instance.GetSpellByName("OneBuff"));
       hand.Add(SpellDatabase.Instance.GetSpellByName("OnePlayBuff"));

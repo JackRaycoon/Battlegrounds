@@ -54,7 +54,7 @@ public class BoardController : MonoBehaviour
          }
          else
          {
-            CastSpell(minion.battleCry, null, cardUI);
+            CastSpell(minion.battleCry, null, cardUI, minion);
          }
       }
 
@@ -76,12 +76,12 @@ public class BoardController : MonoBehaviour
       Destroy(minion.handCardObject);
    }
 
-   public void CastSpell(Spell spell, Card spellTarget, HandCardUI cardUI = null)
+   public void CastSpell(Spell spell, Card spellTarget, HandCardUI cardUI = null, Card battlecryOwner = null)
    {
       List<Card> boardCards = new()
       {
          //Добавляем кастера
-         null
+         battlecryOwner
       };
 
       if (spell.data.targetType == SpellSO.TargetType.None)

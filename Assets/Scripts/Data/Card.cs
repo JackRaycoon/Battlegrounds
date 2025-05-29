@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -42,7 +45,7 @@ public class Card
    protected Card() { }
    public Card(string name, bool isGolden = false)
    {
-      data = Resources.Load<CardSO>($"Cards/{(isGolden ? "GoldenMinions" : "Minions")}/{name}");
+      data = Resources.Load<CardSO>($"Cards/Minions/{name}{(isGolden ? " Golden" : "")}");
       this.isGolden = isGolden;
       CUR_HP = data.hp;
       FillEffects();
@@ -59,6 +62,21 @@ public class Card
       if (data.battleCry != null)
          battleCry = SpellDatabase.Instance.GetSpellByName(data.battleCry.name);
       if (data.deathrattle != null)
-         deathrattle = SpellDatabase.Instance.GetSpellByName(data.battleCry.name);
+         deathrattle = SpellDatabase.Instance.GetSpellByName(data.deathrattle.name);
+   }
+
+   public void Death(List<Card> playerTeam, List<Card> enemyTeam)
+   {
+      List<Card> allBoard = new() { this };
+      List<Card> playerWithout = new(playerTeam);
+      playerWithout.Remove(this);
+      allBoard.AddRange(playerWithout);
+      allBoard.AddRange(enemyTeam);
+      deathrattle?.Cast(allBoard);
+   }
+
+   internal void FillField()
+   {
+      fieldCardObject.GetComponent<FieldCardFiller>().Fill();
    }
 }
