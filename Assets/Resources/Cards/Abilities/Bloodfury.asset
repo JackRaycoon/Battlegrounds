@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27affdf3e0bccf547a3ec659ec8df339, type: 3}
   m_Name: Bloodfury
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: c42b48fe45344af45a2dc6190419eeea, type: 3}
+  spriteArt: {fileID: 21300000, guid: 7abba6b2aec62584f9f208b90360f262, type: 3}
   isSquareArt: 1
   cost: 1
   tavernLevel: 1
