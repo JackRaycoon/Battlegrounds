@@ -20,6 +20,7 @@ public class CardSO : ScriptableObject
 
    public SpellSO battleCry, deathrattle;
 
+   public List<Card.BonusKeyword> bonusKeywords;
    public List<Tags> tags;
 
    public enum AttackType

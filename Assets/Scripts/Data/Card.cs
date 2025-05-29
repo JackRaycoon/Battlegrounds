@@ -42,6 +42,17 @@ public class Card
    public int indexHandCardForBattlecryBack = 0;
    internal bool isSummoned;
 
+   public List<BonusKeyword> bonusKeywords = new();
+   public List<BonusKeyword> bonusKeywordsInFight = new();
+   public enum BonusKeyword
+   {
+      DivineShield,
+      Reborn,
+      Stealth,
+      Taunt,
+      Venomous,
+      Windfury
+   }
    protected Card() { }
    public Card(string name, bool isGolden = false)
    {
@@ -63,6 +74,9 @@ public class Card
          battleCries.Add(SpellDatabase.Instance.GetSpellByName(data.battleCry.name));
       if (data.deathrattle != null)
          deathrattles.Add(SpellDatabase.Instance.GetSpellByName(data.deathrattle.name));
+
+      foreach (var keyw in data.bonusKeywords)
+         bonusKeywords.Add(keyw);
    }
 
    public void Death(List<Card> playerTeam, List<Card> enemyTeam)
@@ -79,5 +93,37 @@ public class Card
    internal void FillField()
    {
       fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+   }
+
+   public void PrepareToFight()
+   {
+      bonusKeywordsInFight = new(bonusKeywords);
+   }
+   public void AfterFight()
+   {
+      inFightATKBuff = 0;
+      inFightHPBuff = 0;
+      CUR_HP = MAX_HP;
+   }
+
+   public void TakeDmg(long dmg)
+   {
+      if (GameController.isFightNow)
+      {
+         if (bonusKeywordsInFight.Contains(BonusKeyword.DivineShield))
+         {
+            bonusKeywordsInFight.Remove(BonusKeyword.DivineShield);
+            dmg = 0;
+         }
+      }
+      else
+      {
+         if (bonusKeywords.Contains(BonusKeyword.DivineShield))
+         {
+            bonusKeywords.Remove(BonusKeyword.DivineShield);
+            dmg = 0;
+         }
+      }
+      CUR_HP -= dmg;
    }
 }

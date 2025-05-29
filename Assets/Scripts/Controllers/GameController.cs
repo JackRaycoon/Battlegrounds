@@ -97,6 +97,9 @@ public class GameController : MonoBehaviour
       playerTeam = new(PlayerData.Instance.playerMinions);
       enemyTeam = new(enemyDataController.nextEnemies);
 
+      foreach (var card in playerTeam) card.PrepareToFight();
+      foreach (var card in enemyTeam) card.PrepareToFight();
+
       playerQueue = new(playerTeam);
       enemyQueue = new(enemyTeam);
 
@@ -232,18 +235,17 @@ public class GameController : MonoBehaviour
 
    public Card ChooseTarget(Card targetForMe, bool isPlayerCard)
    {
-      List<Card> targetsList;
-      if (isPlayerCard)
+      List<Card> targetsList = isPlayerCard ? new(enemyTeam) : new(playerTeam);
+
+      List<Card> tauntTargets = targetsList.FindAll(card => card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Taunt));
+      if (tauntTargets.Count > 0)
       {
-         targetsList = new(enemyTeam);
-      }
-      else
-      {
-         targetsList = new(playerTeam);
+         return tauntTargets[Random.Range(0, tauntTargets.Count)];
       }
 
       return targetsList[Random.Range(0, targetsList.Count)];
    }
+
 
 
    public IEnumerator AttackAnimation(Card attacker, bool isPlayerTurn)
@@ -281,8 +283,8 @@ public class GameController : MonoBehaviour
       }
 
       //Нанесение урона после атаки
-      attacker.CUR_HP -= defender.ATK;
-      defender.CUR_HP -= attacker.ATK;
+      attacker.TakeDmg(defender.ATK);
+      defender.TakeDmg(attacker.ATK);
       attacker.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       defender.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
 
