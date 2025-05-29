@@ -4884,7 +4884,6 @@ MonoBehaviour:
   tripletsController: {fileID: 1042577591}
   enemyDataController: {fileID: 306192813}
   charactersController: {fileID: 1675076258}
-  isFightNow: 0
 --- !u!4 &1643588545
 Transform:
   m_ObjectHideFlags: 0
@@ -5032,7 +5031,6 @@ MonoBehaviour:
   costAbilityTextBig: {fileID: 806960360}
   nameBig: {fileID: 2088757142}
   descriptionBig: {fileID: 1945645468}
-  gameController: {fileID: 1643588544}
   enemyDataController: {fileID: 306192813}
 --- !u!4 &1675076259
 Transform:

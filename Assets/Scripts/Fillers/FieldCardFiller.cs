@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class FieldCardFiller : MonoBehaviour
 {
    public TextMeshProUGUI atkText, hpText;
-   public Image art, squareArt, interfaceImage;
-   public Sprite commonInterface, goldenInterface;
+   public Image art, squareArt, interfaceImage, effectIcon;
+   public Sprite commonInterface, goldenInterface, deathrattle, invis;
    public GameObject freezeEffect, targetEffect;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
@@ -57,5 +57,9 @@ public class FieldCardFiller : MonoBehaviour
          starContainer.gameObject.SetActive(true);
          Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
       }
+
+      effectIcon.sprite = invis;
+      if (card.deathrattles.Count != 0)
+         effectIcon.sprite = deathrattle;
    }
 }

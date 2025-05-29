@@ -45,16 +45,17 @@ public class BoardController : MonoBehaviour
       filler.Fill();
       boardFiller.allPlayerFieldCardList.Add(go);
 
-      if(minion.battleCry != null)
+      if(minion.battleCries.Count != 0)
       {
-         if(minion.battleCry.data.targetType != SpellSO.TargetType.None)
+         if (minion.battleCries[0].data.targetType != SpellSO.TargetType.None)
          {
-            cardUI.EnableTargetSelection(minion.battleCry, minion);
+            cardUI.EnableTargetSelection(minion.battleCries[0], minion);
             return;
          }
          else
          {
-            CastSpell(minion.battleCry, null, cardUI, minion);
+            foreach(Spell battleCry in minion.battleCries)
+               CastSpell(battleCry, null, cardUI, minion);
          }
       }
 

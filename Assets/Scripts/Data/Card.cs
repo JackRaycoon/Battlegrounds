@@ -37,7 +37,7 @@ public class Card
    public GameObject fieldCardObject;
    public GameObject handCardObject;
 
-   public Spell battleCry = null, deathrattle = null;
+   public List<Spell> battleCries = new(), deathrattles = new();
 
    public int indexHandCardForBattlecryBack = 0;
    internal bool isSummoned;
@@ -60,9 +60,9 @@ public class Card
    public void FillEffects()
    {
       if (data.battleCry != null)
-         battleCry = SpellDatabase.Instance.GetSpellByName(data.battleCry.name);
+         battleCries.Add(SpellDatabase.Instance.GetSpellByName(data.battleCry.name));
       if (data.deathrattle != null)
-         deathrattle = SpellDatabase.Instance.GetSpellByName(data.deathrattle.name);
+         deathrattles.Add(SpellDatabase.Instance.GetSpellByName(data.deathrattle.name));
    }
 
    public void Death(List<Card> playerTeam, List<Card> enemyTeam)
@@ -72,7 +72,8 @@ public class Card
       playerWithout.Remove(this);
       allBoard.AddRange(playerWithout);
       allBoard.AddRange(enemyTeam);
-      deathrattle?.Cast(allBoard);
+      foreach(Spell deathrattle in deathrattles)
+         deathrattle?.Cast(allBoard);
    }
 
    internal void FillField()
