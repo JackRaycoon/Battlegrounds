@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1528dc1a09d1754386f62ce66e2867e, type: 3}
-  m_Name: 2-tier
+  m_Script: {fileID: 11500000, guid: 9390acf295bc7544bbe363982132e4ab, type: 3}
+  m_Name: '!Neutral'
   m_EditorClassIdentifier: 
-  pool:
-  - {fileID: 11400000, guid: c274f63ab37df9f44ba0a81e21378a83, type: 2}
-  - {fileID: 11400000, guid: 420a9a47538c93f4ebd5efeffce739d4, type: 2}
+  type: 0
+  tags: 0100000002000000

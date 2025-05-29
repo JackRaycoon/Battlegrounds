@@ -3473,6 +3473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minionsPool: []
+  currentPool: []
   tavernUpText: {fileID: 507897649}
   freezeText: {fileID: 920923709}
   refreshText: {fileID: 98207936}
@@ -3487,6 +3488,9 @@ MonoBehaviour:
   - {fileID: 2598453224881372416, guid: 416e8a76b009fbe499b6febc804ebeb3, type: 3}
   - {fileID: 6286795268369212374, guid: b7ac1370e48f41c4985579d7613b8ab1, type: 3}
   - {fileID: 7450574140778228209, guid: 9c9195fab5f517d4a90dc2fe7e988ab6, type: 3}
+  allRaces:
+  - {fileID: 11400000, guid: 2b178d994a875ba4ab13af60b8a7f64e, type: 2}
+  - {fileID: 11400000, guid: 32dc3bcf12661d6488b279a80bd46533, type: 2}
 --- !u!4 &1006890167
 Transform:
   m_ObjectHideFlags: 0
