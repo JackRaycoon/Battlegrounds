@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9390acf295bc7544bbe363982132e4ab, type: 3}
   m_Name: Demons
   m_EditorClassIdentifier: 
+  type: 6
   tags: 0200000001000000

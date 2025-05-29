@@ -98,10 +98,11 @@ public class TavernController : MonoBehaviour
                var cards = Resources.LoadAll<CardSO>("Cards/Minions").Where(card =>
                    !card.name.Contains(" Golden") &&
                    card.tavernLevel == tier &&
-                   (card.minionType1 == race.type || card.minionType2 == race.type) &&
+                   card.pools.Contains(race.type) &&
                    card.tags.Contains(tag));
                tagToCards[tag] = cards.ToList();
             }
+          
 
             // Поочередно чередуем теги
             int toggle = 0;
@@ -113,7 +114,8 @@ public class TavernController : MonoBehaviour
                if (list.Count > 0)
                {
                   var card = list[Random.Range(0, list.Count)];
-                  tierMinions.Add(card);
+                  if(!tierMinions.Contains(card))
+                     tierMinions.Add(card);
                   list.Remove(card);
                }
 
@@ -126,7 +128,7 @@ public class TavernController : MonoBehaviour
                List<CardSO> fallback = Resources.LoadAll<CardSO>("Cards/Minions").Where(card =>
                    !card.name.Contains(" Golden") && 
                    card.tavernLevel == tier &&
-                   (card.minionType1 == race.type || card.minionType2 == race.type) &&
+                   card.pools.Contains(race.type) &&
                    card.tags.Contains(CardSO.Tags.NoTagged) &&
                    !tierMinions.Contains(card)).ToList();
 

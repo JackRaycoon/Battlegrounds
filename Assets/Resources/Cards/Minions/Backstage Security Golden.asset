@@ -23,8 +23,10 @@ MonoBehaviour:
     to your
     hero twice.'
   attackType: 0
+  pools: 06000000
   minionType1: 6
   minionType2: 0
   battleCry: {fileID: 11400000, guid: f09a9c0ef196a604da55413769c7a35c, type: 2}
   deathrattle: {fileID: 0}
+  bonusKeywords: 
   tags: 02000000

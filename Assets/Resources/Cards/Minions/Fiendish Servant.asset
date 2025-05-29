@@ -25,8 +25,10 @@ MonoBehaviour:
 
     friendly minion.'
   attackType: 0
+  pools: 06000000
   minionType1: 6
   minionType2: 0
   battleCry: {fileID: 0}
   deathrattle: {fileID: 11400000, guid: 01bdbbd50feb43a4f9ac309a456e7884, type: 2}
+  bonusKeywords: 
   tags: 00000000

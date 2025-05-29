@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Card;
 
 public class FieldCardFiller : MonoBehaviour
 {
    public TextMeshProUGUI atkText, hpText;
    public Image art, squareArt, interfaceImage, effectIcon;
    public Sprite commonInterface, goldenInterface, deathrattle, invis;
-   public GameObject freezeEffect, targetEffect;
+   public GameObject freezeEffect, targetEffect, divineShield, taunt;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
 
@@ -61,5 +62,18 @@ public class FieldCardFiller : MonoBehaviour
       effectIcon.sprite = invis;
       if (card.deathrattles.Count != 0)
          effectIcon.sprite = deathrattle;
+
+      if (GameController.isFightNow)
+      {
+         divineShield.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.DivineShield));
+         taunt.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Taunt));
+         taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
+      }
+      else
+      {
+         divineShield.SetActive(card.bonusKeywords.Contains(BonusKeyword.DivineShield));
+         taunt.SetActive(card.bonusKeywords.Contains(BonusKeyword.Taunt));
+
+      }
    }
 }
