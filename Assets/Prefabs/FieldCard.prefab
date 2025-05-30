@@ -498,6 +498,7 @@ MonoBehaviour:
   windfury: {fileID: 6884256877503794231}
   venomous: {fileID: 1741054709691211815}
   deathrattle: {fileID: 6899178998407398170}
+  corrapted: {fileID: 1801337015166496405}
   starContainer: {fileID: 6025512862781098897}
   starPrefabs:
   - {fileID: 2299435609076047565, guid: 966d97d15416bdc46b0ac10397706b73, type: 3}
@@ -1158,7 +1159,7 @@ GameObject:
   - component: {fileID: 8189230793993289955}
   - component: {fileID: 7044280520155152838}
   m_Layer: 5
-  m_Name: '?'
+  m_Name: Corrupted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

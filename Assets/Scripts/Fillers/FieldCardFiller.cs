@@ -10,7 +10,7 @@ public class FieldCardFiller : MonoBehaviour
    public TextMeshProUGUI atkText, hpText, costText;
    public Image art, squareArt, interfaceImage;
    public Sprite commonInterface, goldenInterface;
-   public GameObject freezeEffect, targetEffect, divineShield, taunt, stealth, reborn, windfury, venomous, deathrattle;
+   public GameObject freezeEffect, targetEffect, divineShield, taunt, stealth, reborn, windfury, venomous, deathrattle, corrapted;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
 
@@ -93,6 +93,7 @@ public class FieldCardFiller : MonoBehaviour
             reborn.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Reborn));
             windfury.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Windfury));
             venomous.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Venomous));
+            corrapted.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Corrupted));
             taunt.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Taunt));
             taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
          }
@@ -103,6 +104,7 @@ public class FieldCardFiller : MonoBehaviour
             reborn.SetActive(card.bonusKeywords.Contains(BonusKeyword.Reborn));
             windfury.SetActive(card.bonusKeywords.Contains(BonusKeyword.Windfury));
             venomous.SetActive(card.bonusKeywords.Contains(BonusKeyword.Venomous));
+            corrapted.SetActive(card.bonusKeywords.Contains(BonusKeyword.Corrupted));
             taunt.SetActive(card.bonusKeywords.Contains(BonusKeyword.Taunt));
             taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
          }

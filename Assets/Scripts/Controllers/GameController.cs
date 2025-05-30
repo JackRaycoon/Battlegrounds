@@ -298,8 +298,8 @@ public class GameController : MonoBehaviour
       }
 
       //Нанесение урона после атаки
-      attacker.TakeDmg(defender.ATK, defender);
       defender.TakeDmg(attacker.ATK, attacker);
+      attacker.TakeDmg(defender.ATK, defender);
       attacker.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       defender.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
 

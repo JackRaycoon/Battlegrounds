@@ -245,11 +245,13 @@ public class SpellDatabase
       var target = availableTargets[Random.Range(0, availableTargets.Count)];
       if (GameController.isFightNow)
       {
-         target.inFightATKBuff += caster.ATK;
+         if(!target.bonusKeywordsInFight.Contains(Card.BonusKeyword.Corrupted))
+            target.inFightATKBuff += caster.ATK;
       }
       else
       {
-         target.permanentATKBuff += caster.ATK;
+         if (!target.bonusKeywords.Contains(Card.BonusKeyword.Corrupted))
+            target.permanentATKBuff += caster.ATK;
       }
    }
    private void FiendishServantDT_CastGolden(List<Card> targets)
@@ -268,11 +270,13 @@ public class SpellDatabase
          var target = availableTargets[Random.Range(0, availableTargets.Count)];
          if (GameController.isFightNow)
          {
-            target.inFightATKBuff += caster.ATK;
+            if (!target.bonusKeywordsInFight.Contains(Card.BonusKeyword.Corrupted))
+               target.inFightATKBuff += caster.ATK;
          }
          else
          {
-            target.permanentATKBuff += caster.ATK;
+            if (!target.bonusKeywords.Contains(Card.BonusKeyword.Corrupted))
+               target.permanentATKBuff += caster.ATK;
          }
       }
    }

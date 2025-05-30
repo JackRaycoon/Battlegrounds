@@ -52,7 +52,8 @@ public class Card
       Stealth,
       Taunt,
       Venomous,
-      Windfury
+      Windfury,
+      Corrupted
    }
    protected Card() { }
    public Card(string name, bool isGolden = false)
@@ -118,7 +119,16 @@ public class Card
             bonusKeywordsInFight.Remove(BonusKeyword.DivineShield);
             dmg = 0;
          }
-         if (dmg > 0 && from.bonusKeywordsInFight.Contains(BonusKeyword.Venomous))
+
+         if (dmg > 0 && from.bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+         {
+            if(!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+            {
+               bonusKeywordsInFight.Clear();
+               bonusKeywordsInFight.Add(BonusKeyword.Corrupted);
+            }
+         }
+         if (dmg > 0 && from.bonusKeywordsInFight.Contains(BonusKeyword.Venomous) && !bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
          {
             isDeath = true;
             from.bonusKeywordsInFight.Remove(BonusKeyword.Venomous);

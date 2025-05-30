@@ -54,6 +54,7 @@ public class CardSO : ScriptableObject
       NoTagged,
       Spam,
       SelfDamage,
+      Corrupted,
 
    }
 }
