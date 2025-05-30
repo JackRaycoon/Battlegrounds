@@ -168,6 +168,8 @@ public class Card
 
    public List<Spell> battleCries = new(), deathrattles = new(), endTurns = new();
 
+   public Dictionary<CardSO.Trigger, List<Spell>> others = new();
+
    public int indexHandCardForBattlecryBack = 0;
    internal bool isSummoned;
 
@@ -207,6 +209,8 @@ public class Card
          deathrattles.Add(SpellDatabase.Instance.GetSpellByName(data.deathrattle.name));
       if (data.endTurn != null)
          endTurns.Add(SpellDatabase.Instance.GetSpellByName(data.endTurn.name));
+      if (data.other != null)
+         others.Add(data.otherTrigger, new() { SpellDatabase.Instance.GetSpellByName(data.other.name) });
 
       foreach (var keyw in data.bonusKeywords)
          bonusKeywords.Add(keyw);

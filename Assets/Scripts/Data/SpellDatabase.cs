@@ -62,6 +62,10 @@ public class SpellDatabase
       AddEffect("ConsumeOne", ConsumeOne_Cast);
       AddEffect("ConsumeOneDoubleStats", ConsumeOneDoubleStats_Cast);
 
+      //Triggers
+      AddEffect("Wrath Weaver Trigger", WrathWeaverTrigger_Cast);
+      AddEffect("Wrath Weaver Golden Trigger", WrathWeaverTrigger_CastGolden);
+
       //Battlecry
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
       AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
@@ -71,10 +75,10 @@ public class SpellDatabase
       //Deathrattle
       AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
       AddEffect("Fiendish Servant Golden DT", FiendishServantDT_CastGolden);
-      
+
       AddEffect("Icky Imp DT", IckyImpDT_Cast);
       AddEffect("Icky Imp Golden DT", IckyImpDT_CastGolden);
-      
+
       AddEffect("Imprisoner DT", ImprisonerDT_Cast);
       AddEffect("Imprisoner Golden DT", ImprisonerDT_CastGolden);
 
@@ -111,7 +115,7 @@ public class SpellDatabase
       };
       spellDatabase.Add(name, spell);
    }
-   
+
    private void AddAbility(string name, Action<List<Card>> cast,
       Func<List<Card>, List<int>> calc = null,
       Func<List<Card>, bool> valid = null)
@@ -196,7 +200,7 @@ public class SpellDatabase
       targets.Remove(caster);
       foreach (Card target in targets)
       {
-         for(int i = 0; i < 2; i++)
+         for (int i = 0; i < 2; i++)
          {
             target.permanentATKBuff += atkBuff;
             target.permanentHPBuff += hpBuff;
@@ -228,6 +232,34 @@ public class SpellDatabase
    private void ConsumeOneDoubleStats_Cast(List<Card> targets)
    {
       TavernController.ConsumeFromTavern(targets[0], true);
+   }
+
+   //Wrath Weaver
+   private void WrathWeaverTrigger_Cast(List<Card> targets)
+   {
+      var calc = BackstageSecurityBC_Calc(targets);
+      int dmg = calc[0];
+
+      var caster = targets[0];
+
+      PlayerData.Instance.character.SelfDamage(dmg);
+      caster.permanentATKBuff += 2;
+      caster.permanentHPBuff += 1;
+      caster.CUR_HP += 1;
+   }
+   private void WrathWeaverTrigger_CastGolden(List<Card> targets)
+   {
+      var calc = BackstageSecurityBC_Calc(targets);
+      int dmg = calc[0];
+
+      var caster = targets[0];
+      for (int i = 0; i < 2; i++)
+      {
+         PlayerData.Instance.character.SelfDamage(dmg);
+         caster.permanentATKBuff += 2;
+         caster.permanentHPBuff += 1;
+         caster.CUR_HP += 1;
+      }
    }
 
    //Backstage Security

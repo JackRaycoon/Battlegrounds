@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -75,6 +76,30 @@ public class BoardController : MonoBehaviour
       tripletsController.CheckTriplets();
       minion.isSummoned = true;
       Destroy(minion.handCardObject);
+
+      //Check Triggers
+      foreach(Card card in PlayerData.Instance.playerMinions)
+      {
+         if (card.others.Keys.Contains(CardSO.Trigger.WrathWeaver) && 
+            (minion.data.minionType1 == CardSO.MinionType.Demon ||
+             minion.data.minionType2 == CardSO.MinionType.Demon))
+         {
+            List<Card> allBoard = new() { card };
+            List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
+            playerWithout.Remove(card);
+            allBoard.AddRange(playerWithout);
+            allBoard.AddRange(TavernController.tavernCards);
+            foreach (Spell other in card.others[CardSO.Trigger.WrathWeaver])
+            {
+               other?.Cast(allBoard);
+            }
+         }
+      }
+
+      foreach (Card card in PlayerData.Instance.playerMinions)
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      foreach (Card card in TavernController.tavernCards)
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
    }
 
    public void CastSpell(Spell spell, Card spellTarget, HandCardUI cardUI = null, Card battlecryOwner = null)
@@ -112,8 +137,12 @@ public class BoardController : MonoBehaviour
          return;
       }
 
-      PlayerData.Instance.hand.Remove(spell);
-      Destroy(spell.handCardObject);
+      if (spell.data.spellType != SpellSO.SpellType.Effect &&
+         spell.data.spellType != SpellSO.SpellType.HeroAbility)
+      {
+         PlayerData.Instance.hand.Remove(spell);
+         Destroy(spell.handCardObject);
+      }
 
       spell.Cast(new List<Card>(boardCards));
 
