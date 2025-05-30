@@ -330,9 +330,15 @@ public class GameController : MonoBehaviour
          var card = firstCheck[i];
          if (card.isDeath)
          {
-            card.Death(playerTeam, enemyTeam);
             firstCheck.Remove(card);
+            i--;
             Destroy(card.fieldCardObject);
+            card.Death(playerTeam, enemyTeam);
+
+            if (card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Reborn))
+            {
+               SpawnRebern(card.data, firstCheck, i + 1);
+            }
          }
       }
       for(int i = 0; i < secondCheck.Count; i++)
@@ -340,9 +346,15 @@ public class GameController : MonoBehaviour
          var card = secondCheck[i];
          if (card.isDeath)
          {
-            card.Death(playerTeam, enemyTeam);
             secondCheck.Remove(card);
+            i--;
             Destroy(card.fieldCardObject);
+            card.Death(playerTeam, enemyTeam);
+
+            if (card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Reborn))
+            {
+               SpawnRebern(card.data, secondCheck, i + 1);
+            }
          }
       }
 
@@ -350,6 +362,34 @@ public class GameController : MonoBehaviour
          card.FillField();
       foreach (Card card in secondCheck)
          card.FillField();
+   }
+
+   private void SpawnRebern(CardSO data, List<Card> team, int position)
+   {
+      if(team.Count < 7)
+      {
+         Card minion = new(data);
+         var go = Instantiate(boardController.boardFiller.fieldCardPrefab, boardController.boardFiller.playerMinionsTransform);
+         go.transform.SetSiblingIndex(position);
+         minion.fieldCardObject = go;
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = boardController.boardFiller;
+
+         filler.card = minion;
+         minion.PrepareToFight();
+         if (minion.bonusKeywordsInFight.Contains(Card.BonusKeyword.Reborn))
+         {
+            minion.bonusKeywordsInFight.Remove(Card.BonusKeyword.Reborn);
+         }
+         filler.Fill();
+         Debug.Log(position);
+         Debug.Log(team.Count);
+         team.Insert(position, minion);
+         //boardFiller.allPlayerFieldCardList.Add(go); ?
+      }
    }
 
    public IEnumerator EndFight(short code)
