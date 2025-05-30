@@ -344,16 +344,20 @@ public class TavernController : MonoBehaviour
       }
    }
 
-   public static void ConsumeFromTavern(Card demon)
+   public static void ConsumeFromTavern(Card demon, bool doubleStats = false)
    {
-      var random = tavernCards[Random.Range(0, tavernCards.Count)];
-      demon.permanentATKBuff += random.ATK;
-      demon.permanentHPBuff += random.CUR_HP;
-      demon.CUR_HP += random.CUR_HP;
-      demon.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      if(tavernCards.Count(card => card is not Spell) > 0)
+      {
+         var list = tavernCards.Where(card => card is not Spell).ToList();
+         var random = list[Random.Range(0, list.Count)];
+         demon.permanentATKBuff += doubleStats ? random.ATK * 2 : random.ATK;
+         demon.permanentHPBuff += doubleStats ? random.CUR_HP * 2 : random.CUR_HP;
+         demon.CUR_HP += doubleStats ? random.CUR_HP * 2 : random.CUR_HP;
+         demon.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
 
-      tavernCards.Remove(random);
-      BoardFiller.allTavernCardList.Remove(random.fieldCardObject);
-      Destroy(random.fieldCardObject);
+         tavernCards.Remove(random);
+         BoardFiller.allTavernCardList.Remove(random.fieldCardObject);
+         Destroy(random.fieldCardObject);
+      }
    }
 }

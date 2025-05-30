@@ -48,8 +48,15 @@ public class GameController : MonoBehaviour
 
    IEnumerator ChangeToFight()
    {
+
+      float startAlpha2 = 1f, endAlpha2 = 0f, elapsed = 0f;
+      float startAlpha = 0f, endAlpha = 1f; ;
+      dark.alpha = startAlpha;
+      dark.interactable = true;
+      dark.blocksRaycasts = true;
+
       //End Turn
-      foreach(Card card in PlayerData.Instance.playerMinions)
+      foreach (Card card in PlayerData.Instance.playerMinions)
       {
          List<Card> allBoard = new() { card };
          List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
@@ -63,12 +70,6 @@ public class GameController : MonoBehaviour
          card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       }
       yield return new WaitForSeconds(1f);
-
-      float startAlpha2 = 1f, endAlpha2 = 0f, elapsed = 0f;
-      float startAlpha = 0f, endAlpha = 1f; ;
-      dark.alpha = startAlpha;
-      dark.interactable = true;
-      dark.blocksRaycasts = true;
 
 
       while (elapsed < durationDark)

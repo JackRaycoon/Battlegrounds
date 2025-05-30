@@ -56,5 +56,7 @@ public class CardSO : ScriptableObject
       SelfDamage,
       Corrupted,
       ManyMoney,
+      Consumes,
+
    }
 }

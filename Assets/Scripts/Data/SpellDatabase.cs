@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.Arm;
 using static Unity.Burst.Intrinsics.X86.Avx;
 using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
@@ -57,6 +58,10 @@ public class SpellDatabase
 
 
       //Minion Skills
+      //Other
+      AddEffect("ConsumeOne", ConsumeOne_Cast);
+      AddEffect("ConsumeOneDoubleStats", ConsumeOneDoubleStats_Cast);
+
       //Battlecry
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
       AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
@@ -214,6 +219,16 @@ public class SpellDatabase
 
 
 
+
+   //Consume One
+   private void ConsumeOne_Cast(List<Card> targets)
+   {
+      TavernController.ConsumeFromTavern(targets[0]);
+   }
+   private void ConsumeOneDoubleStats_Cast(List<Card> targets)
+   {
+      TavernController.ConsumeFromTavern(targets[0], true);
+   }
 
    //Backstage Security
    private void BackstageSecurityBC_Cast(List<Card> targets)
