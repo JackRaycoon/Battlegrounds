@@ -10,6 +10,7 @@ public class BoardFiller : MonoBehaviour
    public Canvas canvas;
    public Transform playerTeamTransform, enemyTeamTransform;
    public BoardController boardController;
+   public GameController gameController;
    public TripletsController tripletsController;
    public TavernController tavernController;
    public EnemyDataController enemyDataController;
@@ -20,6 +21,11 @@ public class BoardFiller : MonoBehaviour
    public List<GameObject> allPlayerFieldCardList = new();
    public static List<GameObject> allTavernCardList = new();
 
+   private void Awake()
+   {
+      SpellDatabase.Instance.gameController = gameController;
+      SpellDatabase.Instance.boardController = boardController;
+   }
 
    void Start()
    {

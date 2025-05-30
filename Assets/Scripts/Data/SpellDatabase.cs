@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 using Random = UnityEngine.Random;
 
 public class SpellDatabase
 {
    private static SpellDatabase instance;
+   public GameController gameController;
+   public BoardController boardController;
    public static SpellDatabase Instance
    {
       get
@@ -47,12 +50,6 @@ public class SpellDatabase
       AddSpellCast("OnePlayBuff", AllBuffNoTavernCast, AllBuffCalc);
       AddSpellCast("OneTavBuff", AllBuffNoTavernCast, AllBuffCalc);
 
-      AddEffect("OnePlayEffect", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
-      AddEffect("OnePlayEffectGolden", AllBuffNoTavernCastTwice, AllBuffCalc, AllBuffValid);
-
-      AddAbility("Squirrel Gift", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
-
-
       //Spells - Special
 
 
@@ -67,6 +64,9 @@ public class SpellDatabase
       //Deathrattle
       AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
       AddEffect("Fiendish Servant Golden DT", FiendishServantDT_CastGolden);
+      
+      AddEffect("Icky Imp DT", IckyImpDT_Cast);
+      AddEffect("Icky Imp Golden DT", IckyImpDT_CastGolden);
 
       //Hero Abilities
       AddAbility("Bloodfury", Bloodfury_Cast, null, Bloodfury_Valid);
@@ -274,6 +274,61 @@ public class SpellDatabase
          {
             target.permanentATKBuff += caster.ATK;
          }
+      }
+   }
+
+   //Icky Imp
+   private void IckyImpDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow) 
+      {
+         List<Card> casterTeam = gameController.playerTeam;
+         if (!gameController.playerTeam.Contains(caster))
+            casterTeam = gameController.enemyTeam;
+
+         for (int i = 0; i < 2; i++)
+            gameController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 2; i++)
+            boardController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) : 
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void IckyImpDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = gameController.playerTeam;
+         if (!gameController.playerTeam.Contains(caster))
+            casterTeam = gameController.enemyTeam;
+
+         for (int i = 0; i < 4; i++)
+            gameController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 4; i++)
+            boardController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1);
       }
    }
 

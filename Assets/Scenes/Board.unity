@@ -5148,6 +5148,7 @@ MonoBehaviour:
   playerTeamTransform: {fileID: 1233816995}
   enemyTeamTransform: {fileID: 748434178}
   boardController: {fileID: 1818959498}
+  gameController: {fileID: 1643588544}
   tripletsController: {fileID: 1042577591}
   tavernController: {fileID: 1006890166}
   enemyDataController: {fileID: 306192813}

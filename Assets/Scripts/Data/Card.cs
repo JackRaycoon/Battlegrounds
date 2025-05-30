@@ -212,6 +212,7 @@ public class Card
 
    public void Death(List<Card> playerTeam, List<Card> enemyTeam)
    {
+      isDeath = true;
       List<Card> allBoard = new() { this };
       List<Card> playerWithout = new(playerTeam);
       playerWithout.Remove(this);
@@ -219,7 +220,6 @@ public class Card
       allBoard.AddRange(enemyTeam);
       foreach(Spell deathrattle in deathrattles)
          deathrattle?.Cast(allBoard);
-      isDeath = true;
    }
 
    internal void FillField()

@@ -279,4 +279,28 @@ public class BoardController : MonoBehaviour
          boardFiller.allPlayerFieldCardList.Add(go);
       }
    }
+
+   public void Summon(Card summons, Card caster, int position) //Вне боя
+   {
+      Debug.Log(position);
+      if (PlayerData.Instance.playerMinions.Count < PlayerData.Instance.maxMinions)
+      {
+         Card minion = summons;
+         var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
+         go.transform.SetSiblingIndex(position);
+         minion.fieldCardObject = go;
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = boardFiller;
+
+         filler.card = minion;
+         filler.Fill();
+         PlayerData.Instance.playerMinions.Insert(position, minion);
+         boardFiller.allPlayerFieldCardList.Add(go);
+
+         ReFillPlayerMinions();
+      }
+   }
 }

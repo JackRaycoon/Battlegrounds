@@ -25,8 +25,8 @@ public class GameController : MonoBehaviour
    public EnemyDataController enemyDataController;
    public CharactersController charactersController;
 
-   private List<Card> playerTeam;
-   private List<Card> enemyTeam;
+   public List<Card> playerTeam;
+   public List<Card> enemyTeam;
    //private List<Card> allTeam;
 
    private List<Card> playerQueue;
@@ -330,10 +330,10 @@ public class GameController : MonoBehaviour
          var card = firstCheck[i];
          if (card.isDeath)
          {
+            card.Death(playerTeam, enemyTeam);
             firstCheck.Remove(card);
             i--;
             Destroy(card.fieldCardObject);
-            card.Death(playerTeam, enemyTeam);
 
             if (card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Reborn))
             {
@@ -346,10 +346,10 @@ public class GameController : MonoBehaviour
          var card = secondCheck[i];
          if (card.isDeath)
          {
+            card.Death(playerTeam, enemyTeam);
             secondCheck.Remove(card);
             i--;
             Destroy(card.fieldCardObject);
-            card.Death(playerTeam, enemyTeam);
 
             if (card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Reborn))
             {
@@ -366,7 +366,7 @@ public class GameController : MonoBehaviour
 
    private void SpawnReborn(CardSO data, List<Card> team, int position)
    {
-      if(team.Count < 7)
+      if(team.Count < PlayerData.Instance.maxMinions)
       {
          Card minion = new(data);
          var go = Instantiate(boardController.boardFiller.fieldCardPrefab, boardController.boardFiller.playerMinionsTransform);
@@ -386,7 +386,32 @@ public class GameController : MonoBehaviour
          }
          filler.Fill();
          team.Insert(position, minion);
-         //boardFiller.allPlayerFieldCardList.Add(go); ?
+         boardController.boardFiller.allPlayerFieldCardList.Add(go);
+      }
+   }
+
+   public void Summon(Card summons, Card caster, int position)
+   {
+      var team = playerTeam;
+      if (!playerTeam.Contains(caster))
+         team = enemyTeam;
+      if (team.Count < PlayerData.Instance.maxMinions)
+      {
+         Card minion = summons;
+         var go = Instantiate(boardController.boardFiller.fieldCardPrefab, boardController.boardFiller.playerMinionsTransform);
+         go.transform.SetSiblingIndex(position);
+         minion.fieldCardObject = go;
+         FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
+         FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
+
+         fieldCardUI.filler = filler;
+         fieldCardUI.boardFiller = boardController.boardFiller;
+
+         filler.card = minion;
+         minion.PrepareToFight();
+         filler.Fill();
+         team.Insert(position, minion);
+         boardController.boardFiller.allPlayerFieldCardList.Add(go);
       }
    }
 

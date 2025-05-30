@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
+  m_Name: Icky Imp
+  m_EditorClassIdentifier: 
+  spriteArt: {fileID: 21300000, guid: f755baccec9fe6a41b373adc70d25635, type: 3}
+  isSquareArt: 0
+  attack: 1
+  hp: 1
+  tavernLevel: 1
+  backInPool: 1
+  description: '<font="KeyWords">Deathrattle:</font> Summon two
+
+    1/1 Imps.'
+  attackType: 0
+  pools: 06000000
+  minionType1: 6
+  minionType2: 0
+  battleCry: {fileID: 0}
+  deathrattle: {fileID: 11400000, guid: c9f391457bd1bc74191cac99464809eb, type: 2}
+  bonusKeywords: 
+  tags: 0100000000000000
