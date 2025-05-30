@@ -59,6 +59,8 @@ public class CardSO : ScriptableObject
       Corrupted,
       ManyMoney,
       Consumes,
+      Transfer—haracteristics,
+      DivineShields,
 
    }
    public enum Trigger

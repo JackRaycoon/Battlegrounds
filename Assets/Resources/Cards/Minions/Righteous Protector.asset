@@ -27,5 +27,8 @@ MonoBehaviour:
   minionType2: 0
   battleCry: {fileID: 0}
   deathrattle: {fileID: 0}
+  endTurn: {fileID: 0}
+  other: {fileID: 0}
+  otherTrigger: 0
   bonusKeywords: 0000000003000000
-  tags: 00000000
+  tags: 0000000007000000
