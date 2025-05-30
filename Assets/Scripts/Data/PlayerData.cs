@@ -33,10 +33,5 @@ public class PlayerData
    public PlayerData()
    {
       character = new("Lord Jaraxxus");
-
-      hand.Add(SpellDatabase.Instance.GetSpellByName("AllBuff"));
-      hand.Add(SpellDatabase.Instance.GetSpellByName("OneBuff"));
-      hand.Add(SpellDatabase.Instance.GetSpellByName("OnePlayBuff"));
-      hand.Add(SpellDatabase.Instance.GetSpellByName("OneTavBuff"));
    }
 }

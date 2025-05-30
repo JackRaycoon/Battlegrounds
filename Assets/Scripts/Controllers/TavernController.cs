@@ -10,6 +10,7 @@ public class TavernController : MonoBehaviour
    public static List<Card> tavernCards = new();
    public List<Card> frozenCards = new();
 
+   public List<Spell> spellPool = new();
    public List<CardSO> minionsPool = new();
    public List<CardSO> currentPool = new();
    private int copyEveryMinion = 9;
@@ -29,7 +30,7 @@ public class TavernController : MonoBehaviour
    private void Awake()
    {
       GeneratePool();
-      FillTavernPool();
+      FillTavernPools();
       RefreshTavern(false);
       UpdateUI();
    }
@@ -145,6 +146,11 @@ public class TavernController : MonoBehaviour
             }
 
             result.AddRange(tierMinions.Take(needCount));
+
+            string s = $"Tier {tier}:\n";
+            foreach (CardSO card in tierMinions)
+               s += card.name + "\n";
+            Debug.Log(s);
          }
 
          raceToMinions.Add(race, result);
@@ -159,9 +165,10 @@ public class TavernController : MonoBehaviour
          }
       }
    }
-   public void FillTavernPool() //with Copy
+   public void FillTavernPools() //with Copy
    {
       minionsPool.Clear();
+      spellPool.Clear();
       PlayerData.Instance.tavernUpCost = 5;
       for(int i = 1; i <= 6; i++)
       {
@@ -169,9 +176,20 @@ public class TavernController : MonoBehaviour
          {
             foreach (CardSO cardSO in currentPool)
             {
-               for(int j = 0; j < copyEveryMinion; j++)
+               for(int j = 0; j < copyEveryMinion && cardSO.tavernLevel == i; j++)
                {
                   minionsPool.Add(cardSO);
+               }
+            }
+
+            var spellList = Resources.LoadAll<SpellSO>("Cards/Spells")
+            .Where(spell => spell.spellType == SpellSO.SpellType.Tavern)
+            .ToList();
+            foreach (SpellSO spellSO in spellList)
+            {
+               if (spellSO.tavernLevel == i)
+               {
+                  spellPool.Add(SpellDatabase.Instance.GetSpellByName(spellSO.name));
                }
             }
          }
@@ -255,9 +273,19 @@ public class TavernController : MonoBehaviour
       
       foreach (CardSO cardSO in currentPool)
       {
-         for (int j = 0; j < copyEveryMinion; j++)
+         for (int j = 0; j < copyEveryMinion && cardSO.tavernLevel == PlayerData.Instance.tavernTier; j++)
          {
             minionsPool.Add(cardSO);
+         }
+      }
+      var spellList = Resources.LoadAll<SpellSO>("Cards/Spells")
+            .Where(spell => spell.spellType == SpellSO.SpellType.Tavern)
+            .ToList();
+      foreach (SpellSO spellSO in spellList)
+      {
+         if (spellSO.tavernLevel == PlayerData.Instance.tavernTier)
+         {
+            spellPool.Add(SpellDatabase.Instance.GetSpellByName(spellSO.name));
          }
       }
    }
@@ -274,8 +302,9 @@ public class TavernController : MonoBehaviour
       frozenCards.Clear();
 
       int tavernMinionCount = 3 + PlayerData.Instance.tavernTier / 2;
+      int spellCount = 1;
       List<CardSO> tempPool = new(minionsPool);
-      for (int i = tavernCards.Count; i < tavernMinionCount; i++)
+      while (tavernCards.Count(card => card is not Spell) < tavernMinionCount)
       {
          if (tempPool.Count == 0)
             break;
@@ -283,6 +312,13 @@ public class TavernController : MonoBehaviour
          Card randomCard = new(random);
          tavernCards.Add(randomCard);
          tempPool.Remove(random);
+      }
+      while (tavernCards.Count(card => card is Spell) < spellCount)
+      {
+         if (spellPool.Count == 0)
+            break;
+         var randomSpell = spellPool[Random.Range(0, spellPool.Count)];
+         tavernCards.Add(randomSpell);
       }
 
       boardController.FillTavern();

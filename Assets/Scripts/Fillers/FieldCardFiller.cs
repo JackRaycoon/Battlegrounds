@@ -7,7 +7,7 @@ using static Card;
 
 public class FieldCardFiller : MonoBehaviour
 {
-   public TextMeshProUGUI atkText, hpText;
+   public TextMeshProUGUI atkText, hpText, costText;
    public Image art, squareArt, interfaceImage, effectIcon;
    public Sprite commonInterface, goldenInterface, deathrattle, invis;
    public GameObject freezeEffect, targetEffect, divineShield, taunt;
@@ -21,59 +21,85 @@ public class FieldCardFiller : MonoBehaviour
    public bool isTarget = false;
    public void Fill()
    {
-      var data = card.data;
-      if (!data.isSquareArt)
+      if(card is Spell)
       {
-         art.sprite = data.spriteArt;
-         art.gameObject.SetActive(true);
-         squareArt.gameObject.SetActive(false);
+         var data = (card as Spell).data;
+         if (!data.isSquareArt)
+         {
+            art.sprite = data.spriteArt;
+            art.gameObject.SetActive(true);
+            squareArt.gameObject.SetActive(false);
+         }
+         else
+         {
+            squareArt.sprite = data.spriteArt;
+         }
+         costText.text = data.cost.ToString();
+         freezeEffect.SetActive(isFreeze);
+         targetEffect.SetActive(isTarget);
+
+         if (isTavern)
+         {
+            starContainer.gameObject.SetActive(true);
+            Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
+         }
       }
       else
       {
-         squareArt.sprite = data.spriteArt;
-      }
+         var data = card.data;
+         if (!data.isSquareArt)
+         {
+            art.sprite = data.spriteArt;
+            art.gameObject.SetActive(true);
+            squareArt.gameObject.SetActive(false);
+         }
+         else
+         {
+            squareArt.sprite = data.spriteArt;
+         }
 
-      interfaceImage.sprite = card.isGolden ? goldenInterface : commonInterface;
+         interfaceImage.sprite = card.isGolden ? goldenInterface : commonInterface;
+        
+         atkText.text = card.ATK.ToString();
+         hpText.text = card.CUR_HP.ToString();
+         if (card.ATK != data.attack)
+         {
+            atkText.color = card.ATK > data.attack ? Color.green : Color.red;
+         }
+         else
+            atkText.color = Color.white;
+         if (card.CUR_HP != data.hp)
+         {
+            hpText.color = card.CUR_HP > data.hp ? Color.green : Color.red;
+         }
+         else
+            hpText.color = Color.white;
 
-      atkText.text = card.ATK.ToString();
-      hpText.text = card.CUR_HP.ToString();
-      if (card.ATK != data.attack)
-      {
-         atkText.color = card.ATK > data.attack ? Color.green : Color.red;
-      }
-      else
-         atkText.color = Color.white;
-      if (card.CUR_HP != data.hp)
-      {
-         hpText.color = card.CUR_HP > data.hp ? Color.green : Color.red;
-      }
-      else
-         hpText.color = Color.white;
+         freezeEffect.SetActive(isFreeze);
+         targetEffect.SetActive(isTarget);
 
-      freezeEffect.SetActive(isFreeze);
-      targetEffect.SetActive(isTarget);
+         if (isTavern)
+         {
+            starContainer.gameObject.SetActive(true);
+            Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
+         }
 
-      if (isTavern)
-      {
-         starContainer.gameObject.SetActive(true);
-         Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
-      }
+         effectIcon.sprite = invis;
+         if (card.deathrattles.Count != 0)
+            effectIcon.sprite = deathrattle;
 
-      effectIcon.sprite = invis;
-      if (card.deathrattles.Count != 0)
-         effectIcon.sprite = deathrattle;
-
-      if (GameController.isFightNow)
-      {
-         divineShield.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.DivineShield));
-         taunt.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Taunt));
-         taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
-      }
-      else
-      {
-         divineShield.SetActive(card.bonusKeywords.Contains(BonusKeyword.DivineShield));
-         taunt.SetActive(card.bonusKeywords.Contains(BonusKeyword.Taunt));
-
+         if (GameController.isFightNow)
+         {
+            divineShield.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.DivineShield));
+            taunt.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Taunt));
+            taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
+         }
+         else
+         {
+            divineShield.SetActive(card.bonusKeywords.Contains(BonusKeyword.DivineShield));
+            taunt.SetActive(card.bonusKeywords.Contains(BonusKeyword.Taunt));
+            taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
+         }
       }
    }
 }

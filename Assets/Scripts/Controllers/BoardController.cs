@@ -156,6 +156,8 @@ public class BoardController : MonoBehaviour
    public void BuyMinion(Card minion, FieldCardUI cardUI)
    {
       short buyCost = PlayerData.Instance.buyCost;
+      if(minion is Spell)
+         buyCost = (short)(minion as Spell).data.cost;
       short maxHand = PlayerData.Instance.maxHand;
       if (PlayerData.Instance.curMoneyCount < buyCost ||
          PlayerData.Instance.hand.Count >= maxHand)
@@ -169,7 +171,11 @@ public class BoardController : MonoBehaviour
       BoardFiller.allTavernCardList.Remove(minion.fieldCardObject);
       Destroy(minion.fieldCardObject);
 
-      var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
+      GameObject go = null;
+      if(minion is Spell)
+         go = Instantiate(boardFiller.spellCardPrefab, boardFiller.handTransform);
+      else
+         go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
       minion.handCardObject = go;
       HandCardUI handCardUI = go.GetComponent<HandCardUI>();
       HandCardFiller filler = go.GetComponent<HandCardFiller>();
@@ -230,7 +236,11 @@ public class BoardController : MonoBehaviour
 
       foreach (Card minion in TavernController.tavernCards)
       {
-         var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
+         GameObject go = null;
+         if(minion is Spell)
+            go = Instantiate(boardFiller.spellFieldCardPrefab, boardFiller.tavernMinionsTransform);
+         else
+            go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.tavernMinionsTransform);
          minion.fieldCardObject = go;
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
          FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();

@@ -482,6 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkText: {fileID: 178564321301322795}
   hpText: {fileID: 178564320574894826}
+  costText: {fileID: 0}
   art: {fileID: 178564321572777979}
   squareArt: {fileID: 84898981}
   interfaceImage: {fileID: 178564319977383572}
@@ -519,6 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bigCardPrefab: {fileID: 2638868452927489487, guid: 3bb5719fa94f9f44c9eb3fc0ead84406, type: 3}
+  bigSpellCardPrefab: {fileID: 0}
   filler: {fileID: 0}
   boardFiller: {fileID: 0}
 --- !u!114 &3388387763812936510

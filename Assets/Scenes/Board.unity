@@ -5142,6 +5142,8 @@ MonoBehaviour:
   handCardPrefab: {fileID: 4552101028748958319, guid: 3cb8be2f14f75dc44bd2ae1f178c7ce3, type: 3}
   copyFieldCardPrefab: {fileID: 5031424408902799683, guid: d9b503668f6f67749a3d916f5c13131a, type: 3}
   spellCardPrefab: {fileID: 5591594640301078937, guid: a0e9043b2981ffc4e9a8d0dc8c17a0ec, type: 3}
+  spellFieldCardPrefab: {fileID: 7980303295836381633, guid: 40021cd0e29de034fa2a5a4df0a73281, type: 3}
+  copySpellFieldCardPrefab: {fileID: 1338228785085758231, guid: 00e1511fe7d15414aadf001d6703c0b8, type: 3}
   canvas: {fileID: 818907256}
   playerTeamTransform: {fileID: 1233816995}
   enemyTeamTransform: {fileID: 748434178}

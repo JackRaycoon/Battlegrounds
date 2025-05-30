@@ -11,6 +11,8 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
    //public Transform playerTeamTransform, enemyTeamTransform;
    //public Transform bigCardTransform;
    public GameObject bigCardPrefab;
+   public GameObject bigSpellCardPrefab;
+
    //public Collider2D sellZoneCollider;
    public FieldCardFiller filler;
    public BoardFiller boardFiller;
@@ -47,7 +49,10 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
       if (bigCard != null)
          Destroy(bigCard);
-      bigCard = Instantiate(bigCardPrefab, boardFiller.bigCardTransform);
+      if(filler.card is Spell)
+         bigCard = Instantiate(bigSpellCardPrefab, boardFiller.bigCardTransform);
+      else
+         bigCard = Instantiate(bigCardPrefab, boardFiller.bigCardTransform);
 
       short sign = -1;
       int index = PlayerData.Instance.playerMinions.IndexOf(filler.card);
@@ -109,7 +114,10 @@ public class FieldCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
          bigCard = null;
       }
 
-      copy = Instantiate(boardFiller.copyFieldCardPrefab, boardFiller.playerMinionsTransform);
+      if(filler.card is Spell)
+         copy = Instantiate(boardFiller.copySpellFieldCardPrefab, boardFiller.playerMinionsTransform);
+      else
+         copy = Instantiate(boardFiller.copyFieldCardPrefab, boardFiller.playerMinionsTransform);
       FieldCardFiller filler2 = copy.GetComponent<FieldCardFiller>();
 
       filler2.card = filler.card;
