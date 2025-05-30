@@ -32,7 +32,7 @@ public class Card
    }
 
    public long CUR_HP;
-   public bool isGolden;
+   public bool isGolden, isDeath;
 
    public GameObject fieldCardObject;
    public GameObject handCardObject;
@@ -44,6 +44,7 @@ public class Card
 
    public List<BonusKeyword> bonusKeywords = new();
    public List<BonusKeyword> bonusKeywordsInFight = new();
+
    public enum BonusKeyword
    {
       DivineShield,
@@ -88,6 +89,7 @@ public class Card
       allBoard.AddRange(enemyTeam);
       foreach(Spell deathrattle in deathrattles)
          deathrattle?.Cast(allBoard);
+      isDeath = true;
    }
 
    internal void FillField()
@@ -104,6 +106,7 @@ public class Card
       inFightATKBuff = 0;
       inFightHPBuff = 0;
       CUR_HP = MAX_HP;
+      isDeath = false;
    }
 
    public void TakeDmg(long dmg)

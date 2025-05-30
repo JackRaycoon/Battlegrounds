@@ -130,8 +130,13 @@ public class GameController : MonoBehaviour
       //Здесь будет метод выбора цели для атаки с учётом провока
       yield return StartCoroutine(AttackAnimation(attacker, isPlayerTurn));
       yield return new WaitForSeconds(durationScale / 2f);
+      if (!attacker.isDeath && attacker.bonusKeywordsInFight.Contains(Card.BonusKeyword.Windfury))
+      {
+         yield return StartCoroutine(AttackAnimation(attacker, isPlayerTurn));
+         yield return new WaitForSeconds(durationScale / 2f);
+      }
       //Проверка конца боя - список playerTeam или enemyTeam пуст
-      if(enemyTeam.Count == 0)
+      if (enemyTeam.Count == 0)
       {
          StartCoroutine(EndFight(0));
       }
