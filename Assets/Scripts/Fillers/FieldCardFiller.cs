@@ -8,9 +8,9 @@ using static Card;
 public class FieldCardFiller : MonoBehaviour
 {
    public TextMeshProUGUI atkText, hpText, costText;
-   public Image art, squareArt, interfaceImage, effectIcon;
-   public Sprite commonInterface, goldenInterface, deathrattle, invis;
-   public GameObject freezeEffect, targetEffect, divineShield, taunt;
+   public Image art, squareArt, interfaceImage;
+   public Sprite commonInterface, goldenInterface;
+   public GameObject freezeEffect, targetEffect, divineShield, taunt, stealth, reborn, windfury, venomous, deathrattle;
    public Transform starContainer;
    public List<GameObject> starPrefabs;
 
@@ -84,19 +84,25 @@ public class FieldCardFiller : MonoBehaviour
             Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
          }
 
-         effectIcon.sprite = invis;
-         if (card.deathrattles.Count != 0)
-            effectIcon.sprite = deathrattle;
+         deathrattle.SetActive(card.deathrattles.Count != 0);
 
          if (GameController.isFightNow)
          {
             divineShield.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.DivineShield));
+            stealth.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Stealth));
+            reborn.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Reborn));
+            windfury.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Windfury));
+            venomous.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Venomous));
             taunt.SetActive(card.bonusKeywordsInFight.Contains(BonusKeyword.Taunt));
             taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
          }
          else
          {
             divineShield.SetActive(card.bonusKeywords.Contains(BonusKeyword.DivineShield));
+            stealth.SetActive(card.bonusKeywords.Contains(BonusKeyword.Stealth));
+            reborn.SetActive(card.bonusKeywords.Contains(BonusKeyword.Reborn));
+            windfury.SetActive(card.bonusKeywords.Contains(BonusKeyword.Windfury));
+            venomous.SetActive(card.bonusKeywords.Contains(BonusKeyword.Venomous));
             taunt.SetActive(card.bonusKeywords.Contains(BonusKeyword.Taunt));
             taunt.GetComponent<Image>().color = card.isGolden ? new(0.8941177f, 0.6117647f, 0f) : Color.white;
          }

@@ -337,7 +337,7 @@ public class GameController : MonoBehaviour
 
             if (card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Reborn))
             {
-               SpawnRebern(card.data, firstCheck, i + 1);
+               SpawnReborn(card.data, firstCheck, i + 1);
             }
          }
       }
@@ -353,7 +353,7 @@ public class GameController : MonoBehaviour
 
             if (card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Reborn))
             {
-               SpawnRebern(card.data, secondCheck, i + 1);
+               SpawnReborn(card.data, secondCheck, i + 1);
             }
          }
       }
@@ -364,7 +364,7 @@ public class GameController : MonoBehaviour
          card.FillField();
    }
 
-   private void SpawnRebern(CardSO data, List<Card> team, int position)
+   private void SpawnReborn(CardSO data, List<Card> team, int position)
    {
       if(team.Count < 7)
       {
