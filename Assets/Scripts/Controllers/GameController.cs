@@ -163,9 +163,11 @@ public class GameController : MonoBehaviour
    {
       bool allPlayerZero = playerQueue.All(card => card.ATK == 0);
       bool allEnemyZero = enemyQueue.All(card => card.ATK == 0);
+      bool allPlayerStealth = playerQueue.All(card => card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Stealth));
+      bool allEnemyStealth = enemyQueue.All(card => card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Stealth));
 
       // Ничья: вообще никто не может атаковать
-      if (allPlayerZero && allEnemyZero)
+      if ((allPlayerZero && allEnemyZero) || (allPlayerStealth && allEnemyStealth))
       {
          Debug.Log("Ничья — никто не может атаковать.");
          StartCoroutine(EndFight(2));
@@ -237,13 +239,16 @@ public class GameController : MonoBehaviour
    {
       List<Card> targetsList = isPlayerCard ? new(enemyTeam) : new(playerTeam);
 
+      targetsList.RemoveAll(card => card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Stealth));
+
       List<Card> tauntTargets = targetsList.FindAll(card => card.bonusKeywordsInFight.Contains(Card.BonusKeyword.Taunt));
       if (tauntTargets.Count > 0)
       {
          return tauntTargets[Random.Range(0, tauntTargets.Count)];
       }
-
-      return targetsList[Random.Range(0, targetsList.Count)];
+      if(targetsList.Count > 0)
+         return targetsList[Random.Range(0, targetsList.Count)];
+      return null;
    }
 
 
@@ -251,6 +256,11 @@ public class GameController : MonoBehaviour
    public IEnumerator AttackAnimation(Card attacker, bool isPlayerTurn)
    {
       var defender = ChooseTarget(attacker, isPlayerTurn);
+      if (defender == null)
+         yield break;
+
+      if (attacker.bonusKeywordsInFight.Contains(Card.BonusKeyword.Stealth))
+         attacker.bonusKeywordsInFight.Remove(Card.BonusKeyword.Stealth);
       //Подъём существа
       float elapsed = 0f;
       while (elapsed < durationScale)
