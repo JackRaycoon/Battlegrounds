@@ -298,8 +298,8 @@ public class GameController : MonoBehaviour
       }
 
       //Нанесение урона после атаки
-      attacker.TakeDmg(defender.ATK);
-      defender.TakeDmg(attacker.ATK);
+      attacker.TakeDmg(defender.ATK, defender);
+      defender.TakeDmg(attacker.ATK, attacker);
       attacker.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       defender.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
 
@@ -328,7 +328,7 @@ public class GameController : MonoBehaviour
       for(int i = 0; i < firstCheck.Count; i++)
       {
          var card = firstCheck[i];
-         if (card.CUR_HP <= 0)
+         if (card.isDeath)
          {
             card.Death(playerTeam, enemyTeam);
             firstCheck.Remove(card);
@@ -338,7 +338,7 @@ public class GameController : MonoBehaviour
       for(int i = 0; i < secondCheck.Count; i++)
       {
          var card = secondCheck[i];
-         if (card.CUR_HP <= 0)
+         if (card.isDeath)
          {
             card.Death(playerTeam, enemyTeam);
             secondCheck.Remove(card);

@@ -109,7 +109,7 @@ public class Card
       isDeath = false;
    }
 
-   public void TakeDmg(long dmg)
+   public void TakeDmg(long dmg, Card from)
    {
       if (GameController.isFightNow)
       {
@@ -117,6 +117,11 @@ public class Card
          {
             bonusKeywordsInFight.Remove(BonusKeyword.DivineShield);
             dmg = 0;
+         }
+         if (dmg > 0 && from.bonusKeywordsInFight.Contains(BonusKeyword.Venomous))
+         {
+            isDeath = true;
+            from.bonusKeywordsInFight.Remove(BonusKeyword.Venomous);
          }
       }
       else
@@ -126,7 +131,16 @@ public class Card
             bonusKeywords.Remove(BonusKeyword.DivineShield);
             dmg = 0;
          }
+         if (dmg > 0 && from.bonusKeywords.Contains(BonusKeyword.Venomous))
+         {
+            isDeath = true;
+            from.bonusKeywords.Remove(BonusKeyword.Venomous);
+         }
       }
       CUR_HP -= dmg;
+      if (CUR_HP <= 0)
+      {
+         isDeath = true;
+      }
    }
 }
