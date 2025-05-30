@@ -40,18 +40,21 @@ public class Spell : Card
    public void Cast(List<Card> board)
    {
       var caster = board[0];
-      if (GameController.isFightNow)
+      if(caster != null)
       {
-         if (caster.bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+         if (GameController.isFightNow)
          {
-            return;
+            if (caster.bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+            {
+               return;
+            }
          }
-      }
-      else
-      {
-         if (caster.bonusKeywords.Contains(BonusKeyword.Corrupted))
+         else
          {
-            return;
+            if (caster.bonusKeywords.Contains(BonusKeyword.Corrupted))
+            {
+               return;
+            }
          }
       }
       cast.Invoke(board);

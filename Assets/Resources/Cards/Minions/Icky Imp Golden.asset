@@ -28,4 +28,4 @@ MonoBehaviour:
   battleCry: {fileID: 0}
   deathrattle: {fileID: 11400000, guid: 694cf6689274e984bac81692a69b3757, type: 2}
   bonusKeywords: 
-  tags: 0100000000000000
+  tags: 01000000

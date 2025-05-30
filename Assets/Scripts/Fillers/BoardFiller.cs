@@ -23,8 +23,7 @@ public class BoardFiller : MonoBehaviour
 
    private void Awake()
    {
-      SpellDatabase.Instance.gameController = gameController;
-      SpellDatabase.Instance.boardController = boardController;
+      SpellDatabase.Instance.boardFiller = this;
    }
 
    void Start()

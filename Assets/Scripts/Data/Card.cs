@@ -166,7 +166,7 @@ public class Card
    public GameObject fieldCardObject;
    public GameObject handCardObject;
 
-   public List<Spell> battleCries = new(), deathrattles = new();
+   public List<Spell> battleCries = new(), deathrattles = new(), endTurns = new();
 
    public int indexHandCardForBattlecryBack = 0;
    internal bool isSummoned;
@@ -205,6 +205,8 @@ public class Card
          battleCries.Add(SpellDatabase.Instance.GetSpellByName(data.battleCry.name));
       if (data.deathrattle != null)
          deathrattles.Add(SpellDatabase.Instance.GetSpellByName(data.deathrattle.name));
+      if (data.endTurn != null)
+         endTurns.Add(SpellDatabase.Instance.GetSpellByName(data.endTurn.name));
 
       foreach (var keyw in data.bonusKeywords)
          bonusKeywords.Add(keyw);

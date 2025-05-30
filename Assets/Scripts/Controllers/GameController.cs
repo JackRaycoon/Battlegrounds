@@ -48,6 +48,22 @@ public class GameController : MonoBehaviour
 
    IEnumerator ChangeToFight()
    {
+      //End Turn
+      foreach(Card card in PlayerData.Instance.playerMinions)
+      {
+         List<Card> allBoard = new() { card };
+         List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
+         playerWithout.Remove(card);
+         allBoard.AddRange(playerWithout);
+         allBoard.AddRange(TavernController.tavernCards);
+         foreach (Spell endTurn in card.endTurns)
+         {
+            endTurn?.Cast(allBoard);
+         }
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      }
+      yield return new WaitForSeconds(1f);
+
       float startAlpha2 = 1f, endAlpha2 = 0f, elapsed = 0f;
       float startAlpha = 0f, endAlpha = 1f; ;
       dark.alpha = startAlpha;

@@ -21,7 +21,7 @@ public class CardSO : ScriptableObject
    public MinionType minionType1;
    public MinionType minionType2;
 
-   public SpellSO battleCry, deathrattle;
+   public SpellSO battleCry, deathrattle, endTurn;
 
    public List<Card.BonusKeyword> bonusKeywords;
    public List<Tags> tags;
@@ -55,6 +55,6 @@ public class CardSO : ScriptableObject
       Spam,
       SelfDamage,
       Corrupted,
-
+      ManyMoney,
    }
 }

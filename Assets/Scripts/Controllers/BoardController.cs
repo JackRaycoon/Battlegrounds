@@ -119,8 +119,12 @@ public class BoardController : MonoBehaviour
 
       foreach (Card card in boardCards)
       {
-         if(card != null && card.isSummoned)
-            card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+         if(card != null)
+         {
+            var filler = card.fieldCardObject.GetComponent<FieldCardFiller>();
+            if (card.isSummoned || filler.isTavern)
+               filler.Fill();
+         }
       }
       boardFiller.handUI.UpdateHandLayout();
       if(spell.data.spellType != SpellSO.SpellType.Effect)

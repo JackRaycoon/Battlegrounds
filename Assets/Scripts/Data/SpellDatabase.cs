@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
+using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
 
 public class SpellDatabase
 {
    private static SpellDatabase instance;
-   public GameController gameController;
-   public BoardController boardController;
+   public BoardFiller boardFiller;
    public static SpellDatabase Instance
    {
       get
@@ -60,6 +60,8 @@ public class SpellDatabase
       //Battlecry
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
       AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
+      AddEffect("Vulgar Homunculus BC", VulgarHomunculusBC_Cast, VulgarHomunculusBC_Calc);
+      AddEffect("Vulgar Homunculus Golden BC", VulgarHomunculusBC_CastGolden, VulgarHomunculusBC_Calc);
 
       //Deathrattle
       AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
@@ -67,6 +69,13 @@ public class SpellDatabase
       
       AddEffect("Icky Imp DT", IckyImpDT_Cast);
       AddEffect("Icky Imp Golden DT", IckyImpDT_CastGolden);
+      
+      AddEffect("Imprisoner DT", ImprisonerDT_Cast);
+      AddEffect("Imprisoner Golden DT", ImprisonerDT_CastGolden);
+
+      //End Turn
+      AddEffect("Tavern Tipper ET", TavernTipperET_Cast);
+      AddEffect("Tavern Tipper Golden ET", TavernTipperET_CastGolden);
 
       //Hero Abilities
       AddAbility("Bloodfury", Bloodfury_Cast, null, Bloodfury_Valid);
@@ -206,7 +215,7 @@ public class SpellDatabase
 
 
 
-   //BackstageSecurity
+   //Backstage Security
    private void BackstageSecurityBC_Cast(List<Card> targets)
    {
       var calc = BackstageSecurityBC_Calc(targets);
@@ -226,6 +235,28 @@ public class SpellDatabase
    {
       var caster = targets[0];
       return new List<int> { 1 };
+   }
+
+   //Vulgar Homunculus
+   private void VulgarHomunculusBC_Cast(List<Card> targets)
+   {
+      var calc = VulgarHomunculusBC_Calc(targets);
+      int dmg = calc[0];
+
+      PlayerData.Instance.character.SelfDamage(dmg);
+   }
+   private void VulgarHomunculusBC_CastGolden(List<Card> targets)
+   {
+      var calc = VulgarHomunculusBC_Calc(targets);
+      int dmg = calc[0];
+
+      PlayerData.Instance.character.SelfDamage(dmg);
+      PlayerData.Instance.character.SelfDamage(dmg);
+   }
+   private List<int> VulgarHomunculusBC_Calc(List<Card> targets)
+   {
+      var caster = targets[0];
+      return new List<int> { 2 };
    }
 
 
@@ -283,12 +314,12 @@ public class SpellDatabase
       var caster = targets[0];
       if (GameController.isFightNow) 
       {
-         List<Card> casterTeam = gameController.playerTeam;
-         if (!gameController.playerTeam.Contains(caster))
-            casterTeam = gameController.enemyTeam;
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
 
          for (int i = 0; i < 2; i++)
-            gameController.Summon(
+            boardFiller.gameController.Summon(
                new("Imp"),
                caster,
                caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
@@ -297,7 +328,7 @@ public class SpellDatabase
       else
       {
          for (int i = 0; i < 2; i++)
-            boardController.Summon(
+            boardFiller.boardController.Summon(
                new("Imp"),
                caster,
                caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) : 
@@ -310,12 +341,12 @@ public class SpellDatabase
       var caster = targets[0];
       if (GameController.isFightNow)
       {
-         List<Card> casterTeam = gameController.playerTeam;
-         if (!gameController.playerTeam.Contains(caster))
-            casterTeam = gameController.enemyTeam;
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
 
          for (int i = 0; i < 4; i++)
-            gameController.Summon(
+            boardFiller.gameController.Summon(
                new("Imp"),
                caster,
                caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
@@ -324,13 +355,91 @@ public class SpellDatabase
       else
       {
          for (int i = 0; i < 4; i++)
-            boardController.Summon(
+            boardFiller.boardController.Summon(
                new("Imp"),
                caster,
                caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
                PlayerData.Instance.playerMinions.IndexOf(caster) + 1);
       }
    }
+
+   //Imprisoner
+   private void ImprisonerDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow) 
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         for (int i = 0; i < 1; i++)
+            boardFiller.gameController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 1; i++)
+            boardFiller.boardController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) : 
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void ImprisonerDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         for (int i = 0; i < 2; i++)
+            boardFiller.gameController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 2; i++)
+            boardFiller.boardController.Summon(
+               new("Imp"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1);
+      }
+   }
+
+   //Tavern Tipper
+   private void TavernTipperET_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      for(int i = 0; i < PlayerData.Instance.curMoneyCount; i++)
+      {
+         caster.permanentATKBuff += 1;
+         caster.permanentHPBuff += 1;
+         caster.CUR_HP += 1;
+      }
+   }
+   private void TavernTipperET_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      for(int i = 0; i < PlayerData.Instance.curMoneyCount; i++)
+      {
+         caster.permanentATKBuff += 2;
+         caster.permanentHPBuff += 2;
+         caster.CUR_HP += 2;
+      }
+   }
+
 
    //Bloodfury
    private void Bloodfury_Cast(List<Card> targets)

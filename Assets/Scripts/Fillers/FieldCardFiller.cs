@@ -68,9 +68,9 @@ public class FieldCardFiller : MonoBehaviour
          }
          else
             atkText.color = Color.white;
-         if (card.CUR_HP != data.hp)
+         if (card.MAX_HP != data.hp || card.CUR_HP != data.hp)
          {
-            hpText.color = card.CUR_HP > data.hp ? Color.green : Color.red;
+            hpText.color = card.CUR_HP == card.MAX_HP ? Color.green : Color.red;
          }
          else
             hpText.color = Color.white;
