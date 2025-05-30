@@ -385,8 +385,6 @@ public class GameController : MonoBehaviour
             minion.bonusKeywordsInFight.Remove(Card.BonusKeyword.Reborn);
          }
          filler.Fill();
-         Debug.Log(position);
-         Debug.Log(team.Count);
          team.Insert(position, minion);
          //boardFiller.allPlayerFieldCardList.Add(go); ?
       }

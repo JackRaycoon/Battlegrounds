@@ -17,11 +17,126 @@ public class Card
          return data.attack + permanentATKBuff + inFightATKBuff;
       }
    }
-
-   public long inFightATKBuff = 0;
-   public long inFightHPBuff = 0;
-   public long permanentATKBuff = 0;
-   public long permanentHPBuff = 0;
+   private long _inFightATKBuff = 0;
+   private long _inFightHPBuff = 0;
+   private long _permanentATKBuff = 0;
+   private long _permanentHPBuff = 0;
+   public long inFightATKBuff 
+   {
+      get
+      {
+         return _inFightATKBuff;
+      }
+      set
+      {
+         var buff = value;
+         if (GameController.isFightNow)
+         {
+            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+            {
+               _inFightATKBuff = buff;
+            }
+         }
+         else
+         {
+            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+            {
+               _inFightATKBuff = buff;
+            }
+         }
+         if (_inFightATKBuff > buff)
+         {
+            _inFightATKBuff = buff;
+         }
+      }
+   }
+   public long inFightHPBuff
+   {
+      get
+      {
+         return _inFightHPBuff;
+      }
+      set
+      {
+         var buff = value;
+         if (GameController.isFightNow)
+         {
+            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+            {
+               _inFightHPBuff = buff;
+            }
+         }
+         else
+         {
+            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+            {
+               _inFightHPBuff = buff;
+            }
+         }
+         if (_inFightHPBuff > buff)
+         {
+            _inFightHPBuff = buff;
+         }
+      }
+   }
+   public long permanentATKBuff
+   {
+      get
+      {
+         return _permanentATKBuff;
+      }
+      set
+      {
+         var buff = value;
+         if (GameController.isFightNow)
+         {
+            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+            {
+               _permanentATKBuff = buff;
+            }
+         }
+         else
+         {
+            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+            {
+               _permanentATKBuff = buff;
+            }
+         }
+         if (_permanentATKBuff > buff)
+         {
+            _permanentATKBuff = buff;
+         }
+      }
+   }
+   public long permanentHPBuff
+   {
+      get
+      {
+         return _permanentHPBuff;
+      }
+      set
+      {
+         var buff = value;
+         if (GameController.isFightNow)
+         {
+            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+            {
+               _permanentHPBuff = buff;
+            }
+         }
+         else
+         {
+            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+            {
+               _permanentHPBuff = buff;
+            }
+         }
+         if (_permanentHPBuff > buff)
+         {
+            _permanentHPBuff = buff;
+         }
+      }
+   }
 
    public long MAX_HP
    {
@@ -31,7 +146,21 @@ public class Card
       }
    }
 
-   public long CUR_HP;
+   private long cur_hp = 0;
+   public long CUR_HP
+   {
+      get
+      {
+         return cur_hp;
+      }
+      set
+      {
+         var v = value;
+         if (v > MAX_HP)
+            v = MAX_HP;
+         cur_hp = v;
+      }
+   }
    public bool isGolden, isDeath;
 
    public GameObject fieldCardObject;

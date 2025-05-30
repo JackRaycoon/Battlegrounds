@@ -28,5 +28,5 @@ MonoBehaviour:
   minionType2: 0
   battleCry: {fileID: 11400000, guid: 2c3f56cfbdb46d446ba2623cb41a6b25, type: 2}
   deathrattle: {fileID: 0}
-  bonusKeywords: 0300000004000000
+  bonusKeywords: 
   tags: 02000000
