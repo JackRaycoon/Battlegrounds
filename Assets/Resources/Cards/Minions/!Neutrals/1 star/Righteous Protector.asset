@@ -10,22 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Voidwalker
+  m_Name: Righteous Protector
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: a554d293e0f96eb47a7b99032bdb623d, type: 3}
-  isSquareArt: 1
+  spriteArt: {fileID: 21300000, guid: 218cf109220ca4949a86e039e0ecf05a, type: 3}
+  isSquareArt: 0
   attack: 1
-  hp: 3
-  tavernLevel: 2
+  hp: 1
+  tavernLevel: 1
   backInPool: 1
-  description: '<font="KeyWords">Corrupted</font>
+  description: '<font="KeyWords">Taunt</font>
 
-    <font="KeyWords">Taunt</font>'
+    <font="KeyWords">Divine Shield</font>'
   attackType: 0
-  pools: 06000000
-  minionType1: 6
+  pools: 00000000
+  minionType1: 0
   minionType2: 0
   battleCry: {fileID: 0}
   deathrattle: {fileID: 0}
-  bonusKeywords: 0600000003000000
-  tags: 0000000003000000
+  endTurn: {fileID: 0}
+  other: {fileID: 0}
+  otherTrigger: 0
+  bonusKeywords: 0000000003000000
+  tags: 00000000

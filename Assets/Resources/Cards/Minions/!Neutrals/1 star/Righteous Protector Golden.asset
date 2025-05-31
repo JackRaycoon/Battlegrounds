@@ -10,28 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Picky Eater Golden
+  m_Name: Righteous Protector Golden
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: c2e32d45b62249c4d862dec2be9941a0, type: 3}
-  isSquareArt: 1
+  spriteArt: {fileID: 21300000, guid: 218cf109220ca4949a86e039e0ecf05a, type: 3}
+  isSquareArt: 0
   attack: 2
   hp: 2
   tavernLevel: 1
   backInPool: 1
-  description: '<font="KeyWords">Battlecry:</font> Consume a
+  description: '<font="KeyWords">Taunt</font>
 
-    random minion in
-
-    the
-    Tavern to gain
-
-    double its stats.'
+    <font="KeyWords">Divine Shield</font>'
   attackType: 0
-  pools: 06000000
-  minionType1: 6
+  pools: 00000000
+  minionType1: 0
   minionType2: 0
-  battleCry: {fileID: 11400000, guid: 9cb5cf88aed9f3e4e867d60147e2126c, type: 2}
+  battleCry: {fileID: 0}
   deathrattle: {fileID: 0}
   endTurn: {fileID: 0}
-  bonusKeywords: 
-  tags: 0500000000000000
+  other: {fileID: 0}
+  otherTrigger: 0
+  bonusKeywords: 0000000003000000
+  tags: 00000000

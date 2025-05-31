@@ -52,7 +52,13 @@ public class SpellDatabase
       AddSpellCast("OneTavBuff", AllBuffNoTavernCast, AllBuffCalc);
 
       //Spells - Special
-
+      AddSpellCast("Triple Reward 1", TrippleReward1);
+      AddSpellCast("Triple Reward 2", TrippleReward2);
+      AddSpellCast("Triple Reward 3", TrippleReward3);
+      AddSpellCast("Triple Reward 4", TrippleReward4);
+      AddSpellCast("Triple Reward 5", TrippleReward5);
+      AddSpellCast("Triple Reward 6", TrippleReward6);
+      AddSpellCast("Triple Reward 7", TrippleReward7);
 
       //Spells - Tavern
 
@@ -84,6 +90,9 @@ public class SpellDatabase
       AddEffect("Imprisoner DT", ImprisonerDT_Cast);
       AddEffect("Imprisoner Golden DT", ImprisonerDT_CastGolden);
 
+      //Start Turn
+      AddEffect("Beleaguered Battler ST", BeleagueredBattlerST_Cast);
+      
       //End Turn
       AddEffect("Tavern Tipper ET", TavernTipperET_Cast);
       AddEffect("Tavern Tipper Golden ET", TavernTipperET_CastGolden);
@@ -223,6 +232,41 @@ public class SpellDatabase
    }
 
 
+   //Tripple Rewards
+   public void TrippleReward1(List<Card> targets)
+   {
+      TrippleReward(1);
+   }
+   public void TrippleReward2(List<Card> targets)
+   {
+      TrippleReward(2);
+   }
+   public void TrippleReward3(List<Card> targets)
+   {
+      TrippleReward(3);
+   }
+   public void TrippleReward4(List<Card> targets)
+   {
+      TrippleReward(4);
+   }
+   public void TrippleReward5(List<Card> targets)
+   {
+      TrippleReward(5);
+   }
+   public void TrippleReward6(List<Card> targets)
+   {
+      TrippleReward(6);
+   }
+   public void TrippleReward7(List<Card> targets)
+   {
+      TrippleReward(7);
+   }
+
+   public void TrippleReward(int tier)
+   {
+      var pool = new List<CardSO>(boardFiller.tavernController.currentPool);
+      boardFiller.discoverController.EnableDiscover(new() { });
+   }
 
 
 
@@ -475,6 +519,13 @@ public class SpellDatabase
                caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
                PlayerData.Instance.playerMinions.IndexOf(caster) + 1);
       }
+   }
+
+   //Beleaguered Battler
+   private void BeleagueredBattlerST_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      caster.permanentATKBuff -= 1;
    }
 
    //Tavern Tipper

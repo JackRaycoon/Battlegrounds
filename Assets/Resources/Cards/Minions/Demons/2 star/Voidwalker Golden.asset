@@ -10,28 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Fiendish Servant Golden
+  m_Name: Voidwalker Golden
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: e563e3e67f14c2c468769e02a8d6377b, type: 3}
-  isSquareArt: 0
-  attack: 4
-  hp: 2
-  tavernLevel: 1
+  spriteArt: {fileID: 21300000, guid: a554d293e0f96eb47a7b99032bdb623d, type: 3}
+  isSquareArt: 1
+  attack: 1
+  hp: 6
+  tavernLevel: 2
   backInPool: 1
-  description: '<font="KeyWords">Deathrattle:</font> Give this
+  description: '<font="KeyWords">Corrupted</font>
 
-    minion''s Attack
-    to a random
-
-    friendly minion, twice.'
+    <font="KeyWords">Taunt</font>'
   attackType: 0
   pools: 06000000
   minionType1: 6
   minionType2: 0
   battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: 61018e6bfd7189641a89d668a4e5c5c7, type: 2}
+  deathrattle: {fileID: 0}
   endTurn: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
-  bonusKeywords: 
-  tags: 0000000006000000
+  bonusKeywords: 0600000003000000
+  tags: 00000000

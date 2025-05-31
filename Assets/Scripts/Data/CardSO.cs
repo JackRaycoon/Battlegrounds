@@ -21,7 +21,7 @@ public class CardSO : ScriptableObject
    public MinionType minionType1;
    public MinionType minionType2;
 
-   public SpellSO battleCry, deathrattle, endTurn, other;
+   public SpellSO battleCry, deathrattle, startTurn, endTurn, other;
    public Trigger otherTrigger;
 
 
@@ -56,18 +56,12 @@ public class CardSO : ScriptableObject
       NoTagged,
       Spam,
       SelfDamage,
-      Corrupted,
-      ManyMoney,
-      Consumes,
-      Transfer—haracteristics,
-      DivineShields,
-      TavernSpell,
-
+      Consumes
    }
    public enum Trigger
    {
       None,
-      WrathWeaver,
+      SummonDemon,
 
    }
 }

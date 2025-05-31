@@ -38,10 +38,18 @@ public class TripletsController : MonoBehaviour
             long permanentATKBuff = 0;
             long permanentHPBuff = 0;
 
+            List<Card.BonusKeyword> bonusKeywords = new();
+
             foreach (var card in triplet)
             {
                permanentATKBuff += card.permanentATKBuff;
                permanentHPBuff += card.permanentHPBuff;
+               
+               foreach(var key in card.bonusKeywords)
+               {
+                  if (!bonusKeywords.Contains(key))
+                     bonusKeywords.Add(key);
+               }
                // Удаляем визуальный объект
 
                if (card.handCardObject != null)
@@ -64,9 +72,13 @@ public class TripletsController : MonoBehaviour
             }
 
             Card tripletCard = new(triplet[0].data.name, true);
-            tripletCard.permanentATKBuff = permanentATKBuff;
-            tripletCard.permanentHPBuff = permanentHPBuff;
+            if(permanentATKBuff > 0)
+               tripletCard.permanentATKBuff = permanentATKBuff;
+            if (permanentHPBuff > 0)
+               tripletCard.permanentHPBuff = permanentHPBuff;
             tripletCard.CUR_HP = tripletCard.MAX_HP;
+            tripletCard.bonusKeywords = new(bonusKeywords);
+
             PlayerData.Instance.hand.Add(tripletCard);
             var go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
             tripletCard.handCardObject = go;

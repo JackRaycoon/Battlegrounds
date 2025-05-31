@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -14,7 +15,9 @@ public class Card
    {
       get
       {
-         return data.attack + permanentATKBuff + inFightATKBuff;
+         long atk = data.attack + permanentATKBuff + inFightATKBuff;
+         if (atk < 0) atk = 0;
+         return atk;
       }
    }
    private long _inFightATKBuff = 0;
@@ -166,7 +169,7 @@ public class Card
    public GameObject fieldCardObject;
    public GameObject handCardObject;
 
-   public List<Spell> battleCries = new(), deathrattles = new(), endTurns = new();
+   public List<Spell> battleCries = new(), deathrattles = new(), startTurns = new(), endTurns = new();
 
    public Dictionary<CardSO.Trigger, List<Spell>> others = new();
 
@@ -189,7 +192,9 @@ public class Card
    protected Card() { }
    public Card(string name, bool isGolden = false)
    {
-      data = Resources.Load<CardSO>($"Cards/Minions/{name}{(isGolden ? " Golden" : "")}");
+      var all = Resources.LoadAll<CardSO>("Cards/Minions");
+      //data = Resources.Load<CardSO>($"Cards/Minions/{name}{(isGolden ? " Golden" : "")}");
+      data = all.FirstOrDefault(card => card.name == $"{name}{(isGolden ? " Golden" : "")}");
       this.isGolden = isGolden;
       CUR_HP = data.hp;
       FillEffects();
@@ -207,6 +212,8 @@ public class Card
          battleCries.Add(SpellDatabase.Instance.GetSpellByName(data.battleCry.name));
       if (data.deathrattle != null)
          deathrattles.Add(SpellDatabase.Instance.GetSpellByName(data.deathrattle.name));
+      if (data.startTurn != null)
+         startTurns.Add(SpellDatabase.Instance.GetSpellByName(data.startTurn.name));
       if (data.endTurn != null)
          endTurns.Add(SpellDatabase.Instance.GetSpellByName(data.endTurn.name));
       if (data.other != null)

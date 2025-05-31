@@ -37,7 +37,10 @@ public class HandCardFiller : MonoBehaviour
          }
 
          starContainer.gameObject.SetActive(true);
-         Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
+         if (data.tavernLevel != 0)
+         {
+            Instantiate(starPrefabs[data.tavernLevel - 1], starContainer);
+         }
       }
       else
       {

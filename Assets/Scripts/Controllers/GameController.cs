@@ -505,6 +505,23 @@ public class GameController : MonoBehaviour
          elapsed += Time.deltaTime;
          yield return null;
       }
+
+      //Start Turn
+      foreach (Card card in PlayerData.Instance.playerMinions)
+      {
+         List<Card> allBoard = new() { card };
+         List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
+         playerWithout.Remove(card);
+         allBoard.AddRange(playerWithout);
+         allBoard.AddRange(TavernController.tavernCards);
+         foreach (Spell startTurn in card.startTurns)
+         {
+            startTurn?.Cast(allBoard);
+         }
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      }
+      yield return new WaitForSeconds(1f);
+
       // Установка финальных значений
       dark.alpha = endAlpha2;
       dark.interactable = false;

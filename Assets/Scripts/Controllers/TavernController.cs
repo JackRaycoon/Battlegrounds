@@ -11,7 +11,7 @@ public class TavernController : MonoBehaviour
    public List<Card> frozenCards = new();
 
    public List<Spell> spellPool = new();
-   public List<CardSO> minionsPool = new();
+   public Dictionary<CardSO, TavernMinionInfo> minionsPool = new();
    public List<CardSO> currentPool = new();
    private int copyEveryMinion = 9;
 
@@ -168,23 +168,21 @@ public class TavernController : MonoBehaviour
          }
       }
    }
-   public void FillTavernPools() //with Copy
+   public void FillTavernPools()
    {
       minionsPool.Clear();
       spellPool.Clear();
       PlayerData.Instance.tavernUpCost = 5;
-      for(int i = 1; i <= 6; i++)
+
+      foreach (CardSO cardSO in currentPool)
+      {
+         minionsPool.Add(cardSO, new(copyEveryMinion, cardSO.tavernLevel <= PlayerData.Instance.tavernTier));
+      }
+
+      for (int i = 1; i <= 6; i++)
       {
          if(PlayerData.Instance.tavernTier >= i)
          {
-            foreach (CardSO cardSO in currentPool)
-            {
-               for(int j = 0; j < copyEveryMinion && cardSO.tavernLevel == i; j++)
-               {
-                  minionsPool.Add(cardSO);
-               }
-            }
-
             var spellList = Resources.LoadAll<SpellSO>("Cards/Spells")
             .Where(spell => spell.spellType == SpellSO.SpellType.Tavern)
             .ToList();
@@ -276,10 +274,7 @@ public class TavernController : MonoBehaviour
       
       foreach (CardSO cardSO in currentPool)
       {
-         for (int j = 0; j < copyEveryMinion && cardSO.tavernLevel == PlayerData.Instance.tavernTier; j++)
-         {
-            minionsPool.Add(cardSO);
-         }
+         minionsPool[cardSO].isUnlock = cardSO.tavernLevel <= PlayerData.Instance.tavernTier;
       }
       var spellList = Resources.LoadAll<SpellSO>("Cards/Spells")
             .Where(spell => spell.spellType == SpellSO.SpellType.Tavern)
@@ -299,34 +294,49 @@ public class TavernController : MonoBehaviour
 
       if (frozenCards.Count != 0 && saveFreeze)
       {
-         foreach(Card card in frozenCards)
+         foreach (Card card in frozenCards)
             tavernCards.Add(card);
       }
       frozenCards.Clear();
 
       int tavernMinionCount = 3 + PlayerData.Instance.tavernTier / 2;
       int spellCount = 1;
-      List<CardSO> tempPool = new(minionsPool);
+
+      List<CardSO> availableMinions = new();
+      foreach (var kvp in minionsPool)
+      {
+         if (kvp.Value.isUnlock && kvp.Value.copies > 0)
+            availableMinions.Add(kvp.Key);
+      }
+
       while (tavernCards.Count(card => card is not Spell) < tavernMinionCount)
       {
-         if (tempPool.Count == 0)
+         if (availableMinions.Count == 0)
             break;
-         var random = tempPool[Random.Range(0, tempPool.Count)];
-         Card randomCard = new(random);
+
+         var selectedSO = availableMinions[Random.Range(0, availableMinions.Count)];
+         TavernMinionInfo info = minionsPool[selectedSO];
+
+         Card randomCard = new(selectedSO);
          tavernCards.Add(randomCard);
-         tempPool.Remove(random);
+
+         info.copies--;
+
+         if (info.copies <= 0)
+            availableMinions.Remove(selectedSO);
       }
+
       while (tavernCards.Count(card => card is Spell) < spellCount)
       {
          if (spellPool.Count == 0)
             break;
+
          var randomSpell = spellPool[Random.Range(0, spellPool.Count)];
          tavernCards.Add(randomSpell);
       }
 
       boardController.FillTavern();
    }
-
    private int createdTierGerb = 0;
    public void UpdateUI()
    {

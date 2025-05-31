@@ -78,10 +78,18 @@ public class BoardController : MonoBehaviour
       minion.isSummoned = true;
       Destroy(minion.handCardObject);
 
+      if (minion.isGolden)
+      {
+         int tier = PlayerData.Instance.tavernTier + 1;
+         if (tier > 6) tier = 6;
+         Spell tripletReward = SpellDatabase.Instance.GetSpellByName($"Triple Reward {tier}");
+         AddInHand(tripletReward);
+      }
+
       //Check Triggers
       foreach(Card card in PlayerData.Instance.playerMinions)
       {
-         if (card.others.Keys.Contains(CardSO.Trigger.WrathWeaver) && 
+         if (card.others.Keys.Contains(CardSO.Trigger.SummonDemon) && 
             (minion.data.minionType1 == CardSO.MinionType.Demon ||
              minion.data.minionType2 == CardSO.MinionType.Demon))
          {
@@ -90,7 +98,7 @@ public class BoardController : MonoBehaviour
             playerWithout.Remove(card);
             allBoard.AddRange(playerWithout);
             allBoard.AddRange(TavernController.tavernCards);
-            foreach (Spell other in card.others[CardSO.Trigger.WrathWeaver])
+            foreach (Spell other in card.others[CardSO.Trigger.SummonDemon])
             {
                other?.Cast(allBoard);
             }
@@ -170,13 +178,11 @@ public class BoardController : MonoBehaviour
          if (minion.isGolden)
          {
             var data = new Card(minion.data.name).data;
-            boardFiller.tavernController.minionsPool.Add(data);
-            boardFiller.tavernController.minionsPool.Add(data);
-            boardFiller.tavernController.minionsPool.Add(data);
+            boardFiller.tavernController.minionsPool[data].copies += 3;
          }
          else
          {
-            boardFiller.tavernController.minionsPool.Add(minion.data);
+            boardFiller.tavernController.minionsPool[minion.data].copies++;
          }
       }
 
@@ -202,30 +208,12 @@ public class BoardController : MonoBehaviour
          cardUI.ReturnMinionOnBoard();
          return;
       }
-      PlayerData.Instance.hand.Add(minion);
+      AddInHand(minion);
       TavernController.tavernCards.Remove(minion);
-      boardFiller.tavernController.minionsPool.Remove(minion.data);
       BoardFiller.allTavernCardList.Remove(minion.fieldCardObject);
+      if(minion is not Spell)
+         boardFiller.tavernController.minionsPool[minion.data].copies--;
       Destroy(minion.fieldCardObject);
-
-      GameObject go = null;
-      if(minion is Spell)
-         go = Instantiate(boardFiller.spellCardPrefab, boardFiller.handTransform);
-      else
-         go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
-      minion.handCardObject = go;
-      HandCardUI handCardUI = go.GetComponent<HandCardUI>();
-      HandCardFiller filler = go.GetComponent<HandCardFiller>();
-
-      handCardUI.handUI = boardFiller.handUI;
-      handCardUI.boardFiller = boardFiller;
-      handCardUI.filler = filler;
-
-      filler.card = minion;
-      filler.Fill();
-
-      boardFiller.handUI.cards.Add(filler.gameObject.GetComponent<RectTransform>());
-      boardFiller.handUI.UpdateHandLayout();
 
       PlayerData.Instance.curMoneyCount -= buyCost;
       moneyController.UpdateMoney();
@@ -238,6 +226,29 @@ public class BoardController : MonoBehaviour
       AllUpdate();
 
       tripletsController.CheckTriplets();
+   }
+
+   public void AddInHand(Card card)
+   {
+      PlayerData.Instance.hand.Add(card);
+      GameObject go = null;
+      if (card is Spell)
+         go = Instantiate(boardFiller.spellCardPrefab, boardFiller.handTransform);
+      else
+         go = Instantiate(boardFiller.handCardPrefab, boardFiller.handTransform);
+      card.handCardObject = go;
+      HandCardUI handCardUI = go.GetComponent<HandCardUI>();
+      HandCardFiller filler = go.GetComponent<HandCardFiller>();
+
+      handCardUI.handUI = boardFiller.handUI;
+      handCardUI.boardFiller = boardFiller;
+      handCardUI.filler = filler;
+
+      filler.card = card;
+      filler.Fill();
+
+      boardFiller.handUI.cards.Add(filler.gameObject.GetComponent<RectTransform>());
+      boardFiller.handUI.UpdateHandLayout();
    }
 
    public void AllUpdate()
