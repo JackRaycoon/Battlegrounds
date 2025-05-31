@@ -123,6 +123,9 @@ public class TavernController : MonoBehaviour
                toggle++;
             }
 
+            if (Random.Range(1, 11) < 5)
+               needCount++;
+
             // Если не хватает — добавляем NoTagged
             if (tierMinions.Count < needCount)
             {

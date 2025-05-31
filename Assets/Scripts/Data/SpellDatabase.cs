@@ -71,6 +71,8 @@ public class SpellDatabase
       AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
       AddEffect("Vulgar Homunculus BC", VulgarHomunculusBC_Cast, VulgarHomunculusBC_Calc);
       AddEffect("Vulgar Homunculus Golden BC", VulgarHomunculusBC_CastGolden, VulgarHomunculusBC_Calc);
+      AddEffect("Ominous Seer BC", OminousSeerBC_Cast);
+      AddEffect("Ominous Seer Golden BC", OminousSeerBC_CastGolden);
 
       //Deathrattle
       AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
@@ -304,6 +306,16 @@ public class SpellDatabase
    {
       var caster = targets[0];
       return new List<int> { 2 };
+   }
+
+   //Ominous Seer
+   private void OminousSeerBC_Cast(List<Card> targets)
+   {
+      PlayerData.Instance.runInfo.discountOnSpells++;
+   }
+   private void OminousSeerBC_CastGolden(List<Card> targets)
+   {
+      PlayerData.Instance.runInfo.discountOnSpells+=2;
    }
 
 

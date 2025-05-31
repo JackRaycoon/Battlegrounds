@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
+  m_Name: Ominous Seer
+  m_EditorClassIdentifier: 
+  spriteArt: {fileID: 21300000, guid: 7c9339ddbf6de704d87f9c75829f354c, type: 3}
+  isSquareArt: 0
+  attack: 2
+  hp: 1
+  tavernLevel: 1
+  backInPool: 1
+  description: '<font="KeyWords">Battlecry:</font> The next
+
+    Tavern spell you
+    buy
+
+    costs (1) less.'
+  attackType: 0
+  pools: 0600000009000000
+  minionType1: 6
+  minionType2: 9
+  battleCry: {fileID: 11400000, guid: ec633b6627eeaa446a07b78005ad2e4b, type: 2}
+  deathrattle: {fileID: 0}
+  endTurn: {fileID: 0}
+  other: {fileID: 0}
+  otherTrigger: 0
+  bonusKeywords: 
+  tags: 0000000008000000

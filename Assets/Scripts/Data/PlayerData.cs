@@ -12,6 +12,8 @@ public class PlayerData
 
    public Character character;
 
+   public RunInfo runInfo = new();
+
    public int curMoneyCount = 3;
    public int maxMoneyCount
    {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.PlayerLoop.PreUpdate;
 
 public class BoardController : MonoBehaviour
 {
@@ -188,9 +189,12 @@ public class BoardController : MonoBehaviour
    }
    public void BuyMinion(Card minion, FieldCardUI cardUI)
    {
-      short buyCost = PlayerData.Instance.buyCost;
+      int buyCost = PlayerData.Instance.buyCost;
       if(minion is Spell)
-         buyCost = (short)(minion as Spell).data.cost;
+      {
+         int cost = (minion as Spell).data.cost - PlayerData.Instance.runInfo.discountOnSpells;
+         buyCost = (cost < 0 ? 0 : cost);
+      }
       short maxHand = PlayerData.Instance.maxHand;
       if (PlayerData.Instance.curMoneyCount < buyCost ||
          PlayerData.Instance.hand.Count >= maxHand)
@@ -226,7 +230,31 @@ public class BoardController : MonoBehaviour
       PlayerData.Instance.curMoneyCount -= buyCost;
       moneyController.UpdateMoney();
 
+      if (minion is Spell)
+      {
+         PlayerData.Instance.runInfo.discountOnSpells = 0;
+      }
+
+      AllUpdate();
+
       tripletsController.CheckTriplets();
+   }
+
+   public void AllUpdate()
+   {
+      List<Card> boardCards = new();
+      boardCards.AddRange(PlayerData.Instance.playerMinions);
+      boardCards.AddRange(TavernController.tavernCards);
+
+      foreach (Card card in boardCards)
+      {
+         if (card != null)
+         {
+            var filler = card.fieldCardObject.GetComponent<FieldCardFiller>();
+            if (card.isSummoned || filler.isTavern)
+               filler.Fill();
+         }
+      }
    }
 
    public void FillEnemys(List<Card> enemies)

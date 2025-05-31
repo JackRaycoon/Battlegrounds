@@ -34,7 +34,11 @@ public class FieldCardFiller : MonoBehaviour
          {
             squareArt.sprite = data.spriteArt;
          }
-         costText.text = data.cost.ToString();
+         int cost = data.cost - PlayerData.Instance.runInfo.discountOnSpells;
+         costText.text = (cost < 0 ? 0 : cost).ToString();
+         if (cost != data.cost)
+            costText.color = cost < data.cost ? Color.green : Color.red;
+
          freezeEffect.SetActive(isFreeze);
          targetEffect.SetActive(isTarget);
 

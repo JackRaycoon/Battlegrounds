@@ -61,6 +61,7 @@ public class CardSO : ScriptableObject
       Consumes,
       Transfer—haracteristics,
       DivineShields,
+      TavernSpell,
 
    }
    public enum Trigger

@@ -331,6 +331,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          int targetCount = 0;
          foreach (Card card in targets)
          {
+            if (card is Spell) continue;
             var fieldFiller = card.fieldCardObject.GetComponent<FieldCardFiller>();
             if (spell.CheckValid(new List<Card>{ null, fieldFiller.card }) && fieldFiller.card != battleCryOwner)
             {
@@ -342,10 +343,12 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          if(targetCount == 0)
          {
             DisableTargetSelection();
-            boardFiller.boardController.CastSpell(battleCry, null, this);
             battlecryTarget = null;
             if(minion != null)
+            {
+               boardFiller.boardController.CastSpell(battleCry, null, this);
                boardFiller.boardController.EndSummon(battleCryOwner);
+            }
          }
          else
          {
