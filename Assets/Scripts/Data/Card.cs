@@ -196,6 +196,8 @@ public class Card
       //data = Resources.Load<CardSO>($"Cards/Minions/{name}{(isGolden ? " Golden" : "")}");
       data = all.FirstOrDefault(card => card.name == $"{name}{(isGolden ? " Golden" : "")}");
       this.isGolden = isGolden;
+      if (name.Contains(" Golden"))
+         this.isGolden = true;
       CUR_HP = data.hp;
       FillEffects();
    }
