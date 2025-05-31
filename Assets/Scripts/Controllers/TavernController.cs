@@ -13,7 +13,7 @@ public class TavernController : MonoBehaviour
    public List<Spell> spellPool = new();
    public Dictionary<CardSO, TavernMinionInfo> minionsPool = new();
    public List<CardSO> currentPool = new();
-   private int copyEveryMinion = 9;
+   public int copyEveryMinion = 9;
 
    public TextMeshProUGUI tavernUpText, freezeText, refreshText;
    public GameObject tavernUpObj;
@@ -290,6 +290,12 @@ public class TavernController : MonoBehaviour
    public void RefreshTavern(bool saveFreeze)
    {
       tavernFreeze = false;
+      for (int i = 0; i < frozenCards.Count; i++)
+      {
+         Card card = frozenCards[i];
+         if(!tavernCards.Contains(card))
+            frozenCards.Remove(card);
+      }
       tavernCards.Clear();
 
       if (frozenCards.Count != 0 && saveFreeze)

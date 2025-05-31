@@ -178,11 +178,14 @@ public class BoardController : MonoBehaviour
          if (minion.isGolden)
          {
             var data = new Card(minion.data.name).data;
-            boardFiller.tavernController.minionsPool[data].copies += 3;
+            for(int i = 0; i < 3; i++)
+               if (boardFiller.tavernController.minionsPool[data].copies < boardFiller.tavernController.copyEveryMinion)
+                  boardFiller.tavernController.minionsPool[data].copies++;
          }
          else
          {
-            boardFiller.tavernController.minionsPool[minion.data].copies++;
+            if(boardFiller.tavernController.minionsPool[minion.data].copies < boardFiller.tavernController.copyEveryMinion)
+               boardFiller.tavernController.minionsPool[minion.data].copies++;
          }
       }
 

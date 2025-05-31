@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.Arm;
 using static Unity.Burst.Intrinsics.X86.Avx;
@@ -264,8 +265,23 @@ public class SpellDatabase
 
    public void TrippleReward(int tier)
    {
-      var pool = new List<CardSO>(boardFiller.tavernController.currentPool);
-      boardFiller.discoverController.EnableDiscover(new() { });
+      //Убираем из пула
+      var allTier = boardFiller.tavernController.currentPool.Where(card => card.tavernLevel == tier).ToList();
+      var resList = new List<Card>();
+      while(resList.Count < 3)
+      {
+         if (allTier.Count == 0)
+            break;
+         var random = allTier[Random.Range(0, allTier.Count)];
+         allTier.Remove(random);
+         resList.Add(new(random));
+      }
+      boardFiller.discoverController.EnableDiscover(resList, PullInHand);
+   }
+
+   public void PullInHand(Card card)
+   {
+      boardFiller.boardController.AddInHand(card);
    }
 
 

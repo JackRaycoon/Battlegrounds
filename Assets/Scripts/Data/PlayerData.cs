@@ -35,5 +35,7 @@ public class PlayerData
    public PlayerData()
    {
       character = new("Lord Jaraxxus");
+
+      //hand.Add(SpellDatabase.Instance.GetSpellByName("Triple Reward 1"));
    }
 }
