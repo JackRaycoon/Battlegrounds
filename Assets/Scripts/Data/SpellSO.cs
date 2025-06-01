@@ -10,6 +10,8 @@ public class SpellSO : ScriptableObject
    public int cost = 1;
    public int tavernLevel = 1;
 
+   public bool inTavernPool;
+
    [TextArea]
    public string description;
 

@@ -16,6 +16,7 @@ MonoBehaviour:
   isSquareArt: 1
   cost: 0
   tavernLevel: 0
-  description: <b>Discover</b> a minion from <b>Tier 6</b>.
+  description: <font="KeyWords">Discover</font> a minion from <font="KeyWords">Tier
+    6</font>.
   spellType: 0
   targetType: 0

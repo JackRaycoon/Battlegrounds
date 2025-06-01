@@ -8,6 +8,7 @@ public class BoardFiller : MonoBehaviour
    public Collider2D boardCollider, BOBCollider, playerCollider, spellCastCollider;
    public GameObject fieldCardPrefab, handCardPrefab, copyFieldCardPrefab, spellCardPrefab, spellFieldCardPrefab, copySpellFieldCardPrefab;
    public Canvas canvas;
+   public HandCardUI handCardAlways;
    public Transform playerTeamTransform, enemyTeamTransform;
    public BoardController boardController;
    public GameController gameController;

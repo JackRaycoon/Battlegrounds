@@ -33,7 +33,7 @@ public class CommandsController : MonoBehaviour
       string answer = "Command not found";
       switch (commandList[0])
       {
-         case "Add":
+         case "AddMinion":
             try
             {
                string name = "";
@@ -43,7 +43,25 @@ public class CommandsController : MonoBehaviour
                   else
                      name += " " + commandList[i];
                Card card = new(name);
-               answer = "Added in hand";
+               answer = "Minion added in hand";
+               boardController.AddInHand(card);
+            }
+            catch
+            {
+               answer = "Card not exist";
+            }
+            break;
+         case "AddSpell":
+            try
+            {
+               string name = "";
+               for (int i = 1; i < commandList.Count; i++)
+                  if(name == "")
+                     name += commandList[i];
+                  else
+                     name += " " + commandList[i];
+               Spell card = SpellDatabase.Instance.GetSpellByName(name);
+               answer = "Spell added in hand";
                boardController.AddInHand(card);
             }
             catch

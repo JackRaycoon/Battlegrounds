@@ -30,10 +30,13 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    private int siblingIndex = -1;
 
    public bool isInvis = false;
+   public bool isInvisAlways = false;
 
    public static bool isTargetingSpellNow = false;
    private Card spellTarget = null;
    public static Card battlecryTarget = null;
+
+   public bool isExternalSpellCast;
 
 
    private void Awake()
@@ -43,28 +46,35 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    }
    private void Update()
    {
-      canvasGroup.alpha = (isEnter && !isDragged || isInvis) ? 0f : 1f;
+      canvasGroup.alpha = (isEnter && !isDragged || isInvis || isInvisAlways) ? 0f : 1f;
 
       //Battlecry
-      if (isTargetingSpellNow && isCastingBattlecry)
+      if (isTargetingSpellNow && isCastingBattlecry && maySelectTarget)
       {
          if (Input.GetKeyDown(KeyCode.Mouse1))
          {
             //возвращает в руку
+            if(battleCryOwner != null)
+            {
+               //Удаляем карту с поля и из списков
+               PlayerData.Instance.playerMinions.Remove(battleCryOwner);
+               boardFiller.allPlayerFieldCardList.Remove(battleCryOwner.fieldCardObject);
+               Destroy(battleCryOwner.fieldCardObject);
 
-            //Удаляем карту с поля и из списков
-            PlayerData.Instance.playerMinions.Remove(battleCryOwner);
-            boardFiller.allPlayerFieldCardList.Remove(battleCryOwner.fieldCardObject);
-            Destroy(battleCryOwner.fieldCardObject);
+               //Создаём карту в руку
+               isInvis = false;
+               ReturnCardInHand();
 
-            //Создаём карту в руку
-            isInvis = false;
-            ReturnCardInHand();
+               DisableTargetSelection();
+               battleCryOwner = null;
+               battleCry = null;
+               battlecryTarget = null;
+               maySelectTarget = false;
+            }
+            else
+            {
 
-            DisableTargetSelection();
-            battleCryOwner = null;
-            battleCry = null;
-            battlecryTarget = null;
+            }
          }
          if (Input.GetKeyUp(KeyCode.Mouse0) && battlecryTarget != null)
          {
@@ -72,7 +82,10 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             DisableTargetSelection();
             boardFiller.boardController.CastSpell(battleCry, battlecryTarget, this, battleCryOwner);
             battlecryTarget = null;
-            boardFiller.boardController.EndSummon(battleCryOwner);
+            battleCry = null;
+            if (battleCryOwner != null)
+               boardFiller.boardController.EndSummon(battleCryOwner);
+            maySelectTarget = false;
          }
       }
    }
@@ -278,6 +291,7 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
    private Spell battleCry = null;
    public void DisableTargetSelection()
    {
+      isExternalSpellCast = false;
       isCastingBattlecry = false;
       isCastingBattlecryStatic = false;
       //Включаем выбор цели, убираем карту
@@ -352,13 +366,23 @@ public class HandCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          }
          else
          {
-            if (minion != null)
+            if (minion != null || isExternalSpellCast)
             {
+               battleCry = spell;
                spellTarget = null;
                isCastingBattlecry = true;
-               isCastingBattlecryStatic = true;
+               isCastingBattlecryStatic = true; 
+               //Может влиять на БК, проверить
+               StartCoroutine(MaySelectTarget());
             }
          }
       }
+   }
+
+   bool maySelectTarget = false;
+   IEnumerator MaySelectTarget()
+   {
+      yield return new WaitForSeconds(0.4f);
+      maySelectTarget = true;
    }
 }

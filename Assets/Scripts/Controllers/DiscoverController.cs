@@ -57,7 +57,6 @@ public class DiscoverController : MonoBehaviour
 
    internal void Click(int id)
    {
-      Debug.Log("Click");
       DisableDiscover();
       afterChoice.Invoke(cardForChoice[id]);
       cardForChoice.Clear();

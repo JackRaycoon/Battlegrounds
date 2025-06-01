@@ -184,7 +184,7 @@ public class TavernController : MonoBehaviour
          if(PlayerData.Instance.tavernTier >= i)
          {
             var spellList = Resources.LoadAll<SpellSO>("Cards/Spells")
-            .Where(spell => spell.spellType == SpellSO.SpellType.Tavern)
+            .Where(spell => spell.inTavernPool)
             .ToList();
             foreach (SpellSO spellSO in spellList)
             {
@@ -277,7 +277,7 @@ public class TavernController : MonoBehaviour
          minionsPool[cardSO].isUnlock = cardSO.tavernLevel <= PlayerData.Instance.tavernTier;
       }
       var spellList = Resources.LoadAll<SpellSO>("Cards/Spells")
-            .Where(spell => spell.spellType == SpellSO.SpellType.Tavern)
+            .Where(spell => spell.inTavernPool)
             .ToList();
       foreach (SpellSO spellSO in spellList)
       {
@@ -338,8 +338,16 @@ public class TavernController : MonoBehaviour
             break;
 
          var randomSpell = spellPool[Random.Range(0, spellPool.Count)];
-         tavernCards.Add(randomSpell);
+         tavernCards.Add(SpellDatabase.Instance.GetSpellByName(randomSpell.data.name));
       }
+
+      tavernCards.Sort((a, b) =>
+      {
+         bool aIsSpell = a is Spell;
+         bool bIsSpell = b is Spell;
+
+         return aIsSpell.CompareTo(bIsSpell);
+      });
 
       boardController.FillTavern();
    }

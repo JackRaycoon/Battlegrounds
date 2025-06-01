@@ -15,6 +15,8 @@ public class Spell : Card
    internal Action<Card, List<Card>> passive = null;
    internal Action<Card, List<Card>> reverse = null;
 
+   long countReturns = 0; //Сколько раз запрашивали абилку, для хеша
+
    public int countUsed = 0; //Для абилок героев
 
    public Spell(string name, SpellSO.SpellType spellType = SpellSO.SpellType.None)
@@ -36,6 +38,8 @@ public class Spell : Card
    {
       this.data = data;
    }
+
+   public Spell() { }
 
    public void Cast(List<Card> board)
    {
@@ -69,5 +73,25 @@ public class Spell : Card
    {
       if (valid == null) return true;
       return valid.Invoke(new List<Card> { card });
+   }
+
+   public Spell Copy()
+   {
+      countReturns++;
+      return new()
+      {
+         data = data,
+         cast = cast,
+         calc = calc,
+         valid = valid,
+         passive = passive,
+         reverse = reverse,
+         countUsed = countUsed,
+
+         fieldCardObject = fieldCardObject,
+         handCardObject = handCardObject,
+         indexHandCardForBattlecryBack = indexHandCardForBattlecryBack,
+         countReturns = countReturns
+      };
    }
 }

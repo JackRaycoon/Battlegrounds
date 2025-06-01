@@ -35,7 +35,7 @@ public class SpellDatabase
    {
       if (spellDatabase.ContainsKey(name))
       {
-         return spellDatabase[name];
+         return spellDatabase[name].Copy();
       }
       else
       {
@@ -48,9 +48,7 @@ public class SpellDatabase
    {
       //Tests
       AddSpellCast("AllBuff", AllBuffCast, AllBuffCalc);
-      AddSpellCast("OneBuff", AllBuffNoTavernCast, AllBuffCalc, AllBuffValid);
       AddSpellCast("OnePlayBuff", AllBuffNoTavernCast, AllBuffCalc);
-      AddSpellCast("OneTavBuff", AllBuffNoTavernCast, AllBuffCalc);
 
       //Spells - Special
       AddSpellCast("Triple Reward 1", TrippleReward1);
@@ -62,7 +60,9 @@ public class SpellDatabase
       AddSpellCast("Triple Reward 7", TrippleReward7);
 
       //Spells - Tavern
-
+      AddSpellCast("Alliance Flag", AllianceFlag_Cast);
+      AddSpellCast("Allied Mace", AlliedMace_Cast);
+      AddSpellCast("Allied Buckler", AlliedBuckler_Cast);
 
       //Minion Skills
       //Other
@@ -226,12 +226,6 @@ public class SpellDatabase
       return new List<int> { 1, 1 };
    }
 
-   private bool AllBuffValid(List<Card> targets)
-   {
-      if (targets.Count != 2) return true;
-      return targets[1].data.minionType1 == CardSO.MinionType.Beast || targets[1].data.minionType2 == CardSO.MinionType.Beast;
-   }
-
 
    //Tripple Rewards
    public void TrippleReward1(List<Card> targets)
@@ -265,7 +259,6 @@ public class SpellDatabase
 
    public void TrippleReward(int tier)
    {
-      //Убираем из пула
       var allTier = boardFiller.tavernController.currentPool.Where(card => card.tavernLevel == tier).ToList();
       var resList = new List<Card>();
       while(resList.Count < 3)
@@ -281,7 +274,49 @@ public class SpellDatabase
 
    public void PullInHand(Card card)
    {
+      if(boardFiller.tavernController.minionsPool[card.data].copies > 0)
+         boardFiller.tavernController.minionsPool[card.data].copies--;
       boardFiller.boardController.AddInHand(card);
+   }
+
+   //Alliance Flag
+
+   public void AllianceFlag_Cast(List<Card> targets)
+   {
+      var resList = new List<Card>
+      {
+         GetSpellByName("Allied Mace"),
+         GetSpellByName("Allied Buckler")
+      };
+      boardFiller.discoverController.EnableDiscover(resList, TargetOn);
+   }
+
+   public void TargetOn(Card spell)
+   {
+      boardFiller.handCardAlways.isExternalSpellCast = true;
+      boardFiller.handCardAlways.EnableTargetSelection(spell as Spell);
+   }
+
+   public void AlliedMace_Cast(List<Card> targets)
+   {
+      int atkBuff = 4;
+
+      var caster = targets[0]; //hero
+      var target = targets[1];
+      target.permanentATKBuff += atkBuff;
+      //target.permanentHPBuff += hpBuff;
+      //target.CUR_HP += hpBuff;
+   }
+
+   public void AlliedBuckler_Cast(List<Card> targets)
+   {
+      int hpBuff = 3;
+
+      var caster = targets[0]; //hero
+      var target = targets[1];
+      target.permanentHPBuff += hpBuff;
+      target.CUR_HP += hpBuff;
+      target.bonusKeywords.Add(Card.BonusKeyword.Taunt);
    }
 
 
