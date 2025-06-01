@@ -21,6 +21,8 @@ public class CardSO : ScriptableObject
    public MinionType minionType1;
    public MinionType minionType2;
 
+   public SpellSO calc; //Из этого заклинания берётся calc
+
    public SpellSO battleCry, deathrattle, startTurn, endTurn, other;
    public Trigger otherTrigger;
 

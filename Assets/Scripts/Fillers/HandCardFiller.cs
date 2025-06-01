@@ -21,10 +21,11 @@ public class HandCardFiller : MonoBehaviour
    {
       if (card is Spell)
       {
-         var data = (card as Spell).data;
+         var spell = card as Spell;
+         var data = spell.data;
 
          nameText.text = data.name;
-         descriptionText.text = data.description;
+         descriptionText.text = spell.Description();
 
          squareArt.sprite = data.spriteArt;
 
@@ -47,7 +48,7 @@ public class HandCardFiller : MonoBehaviour
          var data = card.data;
 
          nameText.text = data.name;
-         descriptionText.text = data.description;
+         descriptionText.text = card.Description();
          descriptionText.color = card.isGolden ?  new(1f, 1f, 1f) : new(0f, 0f, 0f);
 
          if (!data.isSquareArt)

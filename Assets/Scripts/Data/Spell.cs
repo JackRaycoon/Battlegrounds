@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -14,8 +15,6 @@ public class Spell : Card
 
    internal Action<Card, List<Card>> passive = null;
    internal Action<Card, List<Card>> reverse = null;
-
-   long countReturns = 0; //Сколько раз запрашивали абилку, для хеша
 
    public int countUsed = 0; //Для абилок героев
 
@@ -77,7 +76,6 @@ public class Spell : Card
 
    public Spell Copy()
    {
-      countReturns++;
       return new()
       {
          data = data,
@@ -90,8 +88,7 @@ public class Spell : Card
 
          fieldCardObject = fieldCardObject,
          handCardObject = handCardObject,
-         indexHandCardForBattlecryBack = indexHandCardForBattlecryBack,
-         countReturns = countReturns
+         indexHandCardForBattlecryBack = indexHandCardForBattlecryBack
       };
    }
 }

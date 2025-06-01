@@ -19,6 +19,6 @@ MonoBehaviour:
   inTavernPool: 0
   description: 'Give a minion
 
-    +3 Health and <font="KeyWords">Taunt</font>.'
+    +{0} Health and <font="KeyWords">Taunt</font>.'
   spellType: 1
   targetType: 3

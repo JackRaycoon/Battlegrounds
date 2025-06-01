@@ -19,9 +19,9 @@ MonoBehaviour:
   inTavernPool: 1
   description: '<font="KeyWords">Choose One</font> - Give a
 
-    minion +4 Attack
+    minion +{0} Attack
     or
 
-    +3 Health and <font="KeyWords">Taunt</font>.'
+    +{1} Health and <font="KeyWords">Taunt</font>.'
   spellType: 1
   targetType: 0

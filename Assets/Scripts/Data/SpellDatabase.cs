@@ -60,9 +60,9 @@ public class SpellDatabase
       AddSpellCast("Triple Reward 7", TrippleReward7);
 
       //Spells - Tavern
-      AddSpellCast("Alliance Flag", AllianceFlag_Cast);
-      AddSpellCast("Allied Mace", AlliedMace_Cast);
-      AddSpellCast("Allied Buckler", AlliedBuckler_Cast);
+      AddSpellCast("Alliance Flag", AllianceFlag_Cast, AllianceFlag_Calc);
+      AddSpellCast("Allied Mace", AlliedMace_Cast, AlliedMace_Calc);
+      AddSpellCast("Allied Buckler", AlliedBuckler_Cast, AlliedBuckler_Calc);
 
       //Minion Skills
       //Other
@@ -289,6 +289,18 @@ public class SpellDatabase
          GetSpellByName("Allied Buckler")
       };
       boardFiller.discoverController.EnableDiscover(resList, TargetOn);
+   }
+   private List<int> AllianceFlag_Calc(List<Card> targets)
+   {
+      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPower, 3 + PlayerData.Instance.runInfo.tavernSpellPower };
+   }
+   private List<int> AlliedMace_Calc(List<Card> targets)
+   {
+      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPower};
+   }
+   private List<int> AlliedBuckler_Calc(List<Card> targets)
+   {
+      return new List<int> { 3 + PlayerData.Instance.runInfo.tavernSpellPower };
    }
 
    public void TargetOn(Card spell)

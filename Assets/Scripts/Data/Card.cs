@@ -208,6 +208,31 @@ public class Card
       FillEffects();
    }
 
+   public string Description()
+   {
+      if(this is Spell)
+      {
+         var spell = this as Spell;
+         var description = spell.data.description;
+
+         if (spell.calc == null) return description;
+
+         List<int> values;
+         values = spell.calc(new List<Card> { null });
+
+         return string.Format(description, values.Cast<object>().ToArray());
+      }
+
+      if (data.calc == null) return data.description;
+      Spell calc = SpellDatabase.Instance.GetSpellByName(data.calc.name);
+      var descriptionC = calc.data.description;
+
+      List<int> valuesC;
+      valuesC = calc.calc(new List<Card> { this });
+
+      return string.Format(descriptionC, valuesC.Cast<object>().ToArray());
+   }
+
    public void FillEffects()
    {
       if (data.battleCry != null)
