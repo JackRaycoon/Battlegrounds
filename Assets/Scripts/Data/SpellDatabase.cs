@@ -102,6 +102,10 @@ public class SpellDatabase
       AddEffect("Imprisoner DT", ImprisonerDT_Cast);
       AddEffect("Imprisoner Golden DT", ImprisonerDT_CastGolden);
 
+      //Deathrattle - Beasts
+      AddEffect("Kindly Grandmother DT", KindlyGrandmotherDT_Cast);
+      AddEffect("Kindly Grandmother Golden DT", KindlyGrandmotherDT_CastGolden);
+
       //Start Turn - Neutral
       AddEffect("Beleaguered Battler ST", BeleagueredBattlerST_Cast);
       
@@ -702,6 +706,58 @@ public class SpellDatabase
                caster,
                caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
                PlayerData.Instance.playerMinions.IndexOf(caster) + 1);
+      }
+   }
+
+   //Kindly Grandmother
+   private void KindlyGrandmotherDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         boardFiller.gameController.Summon(
+               new("Big Bad Wolf"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         boardFiller.boardController.Summon(
+               new("Big Bad Wolf"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void KindlyGrandmotherDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         boardFiller.gameController.Summon(
+               new("Big Bad Wolf Golden"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         boardFiller.boardController.Summon(
+               new("Big Bad Wolf Golden"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
       }
    }
 
