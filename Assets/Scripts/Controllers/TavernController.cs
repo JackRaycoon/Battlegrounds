@@ -326,10 +326,6 @@ public class TavernController : MonoBehaviour
          Card randomCard = new(selectedSO);
          tavernCards.Add(randomCard);
 
-         info.copies--;
-
-         if (info.copies <= 0)
-            availableMinions.Remove(selectedSO);
       }
 
       while (tavernCards.Count(card => card is Spell) < spellCount)

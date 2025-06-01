@@ -47,8 +47,6 @@ public class SpellDatabase
    private void InitializeSpellDatabase()
    {
       //Tests
-      AddSpellCast("AllBuff", AllBuffCast, AllBuffCalc);
-      AddSpellCast("OnePlayBuff", AllBuffNoTavernCast, AllBuffCalc);
 
       //Spells - Special
       AddSpellCast("Triple Reward 1", TrippleReward1);
@@ -63,6 +61,11 @@ public class SpellDatabase
       AddSpellCast("Alliance Flag", AllianceFlag_Cast, AllianceFlag_Calc);
       AddSpellCast("Allied Mace", AlliedMace_Cast, AlliedMace_Calc);
       AddSpellCast("Allied Buckler", AlliedBuckler_Cast, AlliedBuckler_Calc);
+      AddSpellCast("Tavern Dish Banana", TavernDishBanana_Cast, TavernDishBanana_Calc);
+      AddSpellCast("Them Apples", ThemApples_Cast, ThemApples_Calc);
+      AddSpellCast("Tavern Coin", TavernCoin_Cast, TavernCoin_Calc);
+      AddSpellCast("Recruit a Trainee", RecruitTrainee_Cast);
+      AddSpellCast("Enchanted Lasso", EnchantedLasso_Cast, null, EnchantedLasso_Valid);
 
       //Minion Skills
       //Other
@@ -168,64 +171,6 @@ public class SpellDatabase
 
 
 
-   //AllBuff
-   private void AllBuffCast(List<Card> targets)
-   {
-      var calc = AllBuffCalc(targets);
-      int atkBuff = calc[0];
-      int hpBuff = calc[1];
-
-      var caster = targets[0]; //hero
-      targets.Remove(caster);
-      foreach (Card target in targets)
-      {
-         if (!target.fieldCardObject.GetComponent<FieldCardFiller>().isTavern)
-         {
-            target.permanentATKBuff += atkBuff;
-            target.permanentHPBuff += hpBuff;
-            target.CUR_HP += hpBuff;
-         }
-      }
-   }
-   private void AllBuffNoTavernCast(List<Card> targets)
-   {
-      var calc = AllBuffCalc(targets);
-      int atkBuff = calc[0];
-      int hpBuff = calc[1];
-
-      var caster = targets[0]; //hero
-      targets.Remove(caster);
-      foreach (Card target in targets)
-      {
-         target.permanentATKBuff += atkBuff;
-         target.permanentHPBuff += hpBuff;
-         target.CUR_HP += hpBuff;
-      }
-   }
-   private void AllBuffNoTavernCastTwice(List<Card> targets)
-   {
-      var calc = AllBuffCalc(targets);
-      int atkBuff = calc[0];
-      int hpBuff = calc[1];
-
-      var caster = targets[0]; //hero
-      targets.Remove(caster);
-      foreach (Card target in targets)
-      {
-         for (int i = 0; i < 2; i++)
-         {
-            target.permanentATKBuff += atkBuff;
-            target.permanentHPBuff += hpBuff;
-            target.CUR_HP += hpBuff;
-         }
-      }
-   }
-   private List<int> AllBuffCalc(List<Card> targets)
-   {
-      var caster = targets[0];
-      return new List<int> { 1, 1 };
-   }
-
 
    //Tripple Rewards
    public void TrippleReward1(List<Card> targets)
@@ -292,15 +237,16 @@ public class SpellDatabase
    }
    private List<int> AllianceFlag_Calc(List<Card> targets)
    {
-      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPower, 3 + PlayerData.Instance.runInfo.tavernSpellPower };
+      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPowerATK, 
+                             3 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
    }
    private List<int> AlliedMace_Calc(List<Card> targets)
    {
-      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPower};
+      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPowerATK};
    }
    private List<int> AlliedBuckler_Calc(List<Card> targets)
    {
-      return new List<int> { 3 + PlayerData.Instance.runInfo.tavernSpellPower };
+      return new List<int> { 3 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
    }
 
    public void TargetOn(Card spell)
@@ -331,7 +277,97 @@ public class SpellDatabase
       target.bonusKeywords.Add(Card.BonusKeyword.Taunt);
    }
 
+   //TavernDishBanana
+   private void TavernDishBanana_Cast(List<Card> targets)
+   {
+      var calc = TavernDishBanana_Calc(targets);
+      int atkBuff = calc[0];
+      int hpBuff = calc[1];
 
+      var caster = targets[0]; //hero
+      var target = targets[1];
+      target.permanentATKBuff += atkBuff;
+      target.permanentHPBuff += hpBuff;
+      target.CUR_HP += hpBuff;
+   }
+
+   private List<int> TavernDishBanana_Calc(List<Card> targets)
+   {
+      return new List<int> { 2 + PlayerData.Instance.runInfo.tavernSpellPowerATK, 
+                             2 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
+   }
+
+   //Them Apples
+   private void ThemApples_Cast(List<Card> targets)
+   {
+      var calc = ThemApples_Calc(targets);
+      int atkBuff = calc[0];
+      int hpBuff = calc[1];
+
+      var caster = targets[0]; //hero
+      targets.Remove(caster);
+      foreach (Card target in targets)
+      {
+         if (target.fieldCardObject.GetComponent<FieldCardFiller>().isTavern)
+         {
+            target.permanentATKBuff += atkBuff;
+            target.permanentHPBuff += hpBuff;
+            target.CUR_HP += hpBuff;
+         }
+      }
+   }
+
+   private List<int> ThemApples_Calc(List<Card> targets)
+   {
+      return new List<int> { 1 + PlayerData.Instance.runInfo.tavernSpellPowerATK,
+                             2 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
+   }
+
+   //Tavern Coin
+   private void TavernCoin_Cast(List<Card> targets)
+   {
+      var calc = TavernCoin_Calc(targets);
+      int money = calc[0];
+
+      for(int i = 0; i < money; i++)
+      {
+         PlayerData.Instance.curMoneyCount++;
+      }
+      boardFiller.boardController.moneyController.UpdateMoney();
+   }
+
+   private List<int> TavernCoin_Calc(List<Card> targets)
+   {
+      return new List<int> { 1 };
+   }
+
+   //Recruit a Trainee
+   private void RecruitTrainee_Cast(List<Card> targets)
+   {
+      var oneTier = boardFiller.tavernController.currentPool.Where(card => card.tavernLevel == 1).ToList();
+      if (oneTier.Count != 0)
+      {
+         var random = oneTier[Random.Range(0, oneTier.Count)];
+         Card card = new(random);
+         if (boardFiller.tavernController.minionsPool[card.data].copies > 0)
+            boardFiller.tavernController.minionsPool[card.data].copies--;
+         boardFiller.boardController.AddInHand(card);
+      }
+   }
+
+   //Enchanted Lasso
+   private void EnchantedLasso_Cast(List<Card> targets)
+   {
+      var minions = TavernController.tavernCards.Where(card => card is not Spell).ToList();
+      var minion = minions[Random.Range(0, minions.Count)];
+      boardFiller.boardController.AddInHand(minion);
+      boardFiller.boardController.RemoveMinionFromTavern(minion);
+   }
+   private bool EnchantedLasso_Valid(List<Card> targets)
+   {
+      var minions = TavernController.tavernCards.Where(card => card is not Spell).ToList();
+      return minions.Count != 0;
+   }
 
    //Consume One
    private void ConsumeOne_Cast(List<Card> targets)

@@ -212,11 +212,7 @@ public class BoardController : MonoBehaviour
          return;
       }
       AddInHand(minion);
-      TavernController.tavernCards.Remove(minion);
-      BoardFiller.allTavernCardList.Remove(minion.fieldCardObject);
-      if(minion is not Spell)
-         boardFiller.tavernController.minionsPool[minion.data].copies--;
-      Destroy(minion.fieldCardObject);
+      RemoveMinionFromTavern(minion);
 
       PlayerData.Instance.curMoneyCount -= buyCost;
       moneyController.UpdateMoney();
@@ -377,5 +373,14 @@ public class BoardController : MonoBehaviour
 
          ReFillPlayerMinions();
       }
+   }
+
+   internal void RemoveMinionFromTavern(Card minion)
+   {
+      TavernController.tavernCards.Remove(minion);
+      BoardFiller.allTavernCardList.Remove(minion.fieldCardObject);
+      if (minion is not Spell && boardFiller.tavernController.minionsPool[minion.data].copies > 0)
+         boardFiller.tavernController.minionsPool[minion.data].copies--;
+      Destroy(minion.fieldCardObject);
    }
 }
