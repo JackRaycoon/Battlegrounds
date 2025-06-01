@@ -1021,6 +1021,8 @@ MonoBehaviour:
   bigCardPrefab: {fileID: 2638868452927489487, guid: 3bb5719fa94f9f44c9eb3fc0ead84406, type: 3}
   bigSpellCardPrefab: {fileID: 0}
   isInvis: 0
+  isInvisAlways: 0
+  isExternalSpellCast: 0
 --- !u!114 &5288663426790007342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1174,7 +1176,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: -4.69
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -15
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

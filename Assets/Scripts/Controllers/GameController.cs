@@ -196,6 +196,17 @@ public class GameController : MonoBehaviour
          return;
       }
 
+      if (allPlayerStealth && allPlayerZero)
+      {
+         foreach (var card in playerQueue)
+            card.bonusKeywordsInFight.Remove(Card.BonusKeyword.Stealth);
+      }
+      if (allEnemyStealth && allEnemyZero)
+      {
+         foreach (var card in enemyQueue)
+            card.bonusKeywordsInFight.Remove(Card.BonusKeyword.Stealth);
+      }
+
       // Ход текущей стороны
       List<Card> currentQueue = isPlayerTurn ? enemyQueue : playerQueue;
 
@@ -315,8 +326,8 @@ public class GameController : MonoBehaviour
       }
 
       //Нанесение урона после атаки
-      defender.TakeDmg(attacker.ATK, attacker);
-      attacker.TakeDmg(defender.ATK, defender);
+      defender.TakeDmg(attacker.ATK, attacker, this);
+      attacker.TakeDmg(defender.ATK, defender, this);
       attacker.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
       defender.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
 

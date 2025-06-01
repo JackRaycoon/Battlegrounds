@@ -637,7 +637,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: -4.69
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -15
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1283,6 +1283,7 @@ MonoBehaviour:
   bigSpellCardPrefab: {fileID: 6064077887944803779, guid: 5c5055f2d7268c64b831077a51cca202, type: 3}
   isInvis: 0
   isInvisAlways: 0
+  isExternalSpellCast: 0
 --- !u!114 &4309946123783569880
 MonoBehaviour:
   m_ObjectHideFlags: 0

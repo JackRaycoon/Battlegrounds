@@ -10,30 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Imprisoner
+  m_Name: Psych-o-Tron
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: 0b54a80a6b1e6804f891446a9cf5e791, type: 3}
+  spriteArt: {fileID: 21300000, guid: 94c7990231dbc0a4c9a0bb03faae7954, type: 3}
   isSquareArt: 0
   attack: 3
-  hp: 2
-  tavernLevel: 1
+  hp: 4
+  tavernLevel: 3
   backInPool: 1
   description: '<font="KeyWords">Taunt</font>
 
-    <font="KeyWords">Deathrattle:</font>
-    Summon a
+    <font="KeyWords">Divine Shield</font>
 
-    1/1 Imp.'
+    <font="KeyWords">Corrupted</font>'
   attackType: 0
-  pools: 06000000
-  minionType1: 6
+  pools: 05000000
+  minionType1: 5
   minionType2: 0
   calc: {fileID: 0}
   battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: e95dc9187680e65419f88874ef94192b, type: 2}
+  deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
-  bonusKeywords: 03000000
-  tags: 01000000
+  bonusKeywords: 030000000000000006000000
+  tags: 05000000

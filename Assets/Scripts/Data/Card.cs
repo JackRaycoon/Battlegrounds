@@ -179,6 +179,8 @@ public class Card
    public List<BonusKeyword> bonusKeywords = new();
    public List<BonusKeyword> bonusKeywordsInFight = new();
 
+   public CardAbilityInfo cardAbilityInfo = new();
+
    public enum BonusKeyword
    {
       DivineShield,
@@ -277,12 +279,50 @@ public class Card
       inFightHPBuff = 0;
       CUR_HP = MAX_HP;
       isDeath = false;
+
+      cardAbilityInfo.ToNormal();
    }
 
-   public void TakeDmg(long dmg, Card from)
+   public void TakeDmg(long dmg, Card from, GameController gameController)
    {
       if (GameController.isFightNow)
       {
+         //Check Triggers
+         foreach (Card card in gameController.playerTeam)
+         {
+            if (card.others.Keys.Contains(CardSO.Trigger.BeforeTakeDamage) &&
+               dmg > 0 && !bonusKeywordsInFight.Contains(BonusKeyword.DivineShield)
+               && gameController.playerTeam.Contains(this))
+            {
+               List<Card> allBoard = new()
+               {
+                  card,
+                  this
+               };
+               foreach (Spell other in card.others[CardSO.Trigger.BeforeTakeDamage])
+               {
+                  other?.Cast(allBoard);
+               }
+            }
+         }
+         foreach (Card card in gameController.enemyTeam)
+         {
+            if (card.others.Keys.Contains(CardSO.Trigger.BeforeTakeDamage) &&
+               dmg > 0 && !bonusKeywordsInFight.Contains(BonusKeyword.DivineShield)
+               && gameController.enemyTeam.Contains(this))
+            {
+               List<Card> allBoard = new()
+               {
+                  card,
+                  this
+               };
+               foreach (Spell other in card.others[CardSO.Trigger.BeforeTakeDamage])
+               {
+                  other?.Cast(allBoard);
+               }
+            }
+         }
+
          if (bonusKeywordsInFight.Contains(BonusKeyword.DivineShield))
          {
             bonusKeywordsInFight.Remove(BonusKeyword.DivineShield);

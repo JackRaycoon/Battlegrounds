@@ -28,7 +28,6 @@ public class CommandsController : MonoBehaviour
       string command = text.text;
       List<string> commandList = new(command.Split());
       if (command == "") return;
-      Debug.Log(command);
       text.text = "";
       string answer = "Command not found";
       switch (commandList[0])

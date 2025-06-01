@@ -68,15 +68,19 @@ public class SpellDatabase
       AddSpellCast("Enchanted Lasso", EnchantedLasso_Cast, null, EnchantedLasso_Valid);
 
       //Minion Skills
-      //Other
+      //Base Effects
       AddEffect("ConsumeOne", ConsumeOne_Cast);
       AddEffect("ConsumeOneDoubleStats", ConsumeOneDoubleStats_Cast);
 
-      //Triggers
+      //Triggers - Demons
       AddEffect("Wrath Weaver Trigger", WrathWeaverTrigger_Cast);
       AddEffect("Wrath Weaver Golden Trigger", WrathWeaverTrigger_CastGolden);
 
-      //Battlecry
+      //Triggers - Mech
+      AddEffect("Shielded Minibot Trigger", ShieldedMinibotTrigger_Cast);
+      AddEffect("Shielded Minibot Golden Trigger", ShieldedMinibotTrigger_CastGolden);
+
+      //Battlecry - Demons
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
       AddEffect("Backstage Security Golden BC", BackstageSecurityBC_CastGolden, BackstageSecurityBC_Calc);
       AddEffect("Vulgar Homunculus BC", VulgarHomunculusBC_Cast, VulgarHomunculusBC_Calc);
@@ -84,7 +88,11 @@ public class SpellDatabase
       AddEffect("Ominous Seer BC", OminousSeerBC_Cast);
       AddEffect("Ominous Seer Golden BC", OminousSeerBC_CastGolden);
 
-      //Deathrattle
+      //Battlecry - Undeads
+      AddEffect("Acherus Veteran BC", AcherusVeteranBC_Cast);
+      AddEffect("Acherus Veteran Golden BC", AcherusVeteranBC_CastGolden);
+
+      //Deathrattle - Demons
       AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
       AddEffect("Fiendish Servant Golden DT", FiendishServantDT_CastGolden);
 
@@ -94,10 +102,10 @@ public class SpellDatabase
       AddEffect("Imprisoner DT", ImprisonerDT_Cast);
       AddEffect("Imprisoner Golden DT", ImprisonerDT_CastGolden);
 
-      //Start Turn
+      //Start Turn - Neutral
       AddEffect("Beleaguered Battler ST", BeleagueredBattlerST_Cast);
       
-      //End Turn
+      //End Turn - Neutral
       AddEffect("Tavern Tipper ET", TavernTipperET_Cast);
       AddEffect("Tavern Tipper Golden ET", TavernTipperET_CastGolden);
 
@@ -261,7 +269,14 @@ public class SpellDatabase
 
       var caster = targets[0]; //hero
       var target = targets[1];
-      target.permanentATKBuff += atkBuff;
+      if (GameController.isFightNow)
+      {
+         target.inFightATKBuff += atkBuff;
+      }
+      else
+      {
+         target.permanentATKBuff += atkBuff;
+      }
       //target.permanentHPBuff += hpBuff;
       //target.CUR_HP += hpBuff;
    }
@@ -272,9 +287,19 @@ public class SpellDatabase
 
       var caster = targets[0]; //hero
       var target = targets[1];
-      target.permanentHPBuff += hpBuff;
-      target.CUR_HP += hpBuff;
-      target.bonusKeywords.Add(Card.BonusKeyword.Taunt);
+
+      if (GameController.isFightNow)
+      {
+         target.inFightHPBuff += hpBuff;
+         target.CUR_HP += hpBuff;
+         target.bonusKeywordsInFight.Add(Card.BonusKeyword.Taunt);
+      }
+      else
+      {
+         target.permanentHPBuff += hpBuff;
+         target.CUR_HP += hpBuff;
+         target.bonusKeywords.Add(Card.BonusKeyword.Taunt);
+      }
    }
 
    //TavernDishBanana
@@ -286,9 +311,18 @@ public class SpellDatabase
 
       var caster = targets[0]; //hero
       var target = targets[1];
-      target.permanentATKBuff += atkBuff;
-      target.permanentHPBuff += hpBuff;
-      target.CUR_HP += hpBuff;
+      if (GameController.isFightNow)
+      {
+         target.inFightATKBuff += atkBuff;
+         target.inFightHPBuff += hpBuff;
+         target.CUR_HP += hpBuff;
+      }
+      else
+      {
+         target.permanentATKBuff += atkBuff;
+         target.permanentHPBuff += hpBuff;
+         target.CUR_HP += hpBuff;
+      }
    }
 
    private List<int> TavernDishBanana_Calc(List<Card> targets)
@@ -308,7 +342,7 @@ public class SpellDatabase
       targets.Remove(caster);
       foreach (Card target in targets)
       {
-         if (target.fieldCardObject.GetComponent<FieldCardFiller>().isTavern)
+         if (target.fieldCardObject.GetComponent<FieldCardFiller>().isTavern && target is not Spell)
          {
             target.permanentATKBuff += atkBuff;
             target.permanentHPBuff += hpBuff;
@@ -407,6 +441,30 @@ public class SpellDatabase
       }
    }
 
+   //Shielded Minibot
+   private void ShieldedMinibotTrigger_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      var target = targets[1];
+
+      if(caster.cardAbilityInfo.castsShieldedMinibot < 1)
+      {
+         target.bonusKeywordsInFight.Add(Card.BonusKeyword.DivineShield);
+         caster.cardAbilityInfo.castsShieldedMinibot++;
+      }
+   }
+   private void ShieldedMinibotTrigger_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      var target = targets[1];
+
+      if (caster.cardAbilityInfo.castsShieldedMinibot < 2)
+      {
+         target.bonusKeywordsInFight.Add(Card.BonusKeyword.DivineShield);
+         caster.cardAbilityInfo.castsShieldedMinibot++;
+      }
+   }
+
    //Backstage Security
    private void BackstageSecurityBC_Cast(List<Card> targets)
    {
@@ -461,6 +519,33 @@ public class SpellDatabase
       PlayerData.Instance.runInfo.discountOnSpells+=2;
    }
 
+   //Acherus Veteran 
+   private void AcherusVeteranBC_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      var target = targets[1];
+      if (GameController.isFightNow)
+      {
+         target.inFightATKBuff += caster.ATK;
+      }
+      else
+      {
+         target.permanentATKBuff += caster.ATK;
+      }
+   }
+   private void AcherusVeteranBC_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      var target = targets[1];
+      if (GameController.isFightNow)
+      {
+         target.inFightATKBuff += caster.ATK * 2;
+      }
+      else
+      {
+         target.permanentATKBuff += caster.ATK * 2;
+      }
+   }
 
    //Fiendish Servant
    private void FiendishServantDT_Cast(List<Card> targets)

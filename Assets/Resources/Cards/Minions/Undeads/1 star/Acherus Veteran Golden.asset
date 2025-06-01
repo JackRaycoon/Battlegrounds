@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Imprisoner
+  m_Name: Acherus Veteran Golden
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: 0b54a80a6b1e6804f891446a9cf5e791, type: 3}
+  spriteArt: {fileID: 21300000, guid: b97c142505fc7e9479f1ec8e3b2bd083, type: 3}
   isSquareArt: 0
-  attack: 3
+  attack: 4
   hp: 2
   tavernLevel: 1
   backInPool: 1
-  description: '<font="KeyWords">Taunt</font>
+  description: '<font="KeyWords">Battlecry:</font> Give double
 
-    <font="KeyWords">Deathrattle:</font>
-    Summon a
+    this minion''s
+    Attack
 
-    1/1 Imp.'
+    to friendly minion.'
   attackType: 0
-  pools: 06000000
-  minionType1: 6
+  pools: 02000000
+  minionType1: 2
   minionType2: 0
   calc: {fileID: 0}
-  battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: e95dc9187680e65419f88874ef94192b, type: 2}
+  battleCry: {fileID: 11400000, guid: 09e9800c7c1f4f94a9a8ba444dbebe4c, type: 2}
+  deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
-  bonusKeywords: 03000000
-  tags: 01000000
+  bonusKeywords: 
+  tags: 04000000

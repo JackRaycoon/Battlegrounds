@@ -56,14 +56,18 @@ public class CardSO : ScriptableObject
    public enum Tags
    {
       NoTagged,
-      Spam,
-      SelfDamage,
-      Consumes
+      SpamDemons,
+      SelfDamageDemons,
+      ConsumesDemons,
+      UndeadATK,
+      AnnoyingMech,
+      DivineShieldsMech,
+         
    }
    public enum Trigger
    {
       None,
       SummonDemon,
-
+      BeforeTakeDamage,
    }
 }
