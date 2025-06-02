@@ -27,7 +27,7 @@ MonoBehaviour:
   minionType2: 0
   calc: {fileID: 0}
   battleCry: {fileID: 0}
-  deathrattle: {fileID: 0}
+  deathrattle: {fileID: 11400000, guid: c6b5250505f4eb64ba26ee931f71bcf2, type: 2}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   other: {fileID: 0}

@@ -10,27 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Kindly Grandmother
+  m_Name: Alleycat Golden
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: 7920b785a606092408f97c2a4e39c5e1, type: 3}
+  spriteArt: {fileID: 21300000, guid: 4a3bc6c3e6b7e444bbba490dd6dfd6e9, type: 3}
   isSquareArt: 0
-  attack: 1
-  hp: 1
+  attack: 2
+  hp: 2
   tavernLevel: 1
   backInPool: 1
-  description: '<font="KeyWords">Deathrattle:</font>  Summon a
-
-    3/2 Big Bad Wolf.'
+  description: "<font=\"KeyWords\">Battlecry:</font> Summon a\n2/2 Cat.\r"
   attackType: 0
   pools: 03000000
   minionType1: 3
   minionType2: 0
   calc: {fileID: 0}
-  battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: 8f58a7f9885417d45896f8eb4e75e376, type: 2}
+  battleCry: {fileID: 11400000, guid: 429a3057bd9282c41ab180725b46bd8e, type: 2}
+  deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
   bonusKeywords: 
-  tags: 0700000000000000
+  tags: 00000000

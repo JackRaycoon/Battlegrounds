@@ -78,7 +78,7 @@ public class BoardController : MonoBehaviour
       minion.isSummoned = true;
       Destroy(minion.handCardObject);
 
-      if (minion.isGolden)
+      if (minion.isGolden && !minion.cardAbilityInfo.isGoldenedAureateLaureate)
       {
          int tier = PlayerData.Instance.tavernTier + 1;
          if (tier > 6) tier = 6;

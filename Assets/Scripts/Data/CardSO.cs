@@ -63,6 +63,7 @@ public class CardSO : ScriptableObject
       AnnoyingMech,
       DivineShieldsMech,
       ManyAttackBeast,
+      GoldenPirates,
 
    }
    public enum Trigger

@@ -195,7 +195,6 @@ public class Card
    public Card(string name, bool isGolden = false)
    {
       var all = Resources.LoadAll<CardSO>("Cards/Minions");
-      //data = Resources.Load<CardSO>($"Cards/Minions/{name}{(isGolden ? " Golden" : "")}");
       data = all.FirstOrDefault(card => card.name == $"{name}{(isGolden ? " Golden" : "")}");
       this.isGolden = isGolden;
       if (name.Contains(" Golden"))

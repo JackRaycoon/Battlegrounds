@@ -10,27 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Kindly Grandmother
+  m_Name: Aureate Laureate
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: 7920b785a606092408f97c2a4e39c5e1, type: 3}
-  isSquareArt: 0
+  spriteArt: {fileID: 21300000, guid: e1279c9c0044c624aa6fccb177255f88, type: 3}
+  isSquareArt: 1
   attack: 1
   hp: 1
   tavernLevel: 1
   backInPool: 1
-  description: '<font="KeyWords">Deathrattle:</font>  Summon a
-
-    3/2 Big Bad Wolf.'
+  description: "<font=\"KeyWords\">Divine Shield\r</font>\n<font=\"KeyWords\">Battlecry:</font>
+    Make this\nminion Golden."
   attackType: 0
-  pools: 03000000
-  minionType1: 3
+  pools: 0a000000
+  minionType1: 10
   minionType2: 0
   calc: {fileID: 0}
-  battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: 8f58a7f9885417d45896f8eb4e75e376, type: 2}
+  battleCry: {fileID: 11400000, guid: 3b19b7d57eb3d49418eeff92b7b4170b, type: 2}
+  deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
-  bonusKeywords: 
-  tags: 0700000000000000
+  bonusKeywords: 00000000
+  tags: 0000000008000000

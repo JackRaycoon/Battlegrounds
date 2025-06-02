@@ -92,6 +92,13 @@ public class SpellDatabase
       AddEffect("Acherus Veteran BC", AcherusVeteranBC_Cast);
       AddEffect("Acherus Veteran Golden BC", AcherusVeteranBC_CastGolden);
 
+      //Battlecry - Beasts
+      AddEffect("Alleycat BC", AlleycatBC_Cast);
+      AddEffect("Alleycat Golden BC", AlleycatBC_CastGolden);
+
+      //Battlecry - Pirates
+      AddEffect("Aureate Laureate BC", AureateLaureateBC_Cast);
+
       //Deathrattle - Demons
       AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
       AddEffect("Fiendish Servant Golden DT", FiendishServantDT_CastGolden);
@@ -553,6 +560,73 @@ public class SpellDatabase
       {
          target.permanentATKBuff += caster.ATK * 2;
       }
+   }
+
+   //Alleycat
+   private void AlleycatBC_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         boardFiller.gameController.Summon(
+               new("Tabbycat"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         boardFiller.boardController.Summon(
+               new("Tabbycat"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void AlleycatBC_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         boardFiller.gameController.Summon(
+               new("Tabbycat Golden"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         boardFiller.boardController.Summon(
+               new("Tabbycat Golden"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+
+   //Aureate Laureate
+   private void AureateLaureateBC_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+
+      var all = Resources.LoadAll<CardSO>("Cards/Minions");
+      var data = all.FirstOrDefault(card => card.name == $"{caster.data.name} Golden");
+      long hpDiff = data.hp - caster.data.hp;
+      caster.data = data;
+      caster.isGolden = true;
+      caster.CUR_HP += hpDiff;
+      caster.cardAbilityInfo.isGoldenedAureateLaureate = true;
+      //caster.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
    }
 
    //Fiendish Servant

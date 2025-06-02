@@ -20,16 +20,20 @@ public class Spell : Card
 
    public Spell(string name, SpellSO.SpellType spellType = SpellSO.SpellType.None)
    {
+      SpellSO[] all;
       switch (spellType)
       {
          case SpellSO.SpellType.None:
-            data = Resources.Load<SpellSO>($"Cards/Spells/{name}");
+            all = Resources.LoadAll<SpellSO>("Cards/Spells");
+            data = all.FirstOrDefault(card => card.name == $"{name}");
             break;
          case SpellSO.SpellType.Effect:
-            data = Resources.Load<SpellSO>($"Cards/Effects/{name}");
+            all = Resources.LoadAll<SpellSO>("Cards/Effects");
+            data = all.FirstOrDefault(card => card.name == $"{name}");
             break;
          case SpellSO.SpellType.HeroAbility:
-            data = Resources.Load<SpellSO>($"Cards/Abilities/{name}");
+            all = Resources.LoadAll<SpellSO>("Cards/Abilities");
+            data = all.FirstOrDefault(card => card.name == $"{name}");
             break;
       }
    }
