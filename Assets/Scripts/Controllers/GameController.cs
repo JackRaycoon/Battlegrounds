@@ -403,6 +403,8 @@ public class GameController : MonoBehaviour
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
          FieldCardUI fieldCardUI = go.GetComponent<FieldCardUI>();
 
+         minion.CUR_HP = 1;
+
          fieldCardUI.filler = filler;
          fieldCardUI.boardFiller = boardController.boardFiller;
 

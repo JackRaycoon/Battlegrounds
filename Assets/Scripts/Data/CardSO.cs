@@ -64,6 +64,7 @@ public class CardSO : ScriptableObject
       DivineShieldsMech,
       ManyAttackBeast,
       GoldenPirates,
+      BonusWordsMurlocs,
 
    }
    public enum Trigger

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 using static Unity.Burst.Intrinsics.Arm;
 using static Unity.Burst.Intrinsics.X86.Avx;
 using static UnityEngine.GraphicsBuffer;
@@ -98,6 +99,10 @@ public class SpellDatabase
 
       //Battlecry - Pirates
       AddEffect("Aureate Laureate BC", AureateLaureateBC_Cast);
+
+      //Battlecry - Murlocs
+      AddEffect("Bubble Gunner BC", BubbleGunnerBC_Cast);
+      AddEffect("Bubble Gunner Golden BC", BubbleGunnerBC_CastGolden);
 
       //Deathrattle - Demons
       AddEffect("Fiendish Servant DT", FiendishServantDT_Cast);
@@ -627,6 +632,82 @@ public class SpellDatabase
       caster.CUR_HP += hpDiff;
       caster.cardAbilityInfo.isGoldenedAureateLaureate = true;
       //caster.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+   }
+
+   //Bubble Gunner
+   private void BubbleGunnerBC_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+
+      List<Card.BonusKeyword> bonusKeywords = new()
+      {
+         Card.BonusKeyword.Windfury,
+         Card.BonusKeyword.Reborn,
+         Card.BonusKeyword.DivineShield,
+         Card.BonusKeyword.Taunt,
+         Card.BonusKeyword.Stealth,
+         Card.BonusKeyword.Venomous
+      };
+
+      if (GameController.isFightNow)
+      {
+         foreach (var key in caster.bonusKeywordsInFight)
+            bonusKeywords.Remove(key);
+         if(bonusKeywords.Count > 0)
+         {
+            var randomKey = bonusKeywords[Random.Range(0, bonusKeywords.Count)];
+            caster.bonusKeywordsInFight.Add(randomKey);
+         }
+      }
+      else
+      {
+         foreach (var key in caster.bonusKeywords)
+            bonusKeywords.Remove(key);
+         if (bonusKeywords.Count > 0)
+         {
+            var randomKey = bonusKeywords[Random.Range(0, bonusKeywords.Count)];
+            caster.bonusKeywords.Add(randomKey);
+         }
+      }
+   }
+   private void BubbleGunnerBC_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+
+      List<Card.BonusKeyword> bonusKeywords = new()
+      {
+         Card.BonusKeyword.Windfury,
+         Card.BonusKeyword.Reborn,
+         Card.BonusKeyword.DivineShield,
+         Card.BonusKeyword.Taunt,
+         Card.BonusKeyword.Stealth,
+         Card.BonusKeyword.Venomous
+      };
+
+      if (GameController.isFightNow)
+      {
+         foreach (var key in caster.bonusKeywordsInFight)
+            bonusKeywords.Remove(key);
+         for(int i = 0; i < 2; i++)
+            if (bonusKeywords.Count > 0)
+            {
+               var randomKey = bonusKeywords[Random.Range(0, bonusKeywords.Count)];
+               caster.bonusKeywordsInFight.Add(randomKey);
+               bonusKeywords.Remove(randomKey);
+            }
+      }
+      else
+      {
+         foreach (var key in caster.bonusKeywords)
+            bonusKeywords.Remove(key);
+         for (int i = 0; i < 2; i++)
+            if (bonusKeywords.Count > 0)
+            {
+               var randomKey = bonusKeywords[Random.Range(0, bonusKeywords.Count)];
+               caster.bonusKeywords.Add(randomKey);
+               bonusKeywords.Remove(randomKey);
+            }
+      }
    }
 
    //Fiendish Servant
