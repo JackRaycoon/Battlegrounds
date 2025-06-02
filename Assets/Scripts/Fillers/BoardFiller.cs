@@ -17,6 +17,8 @@ public class BoardFiller : MonoBehaviour
    public EnemyDataController enemyDataController;
    public CharactersController charactersController;
    public DiscoverController discoverController;
+   public MoneyController moneyController;
+   public GlossaryController glossaryController;
 
    public HandUI handUI;
 

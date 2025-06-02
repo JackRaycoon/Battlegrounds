@@ -18,8 +18,7 @@ public class TavernController : MonoBehaviour
    public TextMeshProUGUI tavernUpText, freezeText, refreshText;
    public GameObject tavernUpObj;
 
-   public BoardController boardController;
-   public MoneyController moneyController;
+   public BoardFiller boardFiller;
 
    public Transform starContainer;
    public List<GameObject> starPrefabs;
@@ -202,7 +201,7 @@ public class TavernController : MonoBehaviour
       if(PlayerData.Instance.curMoneyCount >= PlayerData.Instance.tavernUpCost)
       {
          PlayerData.Instance.curMoneyCount -= PlayerData.Instance.tavernUpCost;
-         moneyController.UpdateMoney();
+         boardFiller.moneyController.UpdateMoney();
          TavernUp();
          UpdateUI();
       }
@@ -213,7 +212,7 @@ public class TavernController : MonoBehaviour
       if (PlayerData.Instance.curMoneyCount >= PlayerData.Instance.refreshCost)
       {
          PlayerData.Instance.curMoneyCount -= PlayerData.Instance.refreshCost;
-         moneyController.UpdateMoney();
+         boardFiller.moneyController.UpdateMoney();
          RefreshTavern(false);
          UpdateUI();
       }
@@ -224,7 +223,7 @@ public class TavernController : MonoBehaviour
       if (PlayerData.Instance.curMoneyCount >= PlayerData.Instance.freezeCost)
       {
          PlayerData.Instance.curMoneyCount -= PlayerData.Instance.freezeCost;
-         moneyController.UpdateMoney();
+         boardFiller.moneyController.UpdateMoney();
          FreezeTavern();
          UpdateUI();
       }
@@ -325,7 +324,8 @@ public class TavernController : MonoBehaviour
 
          Card randomCard = new(selectedSO);
          tavernCards.Add(randomCard);
-
+         if (!boardFiller.glossaryController.glossaryPull.Contains(selectedSO) && selectedSO.backInPool)
+            boardFiller.glossaryController.glossaryPull.Add(selectedSO);
       }
 
       while (tavernCards.Count(card => card is Spell) < spellCount)
@@ -345,7 +345,7 @@ public class TavernController : MonoBehaviour
          return aIsSpell.CompareTo(bIsSpell);
       });
 
-      boardController.FillTavern();
+      boardFiller.boardController.FillTavern();
    }
    private int createdTierGerb = 0;
    public void UpdateUI()

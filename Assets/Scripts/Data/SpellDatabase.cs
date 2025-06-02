@@ -225,6 +225,8 @@ public class SpellDatabase
          var random = allTier[Random.Range(0, allTier.Count)];
          allTier.Remove(random);
          resList.Add(new(random));
+         if (!boardFiller.glossaryController.glossaryPull.Contains(random) && random.backInPool)
+            boardFiller.glossaryController.glossaryPull.Add(random);
       }
       boardFiller.discoverController.EnableDiscover(resList, PullInHand);
    }
@@ -390,6 +392,8 @@ public class SpellDatabase
          if (boardFiller.tavernController.minionsPool[card.data].copies > 0)
             boardFiller.tavernController.minionsPool[card.data].copies--;
          boardFiller.boardController.AddInHand(card);
+         if (!boardFiller.glossaryController.glossaryPull.Contains(random) && random.backInPool)
+            boardFiller.glossaryController.glossaryPull.Add(random);
       }
    }
 
