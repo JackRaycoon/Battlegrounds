@@ -74,5 +74,7 @@ public class CommandsController : MonoBehaviour
       }
       var go = Instantiate(commandPrefab, commandContainer);
       go.GetComponent<TextMeshProUGUI>().text = command + " <color=\"white\"> : <color=\"red\"> " + answer;
+
+      boardController.tripletsController.CheckTriplets();
    }
 }

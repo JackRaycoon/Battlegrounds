@@ -10,7 +10,7 @@ public class Spell : Card
    public new SpellSO data;
 
    internal Action<List<Card>> cast = null;
-   internal Func<List<Card>, List<int>> calc = null;
+   internal Func<List<Card>, List<long>> calc = null;
    internal Func<List<Card>, bool> valid = null;
 
    internal Action<Card, List<Card>> passive = null;

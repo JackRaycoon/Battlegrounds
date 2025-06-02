@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.WSA;
 using static Unity.Burst.Intrinsics.Arm;
 using static Unity.Burst.Intrinsics.X86.Avx;
 using static UnityEngine.GraphicsBuffer;
@@ -72,6 +74,7 @@ public class SpellDatabase
       //Base Effects
       AddEffect("ConsumeOne", ConsumeOne_Cast);
       AddEffect("ConsumeOneDoubleStats", ConsumeOneDoubleStats_Cast);
+      AddEffect("BeetlesStats", BeetlesStats_Calc);
 
       //Triggers - Demons
       AddEffect("Wrath Weaver Trigger", WrathWeaverTrigger_Cast);
@@ -117,6 +120,8 @@ public class SpellDatabase
       //Deathrattle - Beasts
       AddEffect("Kindly Grandmother DT", KindlyGrandmotherDT_Cast);
       AddEffect("Kindly Grandmother Golden DT", KindlyGrandmotherDT_CastGolden);
+      AddEffect("Buzzing Vermin DT", BuzzingVerminDT_Cast);
+      AddEffect("Buzzing Vermin Golden DT", BuzzingVerminDT_CastGolden);
 
       //Start Turn - Neutral
       AddEffect("Beleaguered Battler ST", BeleagueredBattlerST_Cast);
@@ -131,7 +136,7 @@ public class SpellDatabase
 
    // астер всегда на самой первой позиции листа целей.
    private void AddSpellCast(string name, Action<List<Card>> cast,
-      Func<List<Card>, List<int>> calc = null,
+      Func<List<Card>, List<long>> calc = null,
       Func<List<Card>, bool> valid = null)
    {
       Spell spell = new(name)
@@ -143,7 +148,7 @@ public class SpellDatabase
       spellDatabase.Add(name, spell);
    }
    private void AddEffect(string name, Action<List<Card>> cast,
-      Func<List<Card>, List<int>> calc = null,
+      Func<List<Card>, List<long>> calc = null,
       Func<List<Card>, bool> valid = null)
    {
       Spell spell = new(name, SpellSO.SpellType.Effect)
@@ -153,10 +158,18 @@ public class SpellDatabase
          valid = valid
       };
       spellDatabase.Add(name, spell);
+   }   
+   private void AddEffect(string name, Func<List<Card>, List<long>> calc)
+   {
+      Spell spell = new(name, SpellSO.SpellType.Effect)
+      {
+         calc = calc,
+      };
+      spellDatabase.Add(name, spell);
    }
 
    private void AddAbility(string name, Action<List<Card>> cast,
-      Func<List<Card>, List<int>> calc = null,
+      Func<List<Card>, List<long>> calc = null,
       Func<List<Card>, bool> valid = null)
    {
       Spell spell = new(name, SpellSO.SpellType.HeroAbility)
@@ -168,7 +181,8 @@ public class SpellDatabase
       spellDatabase.Add(name, spell);
    }
 
-   private void AddPassive(string name, Action<Card, List<Card>> passive, Action<Card, List<Card>> reverse, Func<List<Card>, List<int>> calc = null)
+   private void AddPassive(string name, Action<Card, List<Card>> passive, Action<Card, List<Card>> reverse, 
+      Func<List<Card>, List<long>> calc = null)
    {
       Spell spell = new(name, SpellSO.SpellType.Effect)
       {
@@ -261,18 +275,18 @@ public class SpellDatabase
       };
       boardFiller.discoverController.EnableDiscover(resList, TargetOn);
    }
-   private List<int> AllianceFlag_Calc(List<Card> targets)
+   private List<long> AllianceFlag_Calc(List<Card> targets)
    {
-      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPowerATK, 
+      return new List<long> { 4 + PlayerData.Instance.runInfo.tavernSpellPowerATK, 
                              3 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
    }
-   private List<int> AlliedMace_Calc(List<Card> targets)
+   private List<long> AlliedMace_Calc(List<Card> targets)
    {
-      return new List<int> { 4 + PlayerData.Instance.runInfo.tavernSpellPowerATK};
+      return new List<long> { 4 + PlayerData.Instance.runInfo.tavernSpellPowerATK};
    }
-   private List<int> AlliedBuckler_Calc(List<Card> targets)
+   private List<long> AlliedBuckler_Calc(List<Card> targets)
    {
-      return new List<int> { 3 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
+      return new List<long> { 3 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
    }
 
    public void TargetOn(Card spell)
@@ -324,8 +338,8 @@ public class SpellDatabase
    private void TavernDishBanana_Cast(List<Card> targets)
    {
       var calc = TavernDishBanana_Calc(targets);
-      int atkBuff = calc[0];
-      int hpBuff = calc[1];
+      long atkBuff = calc[0];
+      long hpBuff = calc[1];
 
       var caster = targets[0]; //hero
       var target = targets[1];
@@ -343,9 +357,9 @@ public class SpellDatabase
       }
    }
 
-   private List<int> TavernDishBanana_Calc(List<Card> targets)
+   private List<long> TavernDishBanana_Calc(List<Card> targets)
    {
-      return new List<int> { 2 + PlayerData.Instance.runInfo.tavernSpellPowerATK, 
+      return new List<long> { 2 + PlayerData.Instance.runInfo.tavernSpellPowerATK, 
                              2 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
    }
 
@@ -353,8 +367,8 @@ public class SpellDatabase
    private void ThemApples_Cast(List<Card> targets)
    {
       var calc = ThemApples_Calc(targets);
-      int atkBuff = calc[0];
-      int hpBuff = calc[1];
+      long atkBuff = calc[0];
+      long hpBuff = calc[1];
 
       var caster = targets[0]; //hero
       targets.Remove(caster);
@@ -369,9 +383,9 @@ public class SpellDatabase
       }
    }
 
-   private List<int> ThemApples_Calc(List<Card> targets)
+   private List<long> ThemApples_Calc(List<Card> targets)
    {
-      return new List<int> { 1 + PlayerData.Instance.runInfo.tavernSpellPowerATK,
+      return new List<long> { 1 + PlayerData.Instance.runInfo.tavernSpellPowerATK,
                              2 + PlayerData.Instance.runInfo.tavernSpellPowerHP };
    }
 
@@ -379,18 +393,18 @@ public class SpellDatabase
    private void TavernCoin_Cast(List<Card> targets)
    {
       var calc = TavernCoin_Calc(targets);
-      int money = calc[0];
+      long money = calc[0];
 
-      for(int i = 0; i < money; i++)
+      for(long i = 0; i < money; i++)
       {
          PlayerData.Instance.curMoneyCount++;
       }
       boardFiller.boardController.moneyController.UpdateMoney();
    }
 
-   private List<int> TavernCoin_Calc(List<Card> targets)
+   private List<long> TavernCoin_Calc(List<Card> targets)
    {
-      return new List<int> { 1 };
+      return new List<long> { 1 };
    }
 
    //Recruit a Trainee
@@ -433,11 +447,17 @@ public class SpellDatabase
       TavernController.ConsumeFromTavern(targets[0], true);
    }
 
+   //Beetles Stats
+   private List<long> BeetlesStats_Calc(List<Card> targets)
+   {
+      return new List<long> { 2 + PlayerData.Instance.runInfo.beetlesATKBuff, 2 + PlayerData.Instance.runInfo.beetlesHPBuff };
+   }
+
    //Wrath Weaver
    private void WrathWeaverTrigger_Cast(List<Card> targets)
    {
       var calc = BackstageSecurityBC_Calc(targets);
-      int dmg = calc[0];
+      long dmg = calc[0];
 
       var caster = targets[0];
 
@@ -449,7 +469,7 @@ public class SpellDatabase
    private void WrathWeaverTrigger_CastGolden(List<Card> targets)
    {
       var calc = BackstageSecurityBC_Calc(targets);
-      int dmg = calc[0];
+      long dmg = calc[0];
 
       var caster = targets[0];
       for (int i = 0; i < 2; i++)
@@ -489,44 +509,44 @@ public class SpellDatabase
    private void BackstageSecurityBC_Cast(List<Card> targets)
    {
       var calc = BackstageSecurityBC_Calc(targets);
-      int dmg = calc[0];
+      long dmg = calc[0];
 
       PlayerData.Instance.character.SelfDamage(dmg);
    }
    private void BackstageSecurityBC_CastGolden(List<Card> targets)
    {
       var calc = BackstageSecurityBC_Calc(targets);
-      int dmg = calc[0];
+      long dmg = calc[0];
 
       PlayerData.Instance.character.SelfDamage(dmg);
       PlayerData.Instance.character.SelfDamage(dmg);
    }
-   private List<int> BackstageSecurityBC_Calc(List<Card> targets)
+   private List<long> BackstageSecurityBC_Calc(List<Card> targets)
    {
       var caster = targets[0];
-      return new List<int> { 1 };
+      return new List<long> { 1 };
    }
 
    //Vulgar Homunculus
    private void VulgarHomunculusBC_Cast(List<Card> targets)
    {
       var calc = VulgarHomunculusBC_Calc(targets);
-      int dmg = calc[0];
+      long dmg = calc[0];
 
       PlayerData.Instance.character.SelfDamage(dmg);
    }
    private void VulgarHomunculusBC_CastGolden(List<Card> targets)
    {
       var calc = VulgarHomunculusBC_Calc(targets);
-      int dmg = calc[0];
+      long dmg = calc[0];
 
       PlayerData.Instance.character.SelfDamage(dmg);
       PlayerData.Instance.character.SelfDamage(dmg);
    }
-   private List<int> VulgarHomunculusBC_Calc(List<Card> targets)
+   private List<long> VulgarHomunculusBC_Calc(List<Card> targets)
    {
       var caster = targets[0];
-      return new List<int> { 2 };
+      return new List<long> { 2 };
    }
 
    //Ominous Seer
@@ -913,6 +933,60 @@ public class SpellDatabase
       {
          boardFiller.boardController.Summon(
                new("Big Bad Wolf Golden"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+
+   //Buzzing Vermin
+   private void BuzzingVerminDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         boardFiller.gameController.Summon(
+               new("Beetle"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         boardFiller.boardController.Summon(
+               new("Beetle"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void BuzzingVerminDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         for(int i = 0; i < 2; i++)
+            boardFiller.gameController.Summon(
+                  new("Beetle"),
+                  caster,
+                  caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+                  );
+      }
+      else
+      {
+         for (int i = 0; i < 2; i++)
+            boardFiller.boardController.Summon(
+               new("Beetle"),
                caster,
                caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
                PlayerData.Instance.playerMinions.IndexOf(caster) + 1

@@ -16,6 +16,10 @@ public class Card
       get
       {
          long atk = data.attack + permanentATKBuff + inFightATKBuff;
+         if (data.name == "Beetle" || data.name == "Beetle Golden")
+         {
+            atk += PlayerData.Instance.runInfo.beetlesATKBuff;
+         }
          if (atk < 0) atk = 0;
          return atk;
       }
@@ -145,11 +149,17 @@ public class Card
    {
       get
       {
-         return data.hp + permanentHPBuff + inFightHPBuff;
+         long hp = data.hp + permanentHPBuff + inFightHPBuff;
+         if (data.name == "Beetle" || data.name == "Beetle Golden")
+         {
+            hp += PlayerData.Instance.runInfo.beetlesHPBuff;
+         }
+         return hp;
       }
    }
 
    private long cur_hp = 0;
+   private long beforeBattleCurHP;
    public long CUR_HP
    {
       get
@@ -199,13 +209,13 @@ public class Card
       this.isGolden = isGolden;
       if (name.Contains(" Golden"))
          this.isGolden = true;
-      CUR_HP = data.hp;
+      CUR_HP = MAX_HP;
       FillEffects();
    }
    public Card(CardSO cardData)
    {
       data = cardData;
-      CUR_HP = data.hp;
+      CUR_HP = MAX_HP;
       FillEffects();
    }
 
@@ -218,7 +228,7 @@ public class Card
 
          if (spell.calc == null) return description;
 
-         List<int> values;
+         List<long> values;
          values = spell.calc(new List<Card> { null });
 
          return string.Format(description, values.Cast<object>().ToArray());
@@ -226,9 +236,9 @@ public class Card
 
       if (data.calc == null) return data.description;
       Spell calc = SpellDatabase.Instance.GetSpellByName(data.calc.name);
-      var descriptionC = calc.data.description;
+      var descriptionC = data.description;
 
-      List<int> valuesC;
+      List<long> valuesC;
       valuesC = calc.calc(new List<Card> { this });
 
       return string.Format(descriptionC, valuesC.Cast<object>().ToArray());
@@ -271,12 +281,13 @@ public class Card
    public void PrepareToFight()
    {
       bonusKeywordsInFight = new(bonusKeywords);
+      beforeBattleCurHP = CUR_HP;
    }
    public void AfterFight()
    {
       inFightATKBuff = 0;
       inFightHPBuff = 0;
-      CUR_HP = MAX_HP;
+      CUR_HP = beforeBattleCurHP;
       isDeath = false;
 
       cardAbilityInfo.ToNormal();
