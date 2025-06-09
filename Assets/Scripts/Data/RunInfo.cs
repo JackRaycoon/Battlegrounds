@@ -9,5 +9,5 @@ public class RunInfo
    public long tavernSpellPowerHP = 0;
 
    public long beetlesATKBuff = 0;
-   public long beetlesHPBuff = 2;
+   public long beetlesHPBuff = 0;
 }

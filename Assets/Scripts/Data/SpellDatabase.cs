@@ -123,6 +123,10 @@ public class SpellDatabase
       AddEffect("Buzzing Vermin DT", BuzzingVerminDT_Cast);
       AddEffect("Buzzing Vermin Golden DT", BuzzingVerminDT_CastGolden);
 
+      //Deathrattle - Mechs
+      AddEffect("Cord Puller DT", CordPullerDT_Cast);
+      AddEffect("Cord Puller Golden DT", CordPullerDT_CastGolden);
+
       //Start Turn - Neutral
       AddEffect("Beleaguered Battler ST", BeleagueredBattlerST_Cast);
       
@@ -991,6 +995,61 @@ public class SpellDatabase
                caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
                PlayerData.Instance.playerMinions.IndexOf(caster) + 1
                );
+      }
+   }
+
+   //Cord Puller
+   private void CordPullerDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         for (int i = 0; i < 1; i++)
+            boardFiller.gameController.Summon(
+               new("Microbot"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 1; i++)
+            boardFiller.boardController.Summon(
+               new("Microbot"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void CordPullerDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         for (int i = 0; i < 2; i++)
+            boardFiller.gameController.Summon(
+               new("Microbot"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 2; i++)
+            boardFiller.boardController.Summon(
+               new("Microbot"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1);
       }
    }
 

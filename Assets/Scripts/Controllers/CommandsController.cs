@@ -68,12 +68,50 @@ public class CommandsController : MonoBehaviour
                answer = "Card not exist";
             }
             break;
+         case "Kill":
+            try
+            {
+               Card card = PlayerData.Instance.playerMinions[int.Parse(commandList[1])];
+               answer = "Killing succesfull";
+               card.Death(PlayerData.Instance.playerMinions, TavernController.tavernCards); // ?
+               PlayerData.Instance.playerMinions.Remove(card);
+               Destroy(card.fieldCardObject);
+               boardController.boardFiller.allPlayerFieldCardList.Remove(card.fieldCardObject);
+            }
+            catch
+            {
+               answer = "Something went wrong";
+            }
+            break;
+         case "AddMoney":
+            try
+            {
+               PlayerData.Instance.curMoneyCount+= int.Parse(commandList[1]);
+               answer = "Money added";
+               boardController.moneyController.UpdateMoney();
+            }
+            catch
+            {
+               answer = "Something went wrong";
+            }
+            break;
          default:
             answer = "Command not found";
             break;
       }
       var go = Instantiate(commandPrefab, commandContainer);
       go.GetComponent<TextMeshProUGUI>().text = command + " <color=\"white\"> : <color=\"red\"> " + answer;
+
+      foreach(var card in PlayerData.Instance.playerMinions)
+      {
+         var filler = card.fieldCardObject.GetComponent<FieldCardFiller>();
+         filler.Fill();
+      }
+      foreach(var card in TavernController.tavernCards)
+      {
+         var filler = card.fieldCardObject.GetComponent<FieldCardFiller>();
+         filler.Fill();
+      }
 
       boardController.tripletsController.CheckTriplets();
    }

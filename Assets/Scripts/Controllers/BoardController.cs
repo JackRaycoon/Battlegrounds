@@ -353,8 +353,8 @@ public class BoardController : MonoBehaviour
 
    public void Summon(Card summons, Card caster, int position) //Вне боя
    {
-      Debug.Log(position);
-      if (PlayerData.Instance.playerMinions.Count < PlayerData.Instance.maxMinions)
+      var team = PlayerData.Instance.playerMinions;
+      if (team.Count - (caster.isDeath ? 1 : 0) < PlayerData.Instance.maxMinions)
       {
          Card minion = summons;
          var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
@@ -368,10 +368,38 @@ public class BoardController : MonoBehaviour
 
          filler.card = minion;
          filler.Fill();
-         PlayerData.Instance.playerMinions.Insert(position, minion);
+         team.Insert(position, minion);
          boardFiller.allPlayerFieldCardList.Add(go);
 
          ReFillPlayerMinions();
+      }
+      else
+      {
+         //Особые случаи
+         if (summons.data.name == "Microbot")
+         {
+            foreach (var card in team)
+            {
+               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               {
+                  card.permanentATKBuff += summons.ATK;
+                  card.permanentHPBuff += summons.MAX_HP;
+                  card.CUR_HP += summons.MAX_HP;
+               }
+            }
+         }
+         if (summons.data.name == "Microbot Golden")
+         {
+            foreach (var card in team)
+            {
+               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               {
+                  card.permanentATKBuff += summons.ATK * 2;
+                  card.permanentHPBuff += summons.MAX_HP * 2;
+                  card.CUR_HP += summons.MAX_HP * 2;
+               }
+            }
+         }
       }
    }
 

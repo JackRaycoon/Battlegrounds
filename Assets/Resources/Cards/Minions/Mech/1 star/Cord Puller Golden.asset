@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
+  m_Name: Cord Puller Golden
+  m_EditorClassIdentifier: 
+  spriteArt: {fileID: 21300000, guid: 0d9d353904cfe4f4680be59bdcbb957a, type: 3}
+  isSquareArt: 0
+  attack: 2
+  hp: 2
+  tavernLevel: 1
+  backInPool: 1
+  description: '<font="KeyWords">Divine Shield</font>
+
+    <font="KeyWords">Deathrattle:</font>
+    Summon
+
+    two 1/1 Microbots.'
+  attackType: 0
+  pools: 05000000
+  minionType1: 5
+  minionType2: 0
+  calc: {fileID: 0}
+  battleCry: {fileID: 0}
+  deathrattle: {fileID: 11400000, guid: 976580a0bcd9cc74c83d298e1e0361ba, type: 2}
+  startTurn: {fileID: 0}
+  endTurn: {fileID: 0}
+  other: {fileID: 0}
+  otherTrigger: 0
+  bonusKeywords: 00000000
+  tags: 060000000c00000000000000

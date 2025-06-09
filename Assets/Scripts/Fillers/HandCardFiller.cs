@@ -48,6 +48,7 @@ public class HandCardFiller : MonoBehaviour
          var data = card.data;
 
          nameText.text = data.name;
+         if (card.isGolden) nameText.text = data.name.Replace("Golden", "");
          descriptionText.text = card.Description();
          descriptionText.color = card.isGolden ?  new(1f, 1f, 1f) : new(0f, 0f, 0f);
 

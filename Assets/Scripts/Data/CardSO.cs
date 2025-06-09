@@ -66,7 +66,8 @@ public class CardSO : ScriptableObject
       GoldenPirates,
       BonusWordsMurlocs,
       BeetleBeasts,
-
+      SpamMech, //Spam random mechs from all Pull
+      MicrobotMech,
    }
    public enum Trigger
    {

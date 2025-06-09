@@ -210,12 +210,14 @@ public class Card
       if (name.Contains(" Golden"))
          this.isGolden = true;
       CUR_HP = MAX_HP;
+      beforeBattleCurHP = CUR_HP;
       FillEffects();
    }
    public Card(CardSO cardData)
    {
       data = cardData;
       CUR_HP = MAX_HP;
+      beforeBattleCurHP = CUR_HP;
       FillEffects();
    }
 
