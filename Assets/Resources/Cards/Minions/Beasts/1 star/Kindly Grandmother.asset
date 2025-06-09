@@ -18,7 +18,7 @@ MonoBehaviour:
   hp: 1
   tavernLevel: 1
   backInPool: 1
-  description: '<font="KeyWords">Deathrattle:</font>  Summon a
+  description: '<font="KeyWords">Deathrattle:</font> Summon a
 
     3/2 Big Bad Wolf.'
   attackType: 0
@@ -30,6 +30,7 @@ MonoBehaviour:
   deathrattle: {fileID: 11400000, guid: 8f58a7f9885417d45896f8eb4e75e376, type: 2}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
+  startCombat: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
   bonusKeywords: 

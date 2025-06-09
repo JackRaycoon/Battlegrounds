@@ -126,6 +126,8 @@ public class SpellDatabase
       AddEffect("Kindly Grandmother Golden DT", KindlyGrandmotherDT_CastGolden);
       AddEffect("Buzzing Vermin DT", BuzzingVerminDT_Cast);
       AddEffect("Buzzing Vermin Golden DT", BuzzingVerminDT_CastGolden);
+      AddEffect("Manasaber DT", ManasaberDT_Cast);
+      AddEffect("Manasaber Golden DT", ManasaberDT_CastGolden);
 
       //Deathrattle - Mechs
       AddEffect("Cord Puller DT", CordPullerDT_Cast);
@@ -1019,6 +1021,61 @@ public class SpellDatabase
          for (int i = 0; i < 2; i++)
             boardFiller.boardController.Summon(
                new("Beetle"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+
+   //Manasaber
+   private void ManasaberDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+         for (int i = 0; i < 2; i++)
+            boardFiller.gameController.Summon(
+               new("Cubling"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 2; i++)
+            boardFiller.boardController.Summon(
+               new("Cubling"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void ManasaberDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         for (int i = 0; i < 4; i++)
+            boardFiller.gameController.Summon(
+               new("Cubling"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         for (int i = 0; i < 4; i++)
+            boardFiller.boardController.Summon(
+               new("Cubling"),
                caster,
                caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
                PlayerData.Instance.playerMinions.IndexOf(caster) + 1

@@ -28,7 +28,8 @@ MonoBehaviour:
   deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
+  startCombat: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
   bonusKeywords: 
-  tags: 00000000
+  tags: 0700000000000000

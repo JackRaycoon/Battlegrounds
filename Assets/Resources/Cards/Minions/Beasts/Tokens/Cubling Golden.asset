@@ -10,28 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Kindly Grandmother Golden
+  m_Name: Cubling Golden
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: 7920b785a606092408f97c2a4e39c5e1, type: 3}
-  isSquareArt: 0
-  attack: 2
+  spriteArt: {fileID: 21300000, guid: 73f0ee9e8967b8244954c9c131d226fb, type: 3}
+  isSquareArt: 1
+  attack: 0
   hp: 2
   tavernLevel: 1
-  backInPool: 1
-  description: '<font="KeyWords">Deathrattle:</font> Summon a
-
-    6/4 Big Bad Wolf.'
+  backInPool: 0
+  description: <font="KeyWords">Taunt</font>
   attackType: 0
-  pools: 03000000
+  pools: 
   minionType1: 3
   minionType2: 0
   calc: {fileID: 0}
   battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: c6b5250505f4eb64ba26ee931f71bcf2, type: 2}
+  deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   startCombat: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
-  bonusKeywords: 
-  tags: 0700000000000000
+  bonusKeywords: 03000000
+  tags: 
