@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3221c24dafc60da4b9def9b9970d68be, type: 3}
+  m_Name: Spiders2
+  m_EditorClassIdentifier: 
+  minStage: 0
+  maxStage: 5
+  spriteHero: {fileID: 21300000, guid: f755baccec9fe6a41b373adc70d25635, type: 3}
+  cardData:
+  - {fileID: 11400000, guid: b8503840699e65b43bb28061334077b8, type: 2}
+  - {fileID: 11400000, guid: b8503840699e65b43bb28061334077b8, type: 2}
+  permanentATKBuff: 00000000000000000000000000000000
+  permanentHPBuff: 00000000000000000000000000000000

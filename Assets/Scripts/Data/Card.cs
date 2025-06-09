@@ -202,7 +202,8 @@ public class Card
       Taunt,
       Venomous,
       Windfury,
-      Corrupted
+      Corrupted,
+      Magnetic
    }
    protected Card() { }
    public Card(string name, bool isGolden = false)

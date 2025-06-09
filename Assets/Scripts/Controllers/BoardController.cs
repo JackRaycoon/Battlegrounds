@@ -31,6 +31,63 @@ public class BoardController : MonoBehaviour
       {
          go.transform.SetSiblingIndex(siblingIndex);
          PlayerData.Instance.playerMinions.Insert(siblingIndex, minion);
+
+         //Магнетизм
+         if (minion.bonusKeywords.Contains(Card.BonusKeyword.Magnetic))
+         {
+            try
+            {
+               Card neigh = PlayerData.Instance.playerMinions[siblingIndex + 1];
+               List<CardSO.MinionType> types1 = new()
+               {
+                  minion.data.minionType1,
+                  minion.data.minionType2
+               };
+               List<CardSO.MinionType> types2 = new()
+               {
+                  neigh.data.minionType1,
+                  neigh.data.minionType2
+               };
+               List<CardSO.MinionType> intersect = types1.Intersect(types2)
+                                                         .Where(x => x != CardSO.MinionType.None)
+                                                         .ToList();
+
+               if (intersect.Count > 0)
+               {
+                  neigh.permanentATKBuff += minion.permanentATKBuff + minion.baseATK;
+                  neigh.inFightATKBuff += minion.inFightATKBuff;
+                  neigh.permanentHPBuff += minion.permanentHPBuff + minion.baseHP;
+                  neigh.inFightHPBuff += minion.inFightHPBuff;
+                  neigh.CUR_HP += minion.CUR_HP;
+
+                  foreach (var key in minion.bonusKeywords)
+                     if (!neigh.bonusKeywords.Contains(key))
+                        neigh.bonusKeywords.Add(key);
+                  foreach (var key in minion.bonusKeywordsInFight)
+                     if (!neigh.bonusKeywordsInFight.Contains(key))
+                        neigh.bonusKeywordsInFight.Add(key);
+
+                  foreach (var el in minion.battleCries)
+                     neigh.battleCries.Add(el);
+                  foreach (var el in minion.deathrattles)
+                     neigh.deathrattles.Add(el);
+                  foreach (var el in minion.startTurns)
+                     neigh.startTurns.Add(el);
+                  foreach (var el in minion.endTurns)
+                     neigh.endTurns.Add(el);
+                  foreach (var el in minion.startCombats)
+                     neigh.startCombats.Add(el);
+                  
+                  foreach (var el in minion.others.Keys)
+                     neigh.others.Add(el, minion.others[el]);
+
+                  Destroy(go);
+                  PlayerData.Instance.playerMinions.Remove(minion);
+                  goto SkipFill;
+               }
+            }
+            catch { }
+         }
       }
       else
       {
@@ -46,6 +103,8 @@ public class BoardController : MonoBehaviour
       filler.card = minion;
       filler.Fill();
       boardFiller.allPlayerFieldCardList.Add(go);
+
+      SkipFill:
 
       if(minion.battleCries.Count != 0)
       {

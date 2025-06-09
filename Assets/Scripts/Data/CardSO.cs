@@ -70,6 +70,8 @@ public class CardSO : ScriptableObject
       MicrobotMech,
       InFightBuffsDragons,
       HandBuffMurlocs,
+      GlossaryNeutral,
+      MagneticMech,
 
    }
    public enum Trigger

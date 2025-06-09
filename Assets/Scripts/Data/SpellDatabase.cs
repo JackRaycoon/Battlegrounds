@@ -137,6 +137,12 @@ public class SpellDatabase
       //End Turn - Neutral
       AddEffect("Tavern Tipper ET", TavernTipperET_Cast);
       AddEffect("Tavern Tipper Golden ET", TavernTipperET_CastGolden);
+      AddEffect("Passenger ET", PassengerET_Cast, PassengerET_Calc);
+      AddEffect("Passenger Golden ET", PassengerET_CastGolden, PassengerET_CalcGolden);
+
+      //End Turn - Mechs
+      AddEffect("Lullabot ET", LullabotET_Cast);
+      AddEffect("Lullabot Golden ET", LullabotET_CastGolden);  
 
       //Start of Combat - Murlocs
       AddEffect("Flighty Scout SC", FlightyScoutSC_Cast);
@@ -1102,6 +1108,77 @@ public class SpellDatabase
          caster.permanentHPBuff += 2;
          caster.CUR_HP += 2;
       }
+   }
+
+   //Passenger
+   private void PassengerET_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      List<CardSO> glossary = boardFiller.glossaryController.glossaryPull;
+      List<CardSO> pool = boardFiller.tavernController.currentPool;
+
+      List<CardSO> filtered = pool.Except(glossary).ToList();
+      if(filtered.Count > 0)
+      {
+         glossary.Add(filtered[Random.Range(0, filtered.Count)]);
+      }
+
+      var calc = PassengerET_Calc(targets);
+      long atk = calc[0];
+      long hp = calc[1];
+      caster.permanentATKBuff += atk;
+      caster.permanentHPBuff += hp;
+      caster.CUR_HP += hp;
+   }
+   private void PassengerET_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      List<CardSO> glossary = boardFiller.glossaryController.glossaryPull;
+      List<CardSO> pool = boardFiller.tavernController.currentPool;
+
+      for(int i = 0; i< 2; i++)
+      {
+         List<CardSO> filtered = pool.Except(glossary).ToList();
+         if (filtered.Count > 0)
+         {
+            glossary.Add(filtered[Random.Range(0, filtered.Count)]);
+         }
+      }
+
+      var calc = PassengerET_CalcGolden(targets);
+      long atk = calc[0];
+      long hp = calc[1];
+      caster.permanentATKBuff += atk;
+      caster.permanentHPBuff += hp;
+      caster.CUR_HP += hp;
+   }
+   private List<long> PassengerET_Calc(List<Card> targets)
+   {
+      //var caster = targets[0];
+      long count = boardFiller.glossaryController.glossaryPull.Count;
+      long tens = count / 10;
+      return new List<long> { tens, tens * 2 };
+   }
+   private List<long> PassengerET_CalcGolden(List<Card> targets)
+   {
+      //var caster = targets[0];
+      long count = boardFiller.glossaryController.glossaryPull.Count;
+      long tens = count / 10;
+      return new List<long> { tens * 2, tens * 4 };
+   }
+
+   //Lullabot
+   private void LullabotET_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      caster.permanentHPBuff += 1;
+      caster.CUR_HP += 1;
+   }
+   private void LullabotET_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      caster.permanentHPBuff += 2;
+      caster.CUR_HP += 2;
    }
 
    //Flighty Scout
