@@ -11,11 +11,13 @@ public class Card
 {
    public CardSO data;
 
+   public long baseATK, baseHP;
+
    public long ATK
    {
       get
       {
-         long atk = data.attack + permanentATKBuff + inFightATKBuff;
+         long atk = baseATK + permanentATKBuff + inFightATKBuff;
          if (data.name == "Beetle" || data.name == "Beetle Golden")
          {
             atk += PlayerData.Instance.runInfo.beetlesATKBuff;
@@ -149,7 +151,7 @@ public class Card
    {
       get
       {
-         long hp = data.hp + permanentHPBuff + inFightHPBuff;
+         long hp = baseHP + permanentHPBuff + inFightHPBuff;
          if (data.name == "Beetle" || data.name == "Beetle Golden")
          {
             hp += PlayerData.Instance.runInfo.beetlesHPBuff;
@@ -174,12 +176,13 @@ public class Card
          cur_hp = v;
       }
    }
+
    public bool isGolden, isDeath;
 
    public GameObject fieldCardObject;
    public GameObject handCardObject;
 
-   public List<Spell> battleCries = new(), deathrattles = new(), startTurns = new(), endTurns = new();
+   public List<Spell> battleCries = new(), deathrattles = new(), startTurns = new(), endTurns = new(), startCombats = new();
 
    public Dictionary<CardSO.Trigger, List<Spell>> others = new();
 
@@ -209,6 +212,8 @@ public class Card
       this.isGolden = isGolden;
       if (name.Contains(" Golden"))
          this.isGolden = true;
+      baseATK = data.attack;
+      baseHP = data.hp;
       CUR_HP = MAX_HP;
       beforeBattleCurHP = CUR_HP;
       FillEffects();
@@ -216,10 +221,38 @@ public class Card
    public Card(CardSO cardData)
    {
       data = cardData;
+      baseATK = data.attack;
+      baseHP = data.hp;
       CUR_HP = MAX_HP;
       beforeBattleCurHP = CUR_HP;
       FillEffects();
    }
+
+   public Card(Card copy, int multiplyCharacteristics)
+   {
+      data = copy.data;
+      baseATK = copy.baseATK * multiplyCharacteristics;
+      baseHP = copy.baseHP * multiplyCharacteristics;
+      permanentATKBuff = copy.permanentATKBuff * multiplyCharacteristics;
+      inFightATKBuff = copy.inFightATKBuff * multiplyCharacteristics;
+      inFightHPBuff = copy.inFightHPBuff * multiplyCharacteristics;
+      permanentHPBuff = copy.permanentHPBuff * multiplyCharacteristics;
+      CUR_HP = copy.CUR_HP * multiplyCharacteristics;
+      isGolden = copy.isGolden;
+      isDeath = copy.isDeath;
+      //fieldCardObject = copy.fieldCardObject;
+      //handCardObject = copy.handCardObject;
+      battleCries = new(copy.battleCries);
+      deathrattles = new(copy.deathrattles);
+      startTurns = new(copy.startTurns);
+      endTurns = new(copy.endTurns);
+      startCombats = new(copy.startCombats);
+      others = new(copy.others);
+      //indexHandCardForBattlecryBack = copy.indexHandCardForBattlecryBack;
+      bonusKeywords = new(copy.bonusKeywords);
+      bonusKeywordsInFight = new(copy.bonusKeywordsInFight);
+      cardAbilityInfo = new(copy.cardAbilityInfo);
+}
 
    public string Description()
    {
@@ -256,6 +289,8 @@ public class Card
          startTurns.Add(SpellDatabase.Instance.GetSpellByName(data.startTurn.name));
       if (data.endTurn != null)
          endTurns.Add(SpellDatabase.Instance.GetSpellByName(data.endTurn.name));
+      if (data.startCombat != null)
+         startCombats.Add(SpellDatabase.Instance.GetSpellByName(data.startCombat.name));
       if (data.other != null)
          others.Add(data.otherTrigger, new() { SpellDatabase.Instance.GetSpellByName(data.other.name) });
 

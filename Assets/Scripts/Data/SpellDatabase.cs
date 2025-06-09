@@ -138,6 +138,10 @@ public class SpellDatabase
       AddEffect("Tavern Tipper ET", TavernTipperET_Cast);
       AddEffect("Tavern Tipper Golden ET", TavernTipperET_CastGolden);
 
+      //Start of Combat - Murlocs
+      AddEffect("Flighty Scout SC", FlightyScoutSC_Cast);
+      AddEffect("Flighty Scout Golden SC", FlightyScoutSC_CastGolden);
+
       //Hero Abilities
       AddAbility("Bloodfury", Bloodfury_Cast, null, Bloodfury_Valid);
    }
@@ -668,7 +672,7 @@ public class SpellDatabase
 
       var all = Resources.LoadAll<CardSO>("Cards/Minions");
       var data = all.FirstOrDefault(card => card.name == $"{caster.data.name} Golden");
-      long hpDiff = data.hp - caster.data.hp;
+      long hpDiff = data.hp - caster.baseHP;
       caster.data = data;
       caster.isGolden = true;
       caster.CUR_HP += hpDiff;
@@ -1098,6 +1102,30 @@ public class SpellDatabase
          caster.permanentHPBuff += 2;
          caster.CUR_HP += 2;
       }
+   }
+
+   //Flighty Scout
+   private void FlightyScoutSC_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      List<Card> casterTeam = boardFiller.gameController.playerTeam;
+
+      boardFiller.gameController.Summon(
+            new(caster, 1),
+            caster,
+            casterTeam.Count
+            );
+   }
+   private void FlightyScoutSC_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      List<Card> casterTeam = boardFiller.gameController.playerTeam;
+
+      boardFiller.gameController.Summon(
+            new(caster, 2),
+            caster,
+            casterTeam.Count
+            );
    }
 
 

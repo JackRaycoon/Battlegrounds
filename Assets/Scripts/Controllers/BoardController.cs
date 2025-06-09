@@ -11,7 +11,7 @@ public class BoardController : MonoBehaviour
    public MoneyController moneyController;
    public TripletsController tripletsController;
 
-   private List<GameObject> enemiesCards = new();
+   public List<GameObject> enemiesCards = new();
 
    public void SummonMinion(Card minion, HandCardUI cardUI, int siblingIndex)
    {

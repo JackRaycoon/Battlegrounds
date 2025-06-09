@@ -109,10 +109,11 @@ public class GameController : MonoBehaviour
       dark.interactable = false;
       dark.blocksRaycasts = false;
 
-      //Решаем кто первый бьёт
-      //К примеру игрок
       playerTeam = new(PlayerData.Instance.playerMinions);
       enemyTeam = new(enemyDataController.nextEnemies);
+
+      //Решаем кто первый бьёт
+      //К примеру игрок
 
       foreach (var card in playerTeam) card.PrepareToFight();
       foreach (var card in enemyTeam) card.PrepareToFight();
@@ -125,6 +126,40 @@ public class GameController : MonoBehaviour
       {
          startFight = Random.Range(0, 2) == 0;
       }
+
+      //Start of Combat
+      foreach (Card card in PlayerData.Instance.playerMinions)
+      {
+         List<Card> allBoard = new() { card };
+         List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
+         playerWithout.Remove(card);
+         allBoard.AddRange(playerWithout);
+         allBoard.AddRange(TavernController.tavernCards);
+         foreach (Spell startCombat in card.startCombats)
+         {
+            startCombat?.Cast(allBoard);
+         }
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      }
+
+      //Trigger StartTurn in Hand
+      foreach (Card card in PlayerData.Instance.hand)
+      {
+         if (card.others.Keys.Contains(CardSO.Trigger.StartCombatInHand))
+         {
+            List<Card> allBoard = new() { card };
+            //List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
+            //playerWithout.Remove(card);
+            //allBoard.AddRange(playerWithout);
+            //allBoard.AddRange(TavernController.tavernCards);
+            foreach (Spell other in card.others[CardSO.Trigger.StartCombatInHand])
+            {
+               other?.Cast(allBoard);
+            }
+         }
+      }
+
+      yield return new WaitForSeconds(0.5f);
 
       QueueUpdate();
       NextTurn(startFight); //Потом будем определять чей ход, не забываем что здесь "Чей ход был"
@@ -432,13 +467,20 @@ public class GameController : MonoBehaviour
 
    public void Summon(Card summons, Card caster, int position)
    {
+      bool isEnemy = !playerTeam.Contains(caster) && !PlayerData.Instance.hand.Contains(caster);
       var team = playerTeam;
-      if (!playerTeam.Contains(caster))
+      if (isEnemy)
+      {
          team = enemyTeam;
+      }
       if (team.Count - (caster.isDeath ? 1 : 0) < PlayerData.Instance.maxMinions)
       {
          Card minion = summons;
-         var go = Instantiate(boardController.boardFiller.fieldCardPrefab, boardController.boardFiller.playerMinionsTransform);
+         GameObject go;
+         if (isEnemy)
+            go = Instantiate(boardController.boardFiller.fieldCardPrefab, boardController.boardFiller.enemyTeamTransform);
+         else 
+            go = Instantiate(boardController.boardFiller.fieldCardPrefab, boardController.boardFiller.playerMinionsTransform);
          go.transform.SetSiblingIndex(position);
          minion.fieldCardObject = go;
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();
@@ -451,11 +493,14 @@ public class GameController : MonoBehaviour
          minion.PrepareToFight();
          filler.Fill();
          team.Insert(position, minion);
-         boardController.boardFiller.allPlayerFieldCardList.Add(go);
+         if (isEnemy)
+            boardController.enemiesCards.Add(go);
+         else
+            boardController.boardFiller.allPlayerFieldCardList.Add(go);
       }
       else
       {
-         //Особые случаи
+         //Особые случаи при переполнении
          if (summons.data.name == "Microbot")
          {
             foreach (var card in team)
@@ -485,6 +530,7 @@ public class GameController : MonoBehaviour
 
    public IEnumerator EndFight(short code)
    {
+      Debug.Log(code);
       switch (code)
       {
          //Победа

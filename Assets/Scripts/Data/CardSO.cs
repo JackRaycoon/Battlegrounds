@@ -23,7 +23,7 @@ public class CardSO : ScriptableObject
 
    public SpellSO calc; //Из этого заклинания берётся calc
 
-   public SpellSO battleCry, deathrattle, startTurn, endTurn, other;
+   public SpellSO battleCry, deathrattle, startTurn, endTurn, startCombat, other;
    public Trigger otherTrigger;
 
 
@@ -69,6 +69,8 @@ public class CardSO : ScriptableObject
       SpamMech, //Spam random mechs from all Pull
       MicrobotMech,
       InFightBuffsDragons,
+      HandBuffMurlocs,
+
    }
    public enum Trigger
    {
@@ -76,5 +78,6 @@ public class CardSO : ScriptableObject
       SummonDemon,
       BeforeTakeDamage,
       WhenGetAttacked,
+      StartCombatInHand, //лежит в руке на момент начала боя
    }
 }
