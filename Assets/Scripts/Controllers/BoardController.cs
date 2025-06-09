@@ -40,13 +40,13 @@ public class BoardController : MonoBehaviour
                Card neigh = PlayerData.Instance.playerMinions[siblingIndex + 1];
                List<CardSO.MinionType> types1 = new()
                {
-                  minion.data.minionType1,
-                  minion.data.minionType2
+                  minion.minionType1,
+                  minion.minionType2
                };
                List<CardSO.MinionType> types2 = new()
                {
-                  neigh.data.minionType1,
-                  neigh.data.minionType2
+                  neigh.minionType1,
+                  neigh.minionType2
                };
                List<CardSO.MinionType> intersect = types1.Intersect(types2)
                                                          .Where(x => x != CardSO.MinionType.None)
@@ -149,8 +149,8 @@ public class BoardController : MonoBehaviour
       foreach(Card card in PlayerData.Instance.playerMinions)
       {
          if (card.others.Keys.Contains(CardSO.Trigger.SummonDemon) && 
-            (minion.data.minionType1 == CardSO.MinionType.Demon ||
-             minion.data.minionType2 == CardSO.MinionType.Demon))
+            (minion.minionType1 == CardSO.MinionType.Demon ||
+             minion.minionType2 == CardSO.MinionType.Demon))
          {
             List<Card> allBoard = new() { card };
             List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
@@ -438,7 +438,7 @@ public class BoardController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK;
                   card.permanentHPBuff += summons.MAX_HP;
@@ -450,7 +450,7 @@ public class BoardController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK * 2;
                   card.permanentHPBuff += summons.MAX_HP * 2;

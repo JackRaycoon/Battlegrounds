@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using static Unity.Burst.Intrinsics.Arm;
 
 public class Card
 {
@@ -186,6 +187,8 @@ public class Card
 
    public Dictionary<CardSO.Trigger, List<Spell>> others = new();
 
+   public CardSO.MinionType minionType1, minionType2;
+
    public int indexHandCardForBattlecryBack = 0;
    internal bool isSummoned;
 
@@ -282,6 +285,8 @@ public class Card
 
    public void FillEffects()
    {
+      minionType1 = data.minionType1;
+      minionType2 = data.minionType2;
       if (data.battleCry != null)
          battleCries.Add(SpellDatabase.Instance.GetSpellByName(data.battleCry.name));
       if (data.deathrattle != null)

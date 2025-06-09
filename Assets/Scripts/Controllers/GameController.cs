@@ -505,7 +505,7 @@ public class GameController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK;
                   card.permanentHPBuff += summons.MAX_HP;
@@ -517,7 +517,7 @@ public class GameController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK * 2;
                   card.permanentHPBuff += summons.MAX_HP * 2;

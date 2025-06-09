@@ -90,16 +90,16 @@ public class HandCardFiller : MonoBehaviour
          }
 
 
-         if (data.minionType1 != CardSO.MinionType.None &&
-            data.minionType2 != CardSO.MinionType.None)
+         if (card.minionType1 != CardSO.MinionType.None &&
+            card.minionType2 != CardSO.MinionType.None)
          {
             doubleTypePan.SetActive(true);
-            doubleTypeText.text = $"{data.minionType1}\n{data.minionType2}";
+            doubleTypeText.text = $"{card.minionType1}\n{card.minionType2}";
          }
-         else if (data.minionType1 != CardSO.MinionType.None)
+         else if (card.minionType1 != CardSO.MinionType.None)
          {
             typePan.SetActive(true);
-            typeText.text = $"{data.minionType1}";
+            typeText.text = $"{card.minionType1}";
          }
 
          starContainer.gameObject.SetActive(true);

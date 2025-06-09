@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27affdf3e0bccf547a3ec659ec8df339, type: 3}
-  m_Name: Bloodfury
+  m_Name: Bloodfury old
   m_EditorClassIdentifier: 
   spriteArt: {fileID: 21300000, guid: 7abba6b2aec62584f9f208b90360f262, type: 3}
   isSquareArt: 1
   cost: 1
   tavernLevel: 1
-  inTavernPool: 0
-  description: 'Your minion becomes a Demon.
+  description: 'Choose a friendly Demon.
 
-    If a Demon is chosen, it consumes
+    It consumes a minion in
 
-    the
-    creature in the Tavern
+    the Tavern
+    to gain
 
-    to gain its stats.'
+    its stats.'
   spellType: 3
   targetType: 1

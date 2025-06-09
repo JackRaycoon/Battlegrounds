@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Lord Jaraxxus
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 58128b6b5da7d5546be38a7e81f9682c, type: 3}
-  ability: {fileID: 11400000, guid: cf57601d927dd4943b2e62afae5610a7, type: 2}
+  ability: {fileID: 11400000, guid: 05db2764dec53b549b19edaa07df18bd, type: 2}

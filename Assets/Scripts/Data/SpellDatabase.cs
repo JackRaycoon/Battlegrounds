@@ -151,7 +151,8 @@ public class SpellDatabase
       AddEffect("Flighty Scout Golden SC", FlightyScoutSC_CastGolden);
 
       //Hero Abilities
-      AddAbility("Bloodfury", Bloodfury_Cast, null, Bloodfury_Valid);
+      AddAbility("Bloodfury old", BloodfuryOld_Cast, null, BloodfuryOld_Valid);
+      AddAbility("Bloodfury", Bloodfury_Cast);
    }
 
    // астер всегда на самой первой позиции листа целей.
@@ -989,6 +990,8 @@ public class SpellDatabase
                caster,
                caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
                );
+
+         //GiveHPSummonedBeetles(casterTeam, );
       }
       else
       {
@@ -1269,11 +1272,37 @@ public class SpellDatabase
       var caster = targets[0];
       var demon = targets[1];
 
+      if (demon.minionType1 == CardSO.MinionType.Demon ||
+          demon.minionType2 == CardSO.MinionType.Demon)
+         TavernController.ConsumeFromTavern(demon);
+      else
+      {
+         demon.minionType1 = CardSO.MinionType.Demon;
+         demon.minionType2 = CardSO.MinionType.None;
+      }
+   }
+   private void BloodfuryOld_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      var demon = targets[1];
+
       TavernController.ConsumeFromTavern(demon);
    }
-   private bool Bloodfury_Valid(List<Card> targets)
+   private bool BloodfuryOld_Valid(List<Card> targets)
    {
       if (targets.Count != 2) return true;
-      return targets[1].data.minionType1 == CardSO.MinionType.Demon || targets[1].data.minionType2 == CardSO.MinionType.Demon;
+      return targets[1].minionType1 == CardSO.MinionType.Demon || 
+             targets[1].minionType2 == CardSO.MinionType.Demon;
+   }
+
+   private void GiveHPSummonedBeetles(List<Card> team, long hp)
+   {
+      foreach(var card in team)
+      {
+         if(card.data.name == "Beetle" || card.data.name == "Beetle Golden")
+         {
+            card.CUR_HP += hp;
+         }
+      }
    }
 }
