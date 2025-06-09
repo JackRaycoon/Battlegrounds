@@ -294,6 +294,16 @@ public class GameController : MonoBehaviour
 
       if (attacker.bonusKeywordsInFight.Contains(Card.BonusKeyword.Stealth))
          attacker.bonusKeywordsInFight.Remove(Card.BonusKeyword.Stealth);
+
+      //"Когда вас бьют"
+      if (defender.others.Keys.Contains(CardSO.Trigger.WhenGetAttacked))
+      {
+         List<Card> allBoard = new() { defender, attacker };
+         foreach (Spell other in defender.others[CardSO.Trigger.WhenGetAttacked])
+         {
+            other?.Cast(allBoard);
+         }
+      }
       //Подъём существа
       float elapsed = 0f;
       while (elapsed < durationScale)
@@ -446,26 +456,26 @@ public class GameController : MonoBehaviour
       else
       {
          //Особые случаи
-         if(summons.data.name == "Microbot")
+         if (summons.data.name == "Microbot")
          {
-            foreach(var card in team)
+            foreach (var card in team)
             {
-               if(card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
                {
-                  card.inFightATKBuff += summons.ATK;
-                  card.inFightHPBuff += summons.MAX_HP;
+                  card.permanentATKBuff += summons.ATK;
+                  card.permanentHPBuff += summons.MAX_HP;
                   card.CUR_HP += summons.MAX_HP;
                }
             }
          }
-         if(summons.data.name == "Microbot Golden")
+         if (summons.data.name == "Microbot Golden")
          {
-            foreach(var card in team)
+            foreach (var card in team)
             {
-               if(card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
+               if (card.data.minionType1 == CardSO.MinionType.Mech || card.data.minionType2 == CardSO.MinionType.Mech)
                {
-                  card.inFightATKBuff += summons.ATK * 2;
-                  card.inFightHPBuff += summons.MAX_HP * 2;
+                  card.permanentATKBuff += summons.ATK * 2;
+                  card.permanentHPBuff += summons.MAX_HP * 2;
                   card.CUR_HP += summons.MAX_HP * 2;
                }
             }
@@ -524,6 +534,11 @@ public class GameController : MonoBehaviour
       tavernController.UpdateUI();
       //boardController.FillTavern();
       boardController.ReFillPlayerMinions();
+      foreach(Card minion in PlayerData.Instance.playerMinions)
+      {
+         minion.AfterFight();
+         minion.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      }
       endTurnBtn.GetComponent<Button>().interactable = true;
       endTurnBtn.sprite = endTurn;
       btnText.text = "End Turn";

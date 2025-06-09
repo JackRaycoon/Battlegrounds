@@ -336,7 +336,6 @@ public class BoardController : MonoBehaviour
 
       foreach (Card minion in PlayerData.Instance.playerMinions)
       {
-         minion.AfterFight();
          var go = Instantiate(boardFiller.fieldCardPrefab, boardFiller.playerMinionsTransform);
          minion.fieldCardObject = go;
          FieldCardFiller filler = go.GetComponent<FieldCardFiller>();

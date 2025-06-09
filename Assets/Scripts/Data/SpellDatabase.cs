@@ -80,9 +80,13 @@ public class SpellDatabase
       AddEffect("Wrath Weaver Trigger", WrathWeaverTrigger_Cast);
       AddEffect("Wrath Weaver Golden Trigger", WrathWeaverTrigger_CastGolden);
 
-      //Triggers - Mech
+      //Triggers - Mechs
       AddEffect("Shielded Minibot Trigger", ShieldedMinibotTrigger_Cast);
       AddEffect("Shielded Minibot Golden Trigger", ShieldedMinibotTrigger_CastGolden);
+
+      //Triggers - Dragons
+      AddEffect("Dozy Whelp Trigger", DozyWhelpTrigger_Cast);
+      AddEffect("Dozy Whelp Golden Trigger", DozyWhelpTrigger_CastGolden);
 
       //Battlecry - Demons
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
@@ -507,6 +511,20 @@ public class SpellDatabase
          target.bonusKeywordsInFight.Add(Card.BonusKeyword.DivineShield);
          caster.cardAbilityInfo.castsShieldedMinibot++;
       }
+   }
+
+   //Dozy Whelp
+   private void DozyWhelpTrigger_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+
+      caster.permanentATKBuff++;
+   }
+   private void DozyWhelpTrigger_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+
+      caster.permanentATKBuff+=2;
    }
 
    //Backstage Security

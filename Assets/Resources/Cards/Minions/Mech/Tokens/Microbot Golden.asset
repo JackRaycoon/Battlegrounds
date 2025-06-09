@@ -20,7 +20,8 @@ MonoBehaviour:
   backInPool: 0
   description: 'If I don''t fit on the board,
 
-    give your Mechs my stats twice.'
+    permanently give your Mechs my
+    stats twice.'
   attackType: 0
   pools: 
   minionType1: 5

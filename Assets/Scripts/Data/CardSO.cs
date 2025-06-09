@@ -68,11 +68,13 @@ public class CardSO : ScriptableObject
       BeetleBeasts,
       SpamMech, //Spam random mechs from all Pull
       MicrobotMech,
+      InFightBuffsDragons,
    }
    public enum Trigger
    {
       None,
       SummonDemon,
       BeforeTakeDamage,
+      WhenGetAttacked,
    }
 }
