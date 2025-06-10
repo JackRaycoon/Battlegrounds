@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
+  m_Name: Blazing Skyfin
+  m_EditorClassIdentifier: 
+  spriteArt: {fileID: 21300000, guid: 8606ef4a07f00ca48bf4c0ff39cfc6db, type: 3}
+  isSquareArt: 0
+  attack: 2
+  hp: 4
+  tavernLevel: 2
+  backInPool: 1
+  description: "After you trigger a\n<font=\"KeyWords\">Battlecry</font>, gain +1/+1
+    permanently.\t"
+  attackType: 0
+  pools: 0b00000007000000
+  minionType1: 11
+  minionType2: 7
+  calc: {fileID: 0}
+  battleCry: {fileID: 0}
+  deathrattle: {fileID: 0}
+  startTurn: {fileID: 0}
+  endTurn: {fileID: 0}
+  startCombat: {fileID: 0}
+  other: {fileID: 11400000, guid: 98dc9e98182445e438ec2de258430e65, type: 2}
+  otherTrigger: 5
+  bonusKeywords: 
+  tags: 000000001200000013000000

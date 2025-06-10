@@ -497,6 +497,8 @@ public class GameController : MonoBehaviour
             boardController.enemiesCards.Add(go);
          else
             boardController.boardFiller.allPlayerFieldCardList.Add(go);
+
+         boardController.SummonTriggers(summons);
       }
       else
       {

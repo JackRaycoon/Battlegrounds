@@ -71,14 +71,14 @@ public class SpellDatabase
       AddSpellCast("Enchanted Lasso", EnchantedLasso_Cast, null, EnchantedLasso_Valid);
 
       //Minion Skills
-      //Base Effects
-      AddEffect("ConsumeOne", ConsumeOne_Cast);
-      AddEffect("ConsumeOneDoubleStats", ConsumeOneDoubleStats_Cast);
+      //Calc Effects
       AddEffect("BeetlesStats", BeetlesStats_Calc);
 
       //Triggers - Demons
       AddEffect("Wrath Weaver Trigger", WrathWeaverTrigger_Cast);
       AddEffect("Wrath Weaver Golden Trigger", WrathWeaverTrigger_CastGolden);
+      AddEffect("Picky Eater BC", ConsumeOne_Cast);
+      AddEffect("Picky Eater Golden BC", ConsumeOneDoubleStats_Cast);
 
       //Triggers - Mechs
       AddEffect("Shielded Minibot Trigger", ShieldedMinibotTrigger_Cast);
@@ -87,6 +87,10 @@ public class SpellDatabase
       //Triggers - Dragons
       AddEffect("Dozy Whelp Trigger", DozyWhelpTrigger_Cast);
       AddEffect("Dozy Whelp Golden Trigger", DozyWhelpTrigger_CastGolden);
+
+      //Triggers - Murlocs
+      AddEffect("Blazing Skyfin Trigger", BlazingSkyfinTrigger_Cast);
+      AddEffect("Blazing Skyfin Golden Trigger", BlazingSkyfinTrigger_CastGolden);
 
       //Battlecry - Demons
       AddEffect("Backstage Security BC", BackstageSecurityBC_Cast, BackstageSecurityBC_Calc);
@@ -132,6 +136,8 @@ public class SpellDatabase
       //Deathrattle - Mechs
       AddEffect("Cord Puller DT", CordPullerDT_Cast);
       AddEffect("Cord Puller Golden DT", CordPullerDT_CastGolden);
+      AddEffect("Auto Assembler DT", AutoAssemblerDT_Cast);
+      AddEffect("Auto Assembler Golden DT", AutoAssemblerDT_CastGolden);
 
       //Start Turn - Neutral
       AddEffect("Beleaguered Battler ST", BeleagueredBattlerST_Cast);
@@ -160,7 +166,7 @@ public class SpellDatabase
       Func<List<Card>, List<long>> calc = null,
       Func<List<Card>, bool> valid = null)
    {
-      Spell spell = new(name)
+      Spell spell = new(name, boardFiller)
       {
          cast = cast,
          calc = calc,
@@ -172,7 +178,7 @@ public class SpellDatabase
       Func<List<Card>, List<long>> calc = null,
       Func<List<Card>, bool> valid = null)
    {
-      Spell spell = new(name, SpellSO.SpellType.Effect)
+      Spell spell = new(name, boardFiller, SpellSO.SpellType.Effect)
       {
          cast = cast,
          calc = calc,
@@ -182,7 +188,7 @@ public class SpellDatabase
    }   
    private void AddEffect(string name, Func<List<Card>, List<long>> calc)
    {
-      Spell spell = new(name, SpellSO.SpellType.Effect)
+      Spell spell = new(name, boardFiller, SpellSO.SpellType.Effect)
       {
          calc = calc,
       };
@@ -193,7 +199,7 @@ public class SpellDatabase
       Func<List<Card>, List<long>> calc = null,
       Func<List<Card>, bool> valid = null)
    {
-      Spell spell = new(name, SpellSO.SpellType.HeroAbility)
+      Spell spell = new(name, boardFiller, SpellSO.SpellType.HeroAbility)
       {
          cast = cast,
          calc = calc,
@@ -205,7 +211,7 @@ public class SpellDatabase
    private void AddPassive(string name, Action<Card, List<Card>> passive, Action<Card, List<Card>> reverse, 
       Func<List<Card>, List<long>> calc = null)
    {
-      Spell spell = new(name, SpellSO.SpellType.Effect)
+      Spell spell = new(name, boardFiller, SpellSO.SpellType.Effect)
       {
          passive = passive,
          reverse = reverse,
@@ -538,6 +544,28 @@ public class SpellDatabase
       var caster = targets[0];
 
       caster.permanentATKBuff+=2;
+   }
+
+   //Blazing Skyfin
+   private void BlazingSkyfinTrigger_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+
+      caster.permanentATKBuff++;
+      caster.permanentHPBuff++;
+      caster.CUR_HP++;
+      if (GameController.isFightNow)
+         caster.beforeBattleCurHP++;
+   }
+   private void BlazingSkyfinTrigger_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+
+      caster.permanentATKBuff+=2;
+      caster.permanentHPBuff+=2;
+      caster.CUR_HP += 2;
+      if (GameController.isFightNow)
+         caster.beforeBattleCurHP += 2;
    }
 
    //Backstage Security
@@ -1141,6 +1169,58 @@ public class SpellDatabase
       }
    }
 
+   //Auto Assembler
+   private void AutoAssemblerDT_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         boardFiller.gameController.Summon(
+               new("Ancestral Automaton"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         boardFiller.boardController.Summon(
+               new("Ancestral Automaton"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+   private void AutoAssemblerDT_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      if (GameController.isFightNow)
+      {
+         List<Card> casterTeam = boardFiller.gameController.playerTeam;
+         if (!boardFiller.gameController.playerTeam.Contains(caster))
+            casterTeam = boardFiller.gameController.enemyTeam;
+
+         boardFiller.gameController.Summon(
+               new("Ancestral Automaton Golden"),
+               caster,
+               caster.isDeath ? casterTeam.IndexOf(caster) : casterTeam.IndexOf(caster) + 1
+               );
+      }
+      else
+      {
+         boardFiller.boardController.Summon(
+               new("Ancestral Automaton Golden"),
+               caster,
+               caster.isDeath ? PlayerData.Instance.playerMinions.IndexOf(caster) :
+               PlayerData.Instance.playerMinions.IndexOf(caster) + 1
+               );
+      }
+   }
+
    //Beleaguered Battler
    private void BeleagueredBattlerST_Cast(List<Card> targets)
    {
@@ -1302,6 +1382,8 @@ public class SpellDatabase
          if(card.data.name == "Beetle" || card.data.name == "Beetle Golden")
          {
             card.CUR_HP += hp;
+            if (GameController.isFightNow)
+               card.beforeBattleCurHP += hp;
          }
       }
    }

@@ -17,6 +17,7 @@ public class SpellSO : ScriptableObject
 
    public SpellType spellType;
    public TargetType targetType;
+   public EffectType effectType;
 
    public enum SpellType
    {
@@ -24,6 +25,17 @@ public class SpellSO : ScriptableObject
       Tavern,
       Effect,
       HeroAbility,
+   }
+
+   public enum EffectType
+   {
+      NoEffect,
+      Battlecry,
+      Deathrattle,
+      StartTurn,
+      EndTurn,
+      StartCombat,
+      Trigger
    }
    public enum TargetType
    {

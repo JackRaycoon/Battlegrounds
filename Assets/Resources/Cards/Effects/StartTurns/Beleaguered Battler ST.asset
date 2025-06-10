@@ -16,6 +16,8 @@ MonoBehaviour:
   isSquareArt: 1
   cost: 1
   tavernLevel: 1
+  inTavernPool: 0
   description: 
   spellType: 2
   targetType: 0
+  effectType: 3

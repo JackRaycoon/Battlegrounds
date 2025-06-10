@@ -146,14 +146,31 @@ public class BoardController : MonoBehaviour
       }
 
       //Check Triggers
-      foreach(Card card in PlayerData.Instance.playerMinions)
+      SummonTriggers(minion);
+
+      foreach (Card card in PlayerData.Instance.playerMinions)
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+      foreach (Card card in TavernController.tavernCards)
+         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+   }
+
+   public void SummonTriggers(Card minion)
+   {
+      if(minion.data.name == "Ancestral Automaton Golden" || minion.data.name == "Ancestral Automaton")
       {
-         if (card.others.Keys.Contains(CardSO.Trigger.SummonDemon) && 
+         PlayerData.Instance.runInfo.ancestralAutomatonCounts++;
+      }
+      var team = PlayerData.Instance.playerMinions;
+      if (GameController.isFightNow)
+         team = boardFiller.gameController.playerTeam;
+      foreach (Card card in team)
+      {
+         if (card.others.Keys.Contains(CardSO.Trigger.SummonDemon) &&
             (minion.minionType1 == CardSO.MinionType.Demon ||
              minion.minionType2 == CardSO.MinionType.Demon))
          {
             List<Card> allBoard = new() { card };
-            List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
+            List<Card> playerWithout = new(team);
             playerWithout.Remove(card);
             allBoard.AddRange(playerWithout);
             allBoard.AddRange(TavernController.tavernCards);
@@ -162,12 +179,22 @@ public class BoardController : MonoBehaviour
                other?.Cast(allBoard);
             }
          }
-      }
 
-      foreach (Card card in PlayerData.Instance.playerMinions)
-         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
-      foreach (Card card in TavernController.tavernCards)
-         card.fieldCardObject.GetComponent<FieldCardFiller>().Fill();
+         if((minion.data.name == "Ancestral Automaton" || minion.data.name == "Ancestral Automaton Golden")
+            && (card.data.name == "Ancestral Automaton"))
+         {
+            card.CUR_HP += 2;
+            if (GameController.isFightNow)
+               card.beforeBattleCurHP += 2;
+         }
+         if((minion.data.name == "Ancestral Automaton" || minion.data.name == "Ancestral Automaton Golden")
+            && (card.data.name == "Ancestral Automaton Golden"))
+         {
+            card.CUR_HP += 4;
+            if (GameController.isFightNow)
+               card.beforeBattleCurHP += 4;
+         }
+      }
    }
 
    public void CastSpell(Spell spell, Card spellTarget, HandCardUI cardUI = null, Card battlecryOwner = null)
@@ -429,6 +456,7 @@ public class BoardController : MonoBehaviour
          team.Insert(position, minion);
          boardFiller.allPlayerFieldCardList.Add(go);
 
+         SummonTriggers(summons);
          ReFillPlayerMinions();
       }
       else

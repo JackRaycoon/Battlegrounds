@@ -18,9 +18,12 @@ public class Spell : Card
 
    public int countUsed = 0; //Для абилок героев
 
-   public Spell(string name, SpellSO.SpellType spellType = SpellSO.SpellType.None)
+   public BoardFiller boardFiller;
+
+   public Spell(string name, BoardFiller boardFiller, SpellSO.SpellType spellType = SpellSO.SpellType.None)
    {
       SpellSO[] all;
+      this.boardFiller = boardFiller;
       switch (spellType)
       {
          case SpellSO.SpellType.None:
@@ -37,12 +40,13 @@ public class Spell : Card
             break;
       }
    }
-   public Spell(SpellSO data)
+   public Spell(SpellSO data, BoardFiller boardFiller)
    {
       this.data = data;
+      this.boardFiller = boardFiller;
    }
 
-   public Spell() { }
+   public Spell(BoardFiller boardFiller) { this.boardFiller = boardFiller; }
 
    public void Cast(List<Card> board)
    {
@@ -64,6 +68,28 @@ public class Spell : Card
             }
          }
       }
+
+      if (data.effectType == SpellSO.EffectType.Battlecry)
+      {
+         var team = PlayerData.Instance.playerMinions;
+         if (GameController.isFightNow)
+            team = boardFiller.gameController.playerTeam;
+         foreach (Card card in team)
+         {
+            if (card.others.Keys.Contains(CardSO.Trigger.BattlecryCast))
+            {
+               List<Card> allBoard = new() { card };
+               List<Card> playerWithout = new(team);
+               playerWithout.Remove(card);
+               allBoard.AddRange(playerWithout);
+               allBoard.AddRange(TavernController.tavernCards);
+               foreach (Spell other in card.others[CardSO.Trigger.BattlecryCast])
+               {
+                  other?.Cast(allBoard);
+               }
+            }
+         }
+      }
       cast.Invoke(board);
    }
 
@@ -80,7 +106,7 @@ public class Spell : Card
 
    public Spell Copy()
    {
-      return new()
+      return new(boardFiller)
       {
          data = data,
          cast = cast,

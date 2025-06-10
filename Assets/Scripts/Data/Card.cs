@@ -23,6 +23,16 @@ public class Card
          {
             atk += PlayerData.Instance.runInfo.beetlesATKBuff;
          }
+         if(data.name == "Ancestral Automaton")
+         {
+            if (PlayerData.Instance.runInfo.ancestralAutomatonCounts > 1)
+               atk += 3 * (PlayerData.Instance.runInfo.ancestralAutomatonCounts - 1);
+         }
+         if(data.name == "Ancestral Automaton Golden")
+         {
+            if (PlayerData.Instance.runInfo.ancestralAutomatonCounts > 1)
+               atk += 6 * (PlayerData.Instance.runInfo.ancestralAutomatonCounts - 1);
+         }
          if (atk < 0) atk = 0;
          return atk;
       }
@@ -132,6 +142,7 @@ public class Card
             if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
             {
                _permanentHPBuff = buff;
+               beforeBattleCurHP += buff;
             }
          }
          else
@@ -157,12 +168,22 @@ public class Card
          {
             hp += PlayerData.Instance.runInfo.beetlesHPBuff;
          }
+         if (data.name == "Ancestral Automaton")
+         {
+            if(PlayerData.Instance.runInfo.ancestralAutomatonCounts > 1)
+               hp += 2 * (PlayerData.Instance.runInfo.ancestralAutomatonCounts - 1);
+         }
+         if (data.name == "Ancestral Automaton Golden")
+         {
+            if (PlayerData.Instance.runInfo.ancestralAutomatonCounts > 1)
+               hp += 4 * (PlayerData.Instance.runInfo.ancestralAutomatonCounts - 1);
+         }
          return hp;
       }
    }
 
    private long cur_hp = 0;
-   private long beforeBattleCurHP;
+   public long beforeBattleCurHP;
    public long CUR_HP
    {
       get

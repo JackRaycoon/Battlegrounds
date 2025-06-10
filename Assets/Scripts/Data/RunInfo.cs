@@ -10,4 +10,6 @@ public class RunInfo
 
    public long beetlesATKBuff = 0;
    public long beetlesHPBuff = 0;
+
+   public long ancestralAutomatonCounts = 0;
 }

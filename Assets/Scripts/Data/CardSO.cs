@@ -72,6 +72,9 @@ public class CardSO : ScriptableObject
       HandBuffMurlocs,
       GlossaryNeutral,
       MagneticMech,
+      AncestralAutomatonMech,
+      BattlecryMurlocs,
+      BattlecryDragons,
 
    }
    public enum Trigger
@@ -81,5 +84,7 @@ public class CardSO : ScriptableObject
       BeforeTakeDamage,
       WhenGetAttacked,
       StartCombatInHand, //лежит в руке на момент начала боя
+      BattlecryCast,
+
    }
 }
