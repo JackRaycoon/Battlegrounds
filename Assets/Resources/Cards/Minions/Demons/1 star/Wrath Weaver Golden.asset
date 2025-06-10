@@ -18,7 +18,7 @@ MonoBehaviour:
   hp: 8
   tavernLevel: 1
   backInPool: 1
-  description: 'After you play a Demon,
+  description: 'After you summon a Demon,
 
     deal 1 damage to your hero
 
@@ -28,9 +28,12 @@ MonoBehaviour:
   pools: 06000000
   minionType1: 0
   minionType2: 0
+  calc: {fileID: 0}
   battleCry: {fileID: 0}
   deathrattle: {fileID: 0}
+  startTurn: {fileID: 0}
   endTurn: {fileID: 0}
+  startCombat: {fileID: 0}
   other: {fileID: 11400000, guid: 392fc2bbb756de742893e54202112348, type: 2}
   otherTrigger: 1
   bonusKeywords: 

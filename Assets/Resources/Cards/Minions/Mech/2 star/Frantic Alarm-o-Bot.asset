@@ -10,27 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Buzzing Vermin
+  m_Name: Frantic Alarm-o-Bot
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: 77094358f7aa2c1419b838eac1bdb76e, type: 3}
+  spriteArt: {fileID: 21300000, guid: 53c0da46cf8367341a6d1a5a4f365950, type: 3}
   isSquareArt: 1
-  attack: 1
-  hp: 1
-  tavernLevel: 1
+  attack: 4
+  hp: 4
+  tavernLevel: 2
   backInPool: 1
-  description: "<font=\"KeyWords\">Taunt\r</font>\n<font=\"KeyWords\">Deathrattle:</font>
-    Summon a\n{0}/{1} Beetle."
+  description: '<font="KeyWords">Magnetic</font>
+
+    <font="KeyWords">Windfury</font>'
   attackType: 0
-  pools: 03000000
-  minionType1: 3
+  pools: 05000000
+  minionType1: 5
   minionType2: 0
-  calc: {fileID: 11400000, guid: 748fa1a549780784f86f204c534b5090, type: 2}
+  calc: {fileID: 0}
   battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: 1167c801ae65d4148b254ac89600a728, type: 2}
+  deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   startCombat: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
-  bonusKeywords: 03000000
-  tags: 0a000000
+  bonusKeywords: 0700000005000000
+  tags: 0000000010000000

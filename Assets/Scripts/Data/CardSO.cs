@@ -75,6 +75,7 @@ public class CardSO : ScriptableObject
       AncestralAutomatonMech,
       BattlecryMurlocs,
       BattlecryDragons,
+      TavernBuffElementals,
 
    }
    public enum Trigger

@@ -10,27 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
-  m_Name: Buzzing Vermin
+  m_Name: Technical Element
   m_EditorClassIdentifier: 
-  spriteArt: {fileID: 21300000, guid: 77094358f7aa2c1419b838eac1bdb76e, type: 3}
+  spriteArt: {fileID: 21300000, guid: 299aa5449257eab4ab73bf8630374558, type: 3}
   isSquareArt: 1
-  attack: 1
-  hp: 1
-  tavernLevel: 1
+  attack: 4
+  hp: 5
+  tavernLevel: 2
   backInPool: 1
-  description: "<font=\"KeyWords\">Taunt\r</font>\n<font=\"KeyWords\">Deathrattle:</font>
-    Summon a\n{0}/{1} Beetle."
+  description: <font="KeyWords">Magnetic</font>
   attackType: 0
-  pools: 03000000
-  minionType1: 3
-  minionType2: 0
-  calc: {fileID: 11400000, guid: 748fa1a549780784f86f204c534b5090, type: 2}
+  pools: 0500000004000000
+  minionType1: 4
+  minionType2: 5
+  calc: {fileID: 0}
   battleCry: {fileID: 0}
-  deathrattle: {fileID: 11400000, guid: 1167c801ae65d4148b254ac89600a728, type: 2}
+  deathrattle: {fileID: 0}
   startTurn: {fileID: 0}
   endTurn: {fileID: 0}
   startCombat: {fileID: 0}
   other: {fileID: 0}
   otherTrigger: 0
-  bonusKeywords: 03000000
-  tags: 0a000000
+  bonusKeywords: 07000000
+  tags: 000000001000000014000000

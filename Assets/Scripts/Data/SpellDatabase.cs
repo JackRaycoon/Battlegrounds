@@ -107,6 +107,8 @@ public class SpellDatabase
       //Battlecry - Beasts
       AddEffect("Alleycat BC", AlleycatBC_Cast);
       AddEffect("Alleycat Golden BC", AlleycatBC_CastGolden);
+      AddEffect("Forest Rover BC", ForestRoverBC_Cast);
+      AddEffect("Forest Rover Golden BC", ForestRoverBC_CastGolden);
 
       //Battlecry - Pirates
       AddEffect("Aureate Laureate BC", AureateLaureateBC_Cast);
@@ -700,6 +702,22 @@ public class SpellDatabase
                PlayerData.Instance.playerMinions.IndexOf(caster) + 1
                );
       }
+   }
+
+   //Forest Rover
+   private void ForestRoverBC_Cast(List<Card> targets)
+   {
+      var caster = targets[0];
+      PlayerData.Instance.runInfo.beetlesATKBuff++;
+      PlayerData.Instance.runInfo.beetlesHPBuff++;
+      GiveHPSummonedBeetles(1);
+   }
+   private void ForestRoverBC_CastGolden(List<Card> targets)
+   {
+      var caster = targets[0];
+      PlayerData.Instance.runInfo.beetlesATKBuff+=2;
+      PlayerData.Instance.runInfo.beetlesHPBuff+=2;
+      GiveHPSummonedBeetles(2);
    }
 
    //Aureate Laureate
@@ -1375,8 +1393,11 @@ public class SpellDatabase
              targets[1].minionType2 == CardSO.MinionType.Demon;
    }
 
-   private void GiveHPSummonedBeetles(List<Card> team, long hp)
+   private void GiveHPSummonedBeetles(long hp)
    {
+      var team = PlayerData.Instance.playerMinions;
+      if (GameController.isFightNow)
+         team = boardFiller.gameController.playerTeam;
       foreach(var card in team)
       {
          if(card.data.name == "Beetle" || card.data.name == "Beetle Golden")
