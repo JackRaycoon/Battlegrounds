@@ -310,8 +310,9 @@ public class TavernController : MonoBehaviour
       List<CardSO> availableMinions = new();
       foreach (var kvp in minionsPool)
       {
-         if (kvp.Value.isUnlock && kvp.Value.copies > 0)
-            availableMinions.Add(kvp.Key);
+         if(kvp.Value.isUnlock)
+            for (int i = 0; i < kvp.Value.copies; i++)
+               availableMinions.Add(kvp.Key);
       }
 
       while (tavernCards.Count(card => card is not Spell) < tavernMinionCount)
@@ -321,6 +322,8 @@ public class TavernController : MonoBehaviour
 
          var selectedSO = availableMinions[Random.Range(0, availableMinions.Count)];
          TavernMinionInfo info = minionsPool[selectedSO];
+
+         availableMinions.Remove(selectedSO);
 
          Card randomCard = new(selectedSO);
          tavernCards.Add(randomCard);

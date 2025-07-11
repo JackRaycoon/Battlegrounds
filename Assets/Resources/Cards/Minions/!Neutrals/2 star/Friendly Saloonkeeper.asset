@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dccd41c04238a4b8714ae63ad4baae, type: 3}
+  m_Name: Friendly Saloonkeeper
+  m_EditorClassIdentifier: 
+  spriteArt: {fileID: 21300000, guid: 8223edfaa27cb944cb27f8211664a55f, type: 3}
+  isSquareArt: 0
+  attack: 3
+  hp: 4
+  tavernLevel: 2
+  backInPool: 1
+  description: '<font="KeyWords">Battlecry:</font> Get a Gold Coin
+
+    for each
+    full unlocked tier in glossary.'
+  attackType: 0
+  pools: 00000000
+  minionType1: 0
+  minionType2: 0
+  calc: {fileID: 0}
+  battleCry: {fileID: 0}
+  deathrattle: {fileID: 0}
+  startTurn: {fileID: 0}
+  endTurn: {fileID: 0}
+  startCombat: {fileID: 0}
+  other: {fileID: 0}
+  otherTrigger: 0
+  bonusKeywords: 
+  tags: 0f00000000000000

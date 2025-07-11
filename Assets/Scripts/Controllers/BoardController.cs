@@ -83,6 +83,21 @@ public class BoardController : MonoBehaviour
 
                   Destroy(go);
                   PlayerData.Instance.playerMinions.Remove(minion);
+                  if (minion.data.backInPool)
+                  {
+                     if (minion.isGolden)
+                     {
+                        var data = new Card(minion.data.name).data;
+                        for (int i = 0; i < 3; i++)
+                           if (boardFiller.tavernController.minionsPool[data].copies < boardFiller.tavernController.copyEveryMinion)
+                              boardFiller.tavernController.minionsPool[data].copies++;
+                     }
+                     else
+                     {
+                        if (boardFiller.tavernController.minionsPool[minion.data].copies < boardFiller.tavernController.copyEveryMinion)
+                           boardFiller.tavernController.minionsPool[minion.data].copies++;
+                     }
+                  }
                   goto SkipFill;
                }
             }
