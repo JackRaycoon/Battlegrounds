@@ -9,6 +9,7 @@ public class CardSO : ScriptableObject
    public bool isSquareArt = true;
    public int attack, hp;
    public int tavernLevel = 1;
+   public Rarity rarity;
    public bool backInPool = true;
 
    [TextArea]
@@ -29,63 +30,4 @@ public class CardSO : ScriptableObject
 
    public List<Card.BonusKeyword> bonusKeywords;
    public List<Tags> tags;
-
-   public enum AttackType
-   {
-      Melee,
-      Range,
-      Magic, //ѕримен€ет какое-то свойство вместо атаки
-      NoAttack //Ќичего не делает вообще, его просто пропускать и переходить к следующему
-   }
-   public enum MinionType
-   {
-      None,
-      All,
-      Undead,
-      Beast,
-      Elemental,
-      Mech,
-      Demon,
-      Dragon,
-      Quilboar,
-      Naga,
-      Pirate,
-      Murloc
-   }
-
-   public enum Tags
-   {
-      NoTagged,
-      SpamDemons,
-      SelfDamageDemons,
-      ConsumesDemons,
-      UndeadATK,
-      AnnoyingMech,
-      DivineShieldsMech,
-      ManyAttackBeasts,
-      GoldenPirates,
-      BonusWordsMurlocs,
-      BeetleBeasts,
-      SpamMech, //Spam random mechs from all Pull
-      MicrobotMech,
-      InFightBuffsDragons,
-      HandBuffMurlocs,
-      GlossaryNeutral,
-      MagneticMech,
-      AncestralAutomatonMech,
-      BattlecryMurlocs,
-      BattlecryDragons,
-      TavernBuffElementals,
-
-   }
-   public enum Trigger
-   {
-      None,
-      SummonDemon,
-      BeforeTakeDamage,
-      WhenGetAttacked,
-      StartCombatInHand, //лежит в руке на момент начала бо€
-      BattlecryCast,
-
-   }
 }

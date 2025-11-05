@@ -145,14 +145,14 @@ public class GameController : MonoBehaviour
       //Trigger StartTurn in Hand
       foreach (Card card in PlayerData.Instance.hand)
       {
-         if (card.others.Keys.Contains(CardSO.Trigger.StartCombatInHand))
+         if (card.others.Keys.Contains(Trigger.StartCombatInHand))
          {
             List<Card> allBoard = new() { card };
             //List<Card> playerWithout = new(PlayerData.Instance.playerMinions);
             //playerWithout.Remove(card);
             //allBoard.AddRange(playerWithout);
             //allBoard.AddRange(TavernController.tavernCards);
-            foreach (Spell other in card.others[CardSO.Trigger.StartCombatInHand])
+            foreach (Spell other in card.others[Trigger.StartCombatInHand])
             {
                other?.Cast(allBoard);
             }
@@ -331,10 +331,10 @@ public class GameController : MonoBehaviour
          attacker.bonusKeywordsInFight.Remove(Card.BonusKeyword.Stealth);
 
       //"Когда вас бьют"
-      if (defender.others.Keys.Contains(CardSO.Trigger.WhenGetAttacked))
+      if (defender.others.Keys.Contains(Trigger.WhenGetAttacked))
       {
          List<Card> allBoard = new() { defender, attacker };
-         foreach (Spell other in defender.others[CardSO.Trigger.WhenGetAttacked])
+         foreach (Spell other in defender.others[Trigger.WhenGetAttacked])
          {
             other?.Cast(allBoard);
          }
@@ -507,7 +507,7 @@ public class GameController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == MinionType.Mech || card.minionType2 == MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK;
                   card.permanentHPBuff += summons.MAX_HP;
@@ -519,7 +519,7 @@ public class GameController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == MinionType.Mech || card.minionType2 == MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK * 2;
                   card.permanentHPBuff += summons.MAX_HP * 2;

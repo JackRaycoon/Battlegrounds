@@ -90,13 +90,13 @@ public class HandCardFiller : MonoBehaviour
          }
 
 
-         if (card.minionType1 != CardSO.MinionType.None &&
-            card.minionType2 != CardSO.MinionType.None)
+         if (card.minionType1 != MinionType.None &&
+            card.minionType2 != MinionType.None)
          {
             doubleTypePan.SetActive(true);
             doubleTypeText.text = $"{card.minionType1}\n{card.minionType2}";
          }
-         else if (card.minionType1 != CardSO.MinionType.None)
+         else if (card.minionType1 != MinionType.None)
          {
             typePan.SetActive(true);
             typeText.text = $"{card.minionType1}";

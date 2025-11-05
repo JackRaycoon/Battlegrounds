@@ -57,12 +57,12 @@ public class TavernController : MonoBehaviour
       foreach (RaceSO race in selectedRaces)
       {
          // Выбираем 2 случайных тега
-         List<CardSO.Tags> pickedTags = new();
+         List<Tags> pickedTags = new();
          if (race.tags.Count > 0)
             pickedTags.Add(race.tags[Random.Range(0, race.tags.Count)]);
          if (race.tags.Count > 1)
          {
-            CardSO.Tags second;
+            Tags second;
             do { second = race.tags[Random.Range(0, race.tags.Count)]; } while (second == pickedTags[0]);
             pickedTags.Add(second);
          }
@@ -92,7 +92,7 @@ public class TavernController : MonoBehaviour
             //       !tierMinions.Contains(card)).ToList());
             //}
 
-            Dictionary<CardSO.Tags, List<CardSO>> tagToCards = new();
+            Dictionary<Tags, List<CardSO>> tagToCards = new();
             foreach (var tag in pickedTags)
             {
                var cards = Resources.LoadAll<CardSO>("Cards/Minions").Where(card =>
@@ -132,7 +132,7 @@ public class TavernController : MonoBehaviour
                    !card.name.Contains(" Golden") && 
                    card.tavernLevel == tier &&
                    card.pools.Contains(race.type) &&
-                   card.tags.Contains(CardSO.Tags.NoTagged) &&
+                   card.tags.Contains(Tags.NoTagged) &&
                    !tierMinions.Contains(card)).ToList();
 
                for (int i = 0; i < fallback.Count; i++)

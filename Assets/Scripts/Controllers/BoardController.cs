@@ -38,18 +38,18 @@ public class BoardController : MonoBehaviour
             try
             {
                Card neigh = PlayerData.Instance.playerMinions[siblingIndex + 1];
-               List<CardSO.MinionType> types1 = new()
+               List<MinionType> types1 = new()
                {
                   minion.minionType1,
                   minion.minionType2
                };
-               List<CardSO.MinionType> types2 = new()
+               List<MinionType> types2 = new()
                {
                   neigh.minionType1,
                   neigh.minionType2
                };
-               List<CardSO.MinionType> intersect = types1.Intersect(types2)
-                                                         .Where(x => x != CardSO.MinionType.None)
+               List<MinionType> intersect = types1.Intersect(types2)
+                                                         .Where(x => x != MinionType.None)
                                                          .ToList();
 
                if (intersect.Count > 0)
@@ -165,16 +165,16 @@ public class BoardController : MonoBehaviour
          team = boardFiller.gameController.playerTeam;
       foreach (Card card in team)
       {
-         if (card.others.Keys.Contains(CardSO.Trigger.SummonDemon) &&
-            (minion.minionType1 == CardSO.MinionType.Demon ||
-             minion.minionType2 == CardSO.MinionType.Demon))
+         if (card.others.Keys.Contains(Trigger.SummonDemon) &&
+            (minion.minionType1 == MinionType.Demon ||
+             minion.minionType2 == MinionType.Demon))
          {
             List<Card> allBoard = new() { card };
             List<Card> playerWithout = new(team);
             playerWithout.Remove(card);
             allBoard.AddRange(playerWithout);
             allBoard.AddRange(TavernController.tavernCards);
-            foreach (Spell other in card.others[CardSO.Trigger.SummonDemon])
+            foreach (Spell other in card.others[Trigger.SummonDemon])
             {
                other?.Cast(allBoard);
             }
@@ -466,7 +466,7 @@ public class BoardController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == MinionType.Mech || card.minionType2 == MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK;
                   card.permanentHPBuff += summons.MAX_HP;
@@ -478,7 +478,7 @@ public class BoardController : MonoBehaviour
          {
             foreach (var card in team)
             {
-               if (card.minionType1 == CardSO.MinionType.Mech || card.minionType2 == CardSO.MinionType.Mech)
+               if (card.minionType1 == MinionType.Mech || card.minionType2 == MinionType.Mech)
                {
                   card.permanentATKBuff += summons.ATK * 2;
                   card.permanentHPBuff += summons.MAX_HP * 2;

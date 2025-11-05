@@ -76,14 +76,14 @@ public class Spell : Card
             team = boardFiller.gameController.playerTeam;
          foreach (Card card in team)
          {
-            if (card.others.Keys.Contains(CardSO.Trigger.BattlecryCast))
+            if (card.others.Keys.Contains(Trigger.BattlecryCast))
             {
                List<Card> allBoard = new() { card };
                List<Card> playerWithout = new(team);
                playerWithout.Remove(card);
                allBoard.AddRange(playerWithout);
                allBoard.AddRange(TavernController.tavernCards);
-               foreach (Spell other in card.others[CardSO.Trigger.BattlecryCast])
+               foreach (Spell other in card.others[Trigger.BattlecryCast])
                {
                   other?.Cast(allBoard);
                }

@@ -206,9 +206,9 @@ public class Card
 
    public List<Spell> battleCries = new(), deathrattles = new(), startTurns = new(), endTurns = new(), startCombats = new();
 
-   public Dictionary<CardSO.Trigger, List<Spell>> others = new();
+   public Dictionary<Trigger, List<Spell>> others = new();
 
-   public CardSO.MinionType minionType1, minionType2;
+   public MinionType minionType1, minionType2;
 
    public int indexHandCardForBattlecryBack = 0;
    internal bool isSummoned;
@@ -364,7 +364,7 @@ public class Card
          //Check Triggers
          foreach (Card card in gameController.playerTeam)
          {
-            if (card.others.Keys.Contains(CardSO.Trigger.BeforeTakeDamage) &&
+            if (card.others.Keys.Contains(Trigger.BeforeTakeDamage) &&
                dmg > 0 && !bonusKeywordsInFight.Contains(BonusKeyword.DivineShield)
                && gameController.playerTeam.Contains(this))
             {
@@ -373,7 +373,7 @@ public class Card
                   card,
                   this
                };
-               foreach (Spell other in card.others[CardSO.Trigger.BeforeTakeDamage])
+               foreach (Spell other in card.others[Trigger.BeforeTakeDamage])
                {
                   other?.Cast(allBoard);
                }
@@ -381,7 +381,7 @@ public class Card
          }
          foreach (Card card in gameController.enemyTeam)
          {
-            if (card.others.Keys.Contains(CardSO.Trigger.BeforeTakeDamage) &&
+            if (card.others.Keys.Contains(Trigger.BeforeTakeDamage) &&
                dmg > 0 && !bonusKeywordsInFight.Contains(BonusKeyword.DivineShield)
                && gameController.enemyTeam.Contains(this))
             {
@@ -390,7 +390,7 @@ public class Card
                   card,
                   this
                };
-               foreach (Spell other in card.others[CardSO.Trigger.BeforeTakeDamage])
+               foreach (Spell other in card.others[Trigger.BeforeTakeDamage])
                {
                   other?.Cast(allBoard);
                }

@@ -1370,13 +1370,13 @@ public class SpellDatabase
       var caster = targets[0];
       var demon = targets[1];
 
-      if (demon.minionType1 == CardSO.MinionType.Demon ||
-          demon.minionType2 == CardSO.MinionType.Demon)
+      if (demon.minionType1 == MinionType.Demon ||
+          demon.minionType2 == MinionType.Demon)
          TavernController.ConsumeFromTavern(demon);
       else
       {
-         demon.minionType1 = CardSO.MinionType.Demon;
-         demon.minionType2 = CardSO.MinionType.None;
+         demon.minionType1 = MinionType.Demon;
+         demon.minionType2 = MinionType.None;
       }
    }
    private void BloodfuryOld_Cast(List<Card> targets)
@@ -1389,8 +1389,8 @@ public class SpellDatabase
    private bool BloodfuryOld_Valid(List<Card> targets)
    {
       if (targets.Count != 2) return true;
-      return targets[1].minionType1 == CardSO.MinionType.Demon || 
-             targets[1].minionType2 == CardSO.MinionType.Demon;
+      return targets[1].minionType1 == MinionType.Demon || 
+             targets[1].minionType2 == MinionType.Demon;
    }
 
    private void GiveHPSummonedBeetles(long hp)

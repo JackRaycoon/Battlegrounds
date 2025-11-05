@@ -9328,6 +9328,7 @@ MonoBehaviour:
   boardFiller: {fileID: 1818959496}
   moneyController: {fileID: 114273658}
   tripletsController: {fileID: 1042577591}
+  enemiesCards: []
 --- !u!1 &1830427084
 GameObject:
   m_ObjectHideFlags: 0
