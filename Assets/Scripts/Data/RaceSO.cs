@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Race", menuName = "Race", order = 7)]
-public class RaceSO : ScriptableObject
+[CreateAssetMenu(fileName = "Theme", menuName = "Theme", order = 7)]
+public class ThemeSO : ScriptableObject
 {
-   public MinionType type;
+   public Theme theme;
    public List<Tags> tags;
 }
