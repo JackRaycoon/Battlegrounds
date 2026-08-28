@@ -23,7 +23,7 @@ public class TavernController : MonoBehaviour
    public Transform starContainer;
    public List<GameObject> starPrefabs;
 
-   public List<RaceSO> allRaces;
+   public List<ThemeSO> allThemes;
 
    private bool tavernFreeze;
    private void Awake()
@@ -38,23 +38,23 @@ public class TavernController : MonoBehaviour
    {
       currentPool.Clear();
 
-      //Выбираем 5 случайных рас (нейтралка всегда на позиции 0)
-      List<RaceSO> selectedRaces = new();
-      selectedRaces.Add(allRaces[0]); // нейтральная
+      //Выбираем 5 случайных тем (нейтралка всегда на позиции 0)
+      List<ThemeSO> selectedThemes = new();
+        selectedThemes.Add(allThemes[0]); // нейтральная
 
-      List<RaceSO> tempRaces = new(allRaces);
-      tempRaces.RemoveAt(0); // удаляем нейтральную из кандидатов
+      List<ThemeSO> tempThemes = new(allThemes);
+        tempThemes.RemoveAt(0); // удаляем нейтральную из кандидатов
 
-      while (selectedRaces.Count < 6 && tempRaces.Count > 0)
+      while (selectedThemes.Count < 6 && tempThemes.Count > 0)
       {
-         var r = tempRaces[Random.Range(0, tempRaces.Count)];
-         selectedRaces.Add(r);
-         tempRaces.Remove(r);
+         var r = tempThemes[Random.Range(0, tempThemes.Count)];
+         selectedThemes.Add(r);
+         tempThemes.Remove(r);
       }
 
       //Готовим словарь из выбранных рас и тегов
-      Dictionary<RaceSO, List<CardSO>> raceToMinions = new();
-      foreach (RaceSO race in selectedRaces)
+      Dictionary<ThemeSO, List<CardSO>> raceToMinions = new();
+      foreach (ThemeSO race in selectedThemes)
       {
          // Выбираем 2 случайных тега
          List<Tags> pickedTags = new();
@@ -98,7 +98,7 @@ public class TavernController : MonoBehaviour
                var cards = Resources.LoadAll<CardSO>("Cards/Minions").Where(card =>
                    !card.name.Contains(" Golden") &&
                    card.tavernLevel == tier &&
-                   card.pools.Contains(race.type) &&
+                   card.themes.Contains(race.theme) &&
                    card.tags.Contains(tag));
                tagToCards[tag] = cards.ToList();
             }
@@ -131,7 +131,7 @@ public class TavernController : MonoBehaviour
                List<CardSO> fallback = Resources.LoadAll<CardSO>("Cards/Minions").Where(card =>
                    !card.name.Contains(" Golden") && 
                    card.tavernLevel == tier &&
-                   card.pools.Contains(race.type) &&
+                   card.themes.Contains(race.theme) &&
                    card.tags.Contains(Tags.NoTagged) &&
                    !tierMinions.Contains(card)).ToList();
 

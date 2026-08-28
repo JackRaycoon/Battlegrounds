@@ -23,7 +23,7 @@ public class GlossaryController : MonoBehaviour
          if (result != 0)
             return result;
 
-         return a.pools[0].CompareTo(b.pools[0]);
+         return a.themes[0].CompareTo(b.themes[0]);
       });
 
       foreach (var data in glossaryPull)

@@ -5,6 +5,11 @@ public enum AttackType
     Magic, //ѕримен€ет какое-то свойство вместо атаки
     NoAttack //Ќичего не делает вообще, его просто пропускать и переходить к следующему
 }
+public enum Theme
+{
+    Neutral,
+    SufferingMiddleAges,
+}
 public enum MinionType
 {
     None,
@@ -24,26 +29,8 @@ public enum MinionType
 public enum Tags
 {
     NoTagged,
-    SpamDemons,
-    SelfDamageDemons,
-    ConsumesDemons,
-    UndeadATK,
-    AnnoyingMech,
-    DivineShieldsMech,
-    ManyAttackBeasts,
-    GoldenPirates,
-    BonusWordsMurlocs,
-    BeetleBeasts,
-    SpamMech, //Spam random mechs from all Pull
-    MicrobotMech,
-    InFightBuffsDragons,
-    HandBuffMurlocs,
     GlossaryNeutral,
-    MagneticMech,
-    AncestralAutomatonMech,
-    BattlecryMurlocs,
-    BattlecryDragons,
-    TavernBuffElementals,
+    SufferingMiddleAges,
 
 }
 public enum Trigger

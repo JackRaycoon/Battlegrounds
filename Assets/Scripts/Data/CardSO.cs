@@ -17,7 +17,7 @@ public class CardSO : ScriptableObject
 
    public AttackType attackType;
 
-   public List<MinionType> pools; //Например у демонов есть единичка под них, но при этом не считается сама демоном
+   public List<Theme> themes; //К каким темам относится карта
 
    public MinionType minionType1;
    public MinionType minionType2;
