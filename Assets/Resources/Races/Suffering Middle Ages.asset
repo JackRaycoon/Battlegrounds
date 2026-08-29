@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9390acf295bc7544bbe363982132e4ab, type: 3}
   m_Name: Suffering Middle Ages
   m_EditorClassIdentifier: Assembly-CSharp::RaceSO
-  type: 0
-  tags: 
+  theme: 1
+  tags: 02000000
