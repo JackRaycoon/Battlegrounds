@@ -1,0 +1,264 @@
+fileFormatVersion: 2
+guid: e21977bfc2fcd3041acd07fb4172a547
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3899080677339051355
+    second: moneyUI_0
+  - first:
+      213: -2391709138508769265
+    second: moneyUI_1
+  - first:
+      213: 5344541071583712553
+    second: moneyUI_2
+  - first:
+      213: -4904517042545040284
+    second: moneyUI_3
+  - first:
+      213: -175257924621196795
+    second: moneyUI_4
+  - first:
+      213: 2680613918296028494
+    second: moneyUI_5
+  - first:
+      213: -1680018139573587311
+    second: moneyUI_6
+  - first:
+      213: -2380001978475573606
+    second: moneyUI_7
+  - first:
+      213: 8012324503518758403
+    second: moneyUI_8
+  - first:
+      213: 4376582837484014106
+    second: moneyUI_9
+  - first:
+      213: 3597386683329276923
+    second: moneyUI_10
+  - first:
+      213: -1027589307367588515
+    second: moneyUI_11
+  - first:
+      213: 2835062394701584295
+    second: moneyUI_12
+  - first:
+      213: 5484346000027450604
+    second: moneyUI_13
+  - first:
+      213: -4386901268957094190
+    second: moneyUI_14
+  - first:
+      213: 4153327466189594395
+    second: moneyUI_15
+  - first:
+      213: 3350036520911129453
+    second: moneyUI_16
+  - first:
+      213: 6758506849481838246
+    second: moneyUI_17
+  - first:
+      213: -949520699908391171
+    second: moneyUI_18
+  - first:
+      213: -3195478836960971832
+    second: moneyUI_19
+  - first:
+      213: -854954633538056354
+    second: moneyUI_20
+  - first:
+      213: -1324846060156731006
+    second: moneyUI_21
+  - first:
+      213: -765564284856322812
+    second: moneyUI_22
+  - first:
+      213: -467812832767548726
+    second: moneyUI_23
+  - first:
+      213: -1222590791772439704
+    second: moneyUI_24
+  - first:
+      213: 2259483717957292970
+    second: moneyUI_25
+  - first:
+      213: 621180330683376793
+    second: moneyUI_26
+  - first:
+      213: -859254997867529874
+    second: moneyUI_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: moneyUI_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2172
+        height: 724
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b553263c7315c1630800000000000000
+      internalID: 3899080677339051355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: dc700cc9e47f3b44281f5404184a376f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      moneyUI_0: 3899080677339051355
+      moneyUI_1: -2391709138508769265
+      moneyUI_10: 3597386683329276923
+      moneyUI_11: -1027589307367588515
+      moneyUI_12: 2835062394701584295
+      moneyUI_13: 5484346000027450604
+      moneyUI_14: -4386901268957094190
+      moneyUI_15: 4153327466189594395
+      moneyUI_16: 3350036520911129453
+      moneyUI_17: 6758506849481838246
+      moneyUI_18: -949520699908391171
+      moneyUI_19: -3195478836960971832
+      moneyUI_2: 5344541071583712553
+      moneyUI_20: -854954633538056354
+      moneyUI_21: -1324846060156731006
+      moneyUI_22: -765564284856322812
+      moneyUI_23: -467812832767548726
+      moneyUI_24: -1222590791772439704
+      moneyUI_25: 2259483717957292970
+      moneyUI_26: 621180330683376793
+      moneyUI_27: -859254997867529874
+      moneyUI_3: -4904517042545040284
+      moneyUI_4: -175257924621196795
+      moneyUI_5: 2680613918296028494
+      moneyUI_6: -1680018139573587311
+      moneyUI_7: -2380001978475573606
+      moneyUI_8: 8012324503518758403
+      moneyUI_9: 4376582837484014106
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
