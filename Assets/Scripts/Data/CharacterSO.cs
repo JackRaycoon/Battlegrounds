@@ -9,6 +9,8 @@ public class CharacterSO : ScriptableObject
     private Sprite sprite;
     [SerializeField] 
     private Vector2 spritePos, spriteScale = Vector2.one;
+    [SerializeField] 
+    private Vector2 abilitySpritePos, abilitySpriteScale = Vector2.one;
     [SerializeField]
     private SpellSO ability;
 
@@ -23,6 +25,14 @@ public class CharacterSO : ScriptableObject
     public Vector2 GetSpriteScale
     {
         get { return spriteScale; }
+    }
+    public Vector2 GetAbilitySpritePosition
+    {
+        get { return abilitySpritePos; }
+    }
+    public Vector2 GetAbilitySpriteScale
+    {
+        get { return abilitySpriteScale; }
     }
     public Sprite GetSprite
     {

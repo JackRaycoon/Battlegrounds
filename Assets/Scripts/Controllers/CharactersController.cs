@@ -37,9 +37,13 @@ public class CharactersController : MonoBehaviour
         PlayerImage.transform.localPosition = PlayerData.Instance.character.data.GetSpritePosition;
         PlayerImage.transform.localScale = PlayerData.Instance.character.data.GetSpriteScale;
         AbilityImage.sprite = spell.data.spriteArt;
+        AbilityImage.transform.localPosition = PlayerData.Instance.character.data.GetAbilitySpritePosition;
+        AbilityImage.transform.localScale = PlayerData.Instance.character.data.GetAbilitySpriteScale;
         AbilityImageBig.sprite = spell.data.spriteArt;
+        AbilityImageBig.transform.localPosition = PlayerData.Instance.character.data.GetAbilitySpritePosition;
+        AbilityImageBig.transform.localScale = PlayerData.Instance.character.data.GetAbilitySpriteScale;
 
-      coin.SetActive(spell.countUsed < 1);
+        coin.SetActive(spell.countUsed < 1);
       mask.SetActive(spell.countUsed < 1);
 
       costAbilityText.text = spell.data.cost.ToString();
