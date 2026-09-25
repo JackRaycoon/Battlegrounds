@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5ef1686f6ebca5048aaf2272c9bf1fce
+guid: c6bae277dad722c4eb6c26993c21ec30
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8461006578321108529
-    second: Supreme Necromancer_0
+      213: 4446464868382538752
+    second: "ChatGPT Image 25 \u0441\u0435\u043D\u0442. 2026 \u0433., 13_05_52_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Supreme Necromancer_0
+      name: "ChatGPT Image 25 \u0441\u0435\u043D\u0442. 2026 \u0433., 13_05_52_0"
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13ea21797a88b6570800000000000000
-      internalID: 8461006578321108529
+      spriteID: 00cf13a4d3405bd30800000000000000
+      internalID: 4446464868382538752
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Supreme Necromancer_0: 8461006578321108529
+      "ChatGPT Image 25 \u0441\u0435\u043D\u0442. 2026 \u0433., 13_05_52_0": 4446464868382538752
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
