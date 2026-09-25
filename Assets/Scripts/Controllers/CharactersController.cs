@@ -32,10 +32,12 @@ public class CharactersController : MonoBehaviour
    {
       var spell = PlayerData.Instance.character.ability;
 
-      EnemyImage.sprite = GameController.isFightNow ? enemyDataController.dataOfNextEnemies.spriteHero : BOBSprite ;
-      PlayerImage.sprite = PlayerData.Instance.character.data.sprite;
-      AbilityImage.sprite = spell.data.spriteArt;
-      AbilityImageBig.sprite = spell.data.spriteArt;
+        EnemyImage.sprite = GameController.isFightNow ? enemyDataController.dataOfNextEnemies.spriteHero : BOBSprite ;
+        PlayerImage.sprite = PlayerData.Instance.character.data.GetSprite;
+        PlayerImage.transform.localPosition = PlayerData.Instance.character.data.GetSpritePosition;
+        PlayerImage.transform.localScale = PlayerData.Instance.character.data.GetSpriteScale;
+        AbilityImage.sprite = spell.data.spriteArt;
+        AbilityImageBig.sprite = spell.data.spriteArt;
 
       coin.SetActive(spell.countUsed < 1);
       mask.SetActive(spell.countUsed < 1);
