@@ -12,152 +12,164 @@ public class Card
 {
    public CardSO data;
 
-   public long baseATK, baseHP;
+    private readonly long baseATK, baseHP;
 
-   public long ATK
-   {
-      get
-      {
-         long atk = baseATK + permanentATKBuff + inFightATKBuff;
-         if (data.name == "Beetle" || data.name == "Beetle Golden")
-         {
-            atk += PlayerData.Instance.runInfo.beetlesATKBuff;
-         }
-         if(data.name == "Ancestral Automaton")
-         {
-            if (PlayerData.Instance.runInfo.ancestralAutomatonCounts > 1)
-               atk += 3 * (PlayerData.Instance.runInfo.ancestralAutomatonCounts - 1);
-         }
-         if(data.name == "Ancestral Automaton Golden")
-         {
-            if (PlayerData.Instance.runInfo.ancestralAutomatonCounts > 1)
-               atk += 6 * (PlayerData.Instance.runInfo.ancestralAutomatonCounts - 1);
-         }
-         if (atk < 0) atk = 0;
-         return atk;
-      }
-   }
-   private long _inFightATKBuff = 0;
-   private long _inFightHPBuff = 0;
-   private long _permanentATKBuff = 0;
-   private long _permanentHPBuff = 0;
-   public long inFightATKBuff 
-   {
-      get
-      {
-         return _inFightATKBuff;
-      }
-      set
-      {
-         var buff = value;
-         if (GameController.isFightNow)
-         {
-            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+    private long _cachedAtk, _cachedHp;
+
+    private void RecalculateCacheAtkHp()
+    {
+        long value = baseATK;
+        long setValue = long.MinValue;
+
+        foreach (var e in _enchantments.OrderBy(e => e.Priority))
+        {
+            switch (e.Type)
             {
-               _inFightATKBuff = buff;
+                case EnchantmentType.Attack:
+                    value += e.Value;
+                    break;
+                case EnchantmentType.SetAttack:
+                    setValue = e.Value;
+                    break;
             }
-         }
-         else
-         {
-            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
-            {
-               _inFightATKBuff = buff;
-            }
-         }
-         if (_inFightATKBuff > buff)
-         {
-            _inFightATKBuff = buff;
-         }
-      }
-   }
-   public long inFightHPBuff
-   {
-      get
-      {
-         return _inFightHPBuff;
-      }
-      set
-      {
-         var buff = value;
-         if (GameController.isFightNow)
-         {
-            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
-            {
-               _inFightHPBuff = buff;
-            }
-         }
-         else
-         {
-            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
-            {
-               _inFightHPBuff = buff;
-            }
-         }
-         if (_inFightHPBuff > buff)
-         {
-            _inFightHPBuff = buff;
-         }
-      }
-   }
-   public long permanentATKBuff
-   {
-      get
-      {
-         return _permanentATKBuff;
-      }
-      set
-      {
-         var buff = value;
-         if (GameController.isFightNow)
-         {
-            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
-            {
-               _permanentATKBuff = buff;
-            }
-         }
-         else
-         {
-            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
-            {
-               _permanentATKBuff = buff;
-            }
-         }
-         if (_permanentATKBuff > buff)
-         {
-            _permanentATKBuff = buff;
-         }
-      }
-   }
-   public long permanentHPBuff
-   {
-      get
-      {
-         return _permanentHPBuff;
-      }
-      set
-      {
-         var buff = value;
-         if (GameController.isFightNow)
-         {
-            if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
-            {
-               _permanentHPBuff = buff;
-               beforeBattleCurHP += buff;
-            }
-         }
-         else
-         {
-            if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
-            {
-               _permanentHPBuff = buff;
-            }
-         }
-         if (_permanentHPBuff > buff)
-         {
-            _permanentHPBuff = buff;
-         }
-      }
-   }
+        }
+
+        if (setValue != long.MinValue)
+            value = setValue;
+        _cachedAtk = value;
+    }
+
+    public long ATK
+    {
+        get
+        {
+            long value = _cachedAtk;
+
+            // √лобальные бонусы (Beetle, Automaton) Ч тоже сюда, как "виртуальные" enchantments
+            value += GetGlobalAttackBonus();
+
+            return System.Math.Max(0, value);
+        }
+    }
+    private readonly List<Enchantment> _enchantments = new();
+    public IReadOnlyList<Enchantment> Enchantments => _enchantments;
+   // public long inFightATKBuff 
+   //{
+   //   get
+   //   {
+   //      return _inFightATKBuff;
+   //   }
+   //   set
+   //   {
+   //      var buff = value;
+   //      if (GameController.isFightNow)
+   //      {
+   //         if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _inFightATKBuff = buff;
+   //         }
+   //      }
+   //      else
+   //      {
+   //         if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _inFightATKBuff = buff;
+   //         }
+   //      }
+   //      if (_inFightATKBuff > buff)
+   //      {
+   //         _inFightATKBuff = buff;
+   //      }
+   //   }
+   //}
+   //public long inFightHPBuff
+   //{
+   //   get
+   //   {
+   //      return _inFightHPBuff;
+   //   }
+   //   set
+   //   {
+   //      var buff = value;
+   //      if (GameController.isFightNow)
+   //      {
+   //         if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _inFightHPBuff = buff;
+   //         }
+   //      }
+   //      else
+   //      {
+   //         if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _inFightHPBuff = buff;
+   //         }
+   //      }
+   //      if (_inFightHPBuff > buff)
+   //      {
+   //         _inFightHPBuff = buff;
+   //      }
+   //   }
+   //}
+   //public long permanentATKBuff
+   //{
+   //   get
+   //   {
+   //      return _permanentATKBuff;
+   //   }
+   //   set
+   //   {
+   //      var buff = value;
+   //      if (GameController.isFightNow)
+   //      {
+   //         if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _permanentATKBuff = buff;
+   //         }
+   //      }
+   //      else
+   //      {
+   //         if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _permanentATKBuff = buff;
+   //         }
+   //      }
+   //      if (_permanentATKBuff > buff)
+   //      {
+   //         _permanentATKBuff = buff;
+   //      }
+   //   }
+   //}
+   //public long permanentHPBuff
+   //{
+   //   get
+   //   {
+   //      return _permanentHPBuff;
+   //   }
+   //   set
+   //   {
+   //      var buff = value;
+   //      if (GameController.isFightNow)
+   //      {
+   //         if (!bonusKeywordsInFight.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _permanentHPBuff = buff;
+   //            beforeBattleCurHP += buff;
+   //         }
+   //      }
+   //      else
+   //      {
+   //         if (!bonusKeywords.Contains(BonusKeyword.Corrupted))
+   //         {
+   //            _permanentHPBuff = buff;
+   //         }
+   //      }
+   //      if (_permanentHPBuff > buff)
+   //      {
+   //         _permanentHPBuff = buff;
+   //      }
+   //   }
+   //}
 
    public long MAX_HP
    {
@@ -253,7 +265,37 @@ public class Card
       FillEffects();
    }
 
-   public Card(Card copy, int multiplyCharacteristics)
+    private bool IsCorrupted() => bonusKeywordsInFight.Contains(BonusKeyword.Corrupted);
+
+    public void AddEnchantment(Enchantment e)
+    {
+        if (IsCorrupted() && e.Type != EnchantmentType.Keyword) // Corrupted блокирует только статы
+            return;
+
+        _enchantments.Add(e);
+        OnEnchantmentAdded?.Invoke(e);
+        RecalculateCacheAtkHp();
+    }
+
+    public void RemoveEnchantment(string id)
+    {
+        _enchantments.RemoveAll(e => e.Id == id);
+        RecalculateCacheAtkHp();
+    }
+
+    public void RemoveEnchantmentsBySource(object source)
+    {
+        _enchantments.RemoveAll(e => e.Source == source);
+        RecalculateCacheAtkHp();
+    }
+
+    public void RemoveEnchantmentsByDuration(EnchantmentDuration duration)
+    {
+        _enchantments.RemoveAll(e => e.Duration == duration);
+        RecalculateCacheAtkHp();
+    }
+
+    public Card(Card copy, int multiplyCharacteristics)
    {
       data = copy.data;
       baseATK = copy.baseATK * multiplyCharacteristics;

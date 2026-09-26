@@ -51,3 +51,22 @@ public enum Rarity
     Epic,
     Legendary
 }
+
+public enum EnchantmentType
+{
+    Attack,        // +X к атаке
+    Health,        // +X к здоровью
+    SetAttack,     // установить атаку (например, "стань 1/1")
+    SetHealth,
+    Keyword,       // выдать keyword (DivineShield, Taunt...)
+    RemoveKeyword,
+}
+
+public enum EnchantmentDuration
+{
+    Permanent,     // до конца игры
+    InFight,       // получено в бою, обычно снимается в конце боя
+    EndOfTurn,     // снимается в конце хода
+    WhileSourceAlive, // аура (например, "пока этот юнит на столе, +1/+1 всем")
+    //UntilDamaged,  // снять после первого урона
+}
